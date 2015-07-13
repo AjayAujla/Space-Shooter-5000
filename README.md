@@ -8,6 +8,10 @@ Summer 2015
 | Ahmed Dorias      | 26649874    | ConfusedGiant  |
 | Mark Massoud      | 26599486    | markmssd       |
 
+##Documentation
+
+Comment code with `///` to be picked up by Doxygen for automatic documentation generation
+
 ##[Caching GitHub Credentials in Git Terminal](https://help.github.com/articles/caching-your-github-password-in-git/)
 
 ######Windows
