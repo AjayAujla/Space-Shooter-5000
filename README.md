@@ -10,6 +10,10 @@ Summer 2015
 | Simon Labute      |             |                |
 | Mark Massoud      | 26599486    | markmssd       |
 
+##Build Instructions & Required Libraries
+
+**TODO**
+
 ##Documentation
 
 [Doxygen](http://www.stack.nl/~dimitri/doxygen/) automatically generates class hierarchy, diagrams, and documentation on classes and methods from code comments, etc.
