@@ -6,11 +6,12 @@ Summer 2015
 | ------------------| ----------- | -------------- |
 | Ajayveer Aujla    | 26595863    | AjayAujla      |
 | Ahmed Dorias      | 26649874    | ConfusedGiant  |
+| Ian Kelley        |             | ik1020         |
 | Mark Massoud      | 26599486    | markmssd       |
 
 ##Documentation
 
-Comment code with `///` to be picked up by Doxygen for automatic documentation generation
+Comment code to be picked up by Doxygen for automatic documentation generation
 
 ##[Caching GitHub Credentials in Git Terminal](https://help.github.com/articles/caching-your-github-password-in-git/)
 
