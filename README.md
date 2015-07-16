@@ -7,11 +7,14 @@ Summer 2015
 | Ajayveer Aujla    | 26595863    | AjayAujla      |
 | Ahmed Dorias      | 26649874    | ConfusedGiant  |
 | Ian Kelley        |             | ik1020         |
+| Simon Labute      |             |                |
 | Mark Massoud      | 26599486    | markmssd       |
 
 ##Documentation
 
-Comment code to be picked up by Doxygen for automatic documentation generation
+[Doxygen](http://www.stack.nl/~dimitri/doxygen/) automatically generates class hierarchy, diagrams, and documentation on classes and methods from code comments, etc.
+
+View through `Doxygen/html/index.html` in web browser
 
 ##[Caching GitHub Credentials in Git Terminal](https://help.github.com/articles/caching-your-github-password-in-git/)
 
