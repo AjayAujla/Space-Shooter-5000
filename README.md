@@ -16,9 +16,9 @@ Summer 2015
 
 View through `Doxygen/html/index.html` in web browser
 
-##[Caching GitHub Credentials in Git Terminal](https://help.github.com/articles/caching-your-github-password-in-git/)
+##Caching GitHub Credentials in Git Terminal
 
-######Windows
+######[Windows](https://help.github.com/articles/caching-your-github-password-in-git/)
 `git config --global credential.helper wincred`
 
 ##Writing in the README with GitHub Markdown
