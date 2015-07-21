@@ -1,13 +1,11 @@
-# COMP 371: Computer Graphics
-
-Summer 2015
+# Space Shooter 5000
 
 | Name              | Student ID  | GitHub Account |
 | ------------------| ----------- | -------------- |
 | Ajayveer Aujla    | 26595863    | AjayAujla      |
 | Ahmed Dorias      | 26649874    | ConfusedGiant  |
-| Ian Kelley        |             | ik1020         |
-| Simon Labute      |             |                |
+| Ian Kelley        | 26507549    | ik1020         |
+| Simon Labute      | 40012570    |                |
 | Mark Massoud      | 26599486    | markmssd       |
 
 ##Build Instructions & Required Libraries
