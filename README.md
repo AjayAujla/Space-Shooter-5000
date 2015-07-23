@@ -5,7 +5,7 @@
 | Ajayveer Aujla    | 26595863    | AjayAujla      |
 | Ahmed Dorias      | 26649874    | ConfusedGiant  |
 | Ian Kelley        | 26507549    | ik1020         |
-| Simon Labute      | 40012570    |                |
+| Simon Labute      | 40012570    | er9781         |
 | Mark Massoud      | 26599486    | markmssd       |
 
 ##Build Instructions & Required Libraries
