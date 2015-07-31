@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Camera.h"
+#include <iostream>
 
 class FirstPersonCamera : public Camera
 {

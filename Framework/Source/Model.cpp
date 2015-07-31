@@ -150,29 +150,26 @@ bool Model::ParseLine(const std::vector<ci_string> &token)
 	return true;
 }
 
+/**
+  *	Deriving the World matrix can be completed through multiplication of transform, rotation, and scaling matrices in that order
+  * Order is important since not commutative
+  * return: World Matrix
+  */
 glm::mat4 Model::GetWorldMatrix() const
 {
 	// @TODO 2 - You must build the world matrix from the position, scaling and rotation informations
     //           If the model has an animation, get the world transform from the animation.
-	mat4 worldMatrix(1.0f);
 
-    // Solution TRS
-#if 1
-    if (mAnimation)
-    {
-        // Get world transform from animation key frames / current time
-        worldMatrix = mAnimation->GetAnimationWorldMatrix();
-    }
-    else
-    {
-        mat4 t = glm::translate(mat4(1.0f), mPosition);
-        mat4 r = glm::rotate(mat4(1.0f), mRotationAngleInDegrees, mRotationAxis);
-        mat4 s = glm::scale(mat4(1.0f), mScaling);
-        worldMatrix = t * r * s;
-    }
-#endif
-    
-	return worldMatrix;
+	if(this->mAnimation != NULL) {
+		return this->mAnimation->GetAnimationWorldMatrix();	
+	}
+	else {
+		mat4 worldMatrix(1.0f);
+		mat4 scaleMatrix = scale(worldMatrix, this->mScaling);
+		mat4 rotationMatrix = rotate(worldMatrix, this->mRotationAngleInDegrees, this->mRotationAxis);
+		mat4 translationMatrix = translate(worldMatrix, this->mPosition);	
+		return translationMatrix * rotationMatrix * scaleMatrix;
+	}
 }
 
 void Model::SetPosition(glm::vec3 position)

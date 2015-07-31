@@ -74,6 +74,9 @@
     <ClCompile Include="..\Source\ParticleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\ThirdPersonCamera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\EventManager.h">
@@ -123,6 +126,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\TextureLoader.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ThirdPersonCamera.h">
+      <Filter>Source Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

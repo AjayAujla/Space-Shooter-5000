@@ -33,7 +33,6 @@ using namespace glm;
 
 World* World::instance;
 
-
 World::World()
 {
     instance = this;
@@ -42,6 +41,7 @@ World::World()
 	CubeModel* spaceship = new CubeModel();
 	spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
 	mModel.push_back(spaceship);
+	
 	//setup third person camera
 	ThirdPersonCamera* newCam = new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f),spaceship);
 	newCam->SetRadius(3.0f);
@@ -69,7 +69,9 @@ World::World()
     
     // TODO - You can un-comment out these 2 temporary billboards and particle system
     // That can help you debug billboards, you can set the billboard texture to billboardTest.png
-    /*    Billboard *b = new Billboard();
+    
+	/*
+	 Billboard *b = new Billboard();
      b->size  = glm::vec2(2.0, 2.0);
      b->position = glm::vec3(0.0, 3.0, 0.0);
      b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -93,8 +95,9 @@ World::World()
      
      ParticleSystem* ps = new ParticleSystem(emitter, fountainDescriptor);
      AddParticleSystem(ps);
+     */
 
-     */    // TMP
+	// TMP
 }
 
 World::~World()
@@ -139,7 +142,7 @@ World* World::GetInstance()
 void World::Update(float dt)
 {
 	// User Inputs
-	// 0 1 2 to change the Camera
+	// 1 2 3 4 to change the Camera
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_1 ) == GLFW_PRESS)
 	{
 		mCurrentCamera = 0;
@@ -157,8 +160,7 @@ void World::Update(float dt)
 		{
 			mCurrentCamera = 2;
 		}
-	}
-	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_4) == GLFW_PRESS)
+	} else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_4 ) == GLFW_PRESS)
 	{
 		if (mCamera.size() > 3)
 		{

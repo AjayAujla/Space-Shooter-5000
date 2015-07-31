@@ -111,6 +111,7 @@
     <ClCompile Include="..\Source\CubeModel.cpp" />
     <ClCompile Include="..\Source\Renderer.cpp" />
     <ClCompile Include="..\Source\TextureLoader.cpp" />
+    <ClCompile Include="..\Source\ThirdPersonCamera.cpp" />
     <ClCompile Include="..\Source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +130,7 @@
     <ClInclude Include="..\Source\CubeModel.h" />
     <ClInclude Include="..\Source\Renderer.h" />
     <ClInclude Include="..\Source\TextureLoader.h" />
+    <ClInclude Include="..\Source\ThirdPersonCamera.h" />
     <ClInclude Include="..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>

@@ -64,6 +64,8 @@ void Animation::CreateVertexBuffer()
     // This is just to display lines between the animation keys
     for (int i=0; i<mKey.size(); ++i)
     {
+//        cout << "mKey SIZE: " << mKey[i].GetName().c_str() << endl;
+        
         Vertex v;
         v.position = mKey[i].mPosition;
         mVertexBuffer.push_back(v);
@@ -190,45 +192,44 @@ ci_string Animation::GetName() const
 	return mName;
 }
 
+/**
+ *	return: World Matrix
+ */
 glm::mat4 Animation::GetAnimationWorldMatrix() const
 {
     // @TODO 3 - Find the 2 keys to interpolate the transformation
     //           Interpolate the position, scaling and rotation separately
     //           Finally concatenate the interpolated transforms into a single
     //           world transform and return it.
+    
+	int key1 = 0;
+	int key2 = 0;
+	float normalizedTime = 0.0f;
 
-	mat4 scalingMatrix(1.0f);
-	mat4 positionMatrix(1.0f);
-	mat4 rotationMatrix(1.0f);
-
-	//loop until we reach the first key frame with keyTime above current time
-	AnimationKey key1, key2;
-	int t1, t2;
-	for (int i = 0; i < mKey.size(); i++){
-		if (mKeyTime[i] > mCurrentTime){
-			key1 = mKey[i - 1];
-			key2 = mKey[i];
-			t1 = mKeyTime[i - 1];
-			t2 = mKeyTime[i];
+	for(int i = 0; i < this->mKey.size(); ++i) {
+		if(this->mCurrentTime < this->mKeyTime[i]){
+			key1 = i - 1;
+			key2 = i;
+			normalizedTime = (this->mCurrentTime - this->mKeyTime[key1])/(this->mKeyTime[key2] - this->mKeyTime[key1]);
 			break;
 		}
 	}
 
-	//linear interpolation for any quantity P: (t-t1)*(P2-P1)/(t2-t1)+P1
+	//Interpolate Between 2 Keys
+	vec3 position = mix(this->mKey[key1].mPosition, this->mKey[key2].mPosition, normalizedTime);
+	vec3 scaling = mix(this->mKey[key1].mScaling, this->mKey[key2].mScaling, normalizedTime);
 
-	//scalingMatrix
-	scalingMatrix = glm::scale(glm::mat4(1.0f),  (mCurrentTime - t1) / (t2 - t1) * (key2.mScaling - key1.mScaling) + key1.mScaling  );
+	//2 Rotation States
+	quat rotation1(angleAxis(this->mKey[key1].mRotationAngleInDegrees, this->mKey[key1].mRotationAxis));
+	quat rotation2(angleAxis(this->mKey[key2].mRotationAngleInDegrees, this->mKey[key2].mRotationAxis));
 
-	//rotationMatrix
-	float curRotationAngle = (mCurrentTime - t1) / (t2 - t1) * (key2.mRotationAngleInDegrees - key1.mRotationAngleInDegrees) + key1.mRotationAngleInDegrees;
-	glm::vec3 curRotationAxis = (mCurrentTime - t1) / (t2 - t1) * (key2.mRotationAxis - key1.mRotationAxis) + key1.mRotationAxis;
-	rotationMatrix = glm::rotate(glm::mat4(1.0f) , curRotationAngle , curRotationAxis);
+	//Slerp
+	quat rotation = slerp(rotation1, rotation2, normalizedTime);
 
-	//positionMatrix
-	positionMatrix = glm::translate(glm::mat4(1.0f), (mCurrentTime - t1) / (t2 - t1) * (key2.mPosition - key1.mPosition) + key1.mPosition);
-
-	//compute full world transform and return
-    mat4 worldMatrix(1.0f);
-	worldMatrix = positionMatrix * rotationMatrix * scalingMatrix;
-    return worldMatrix;
+	//Concatenate Interpolated Components to a Single World Transform
+	mat4 worldMatrix(1.0f);
+	mat4 translationMatrix = translate(worldMatrix, position);
+	mat4 rotationMatrix = mat4_cast(rotation);
+	mat4 scaleMatrix = scale(worldMatrix, scaling);
+	return translationMatrix * rotationMatrix * scaleMatrix;
 }

@@ -14,7 +14,6 @@
     <ProjectGuid>{277EAE68-9EED-4EFF-BAD3-2A70787A3E8D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Assignment1</RootNamespace>
-    <ProjectName>Assignment2</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -117,7 +116,6 @@
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\CubeModel.cpp" />
     <ClCompile Include="..\Source\EventManager.cpp" />
-    <ClCompile Include="..\Source\ThirdPersonCamera.cpp" />
     <ClCompile Include="..\Source\FirstPersonCamera.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Model.cpp" />
@@ -136,7 +134,6 @@
     <ClInclude Include="..\Source\Camera.h" />
     <ClInclude Include="..\Source\CubeModel.h" />
     <ClInclude Include="..\Source\EventManager.h" />
-    <ClInclude Include="..\Source\ThirdPersonCamera.h" />
     <ClInclude Include="..\Source\FirstPersonCamera.h" />
     <ClInclude Include="..\Source\Model.h" />
     <ClInclude Include="..\Source\ParsingHelper.h" />

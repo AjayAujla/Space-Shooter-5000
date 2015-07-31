@@ -103,9 +103,6 @@
     <ClCompile Include="..\Source\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\ThirdPersonCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\ParticleDescriptor.h">
@@ -154,9 +151,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\ParsingHelper.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\ThirdPersonCamera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

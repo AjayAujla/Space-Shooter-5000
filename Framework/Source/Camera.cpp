@@ -8,6 +8,7 @@
 //
 
 #include "Camera.h"
+#include "FirstPersonCamera.h"
 #include <GLM/gtx/transform.hpp>
 
 using namespace glm;
@@ -20,18 +21,17 @@ Camera::~Camera()
 {
 }
 
+/**
+ *	ViewProjection matrix is derived from matrix multiplication respective of this order of the projection matrix, world matrix, model matrix 
+ *	return: ViewProjection Matrix
+ */
 mat4 Camera::GetViewProjectionMatrix() const
 {
 	// @TODO 1 - Calculate View Projection Matrix
 	//           The projection matrix is hardcoded below
 	//           The view matrix is set in the derived camera classes.
-	
-    mat4 viewProjection(1.0f);
-	
-	//create view matrix: projectionMatrix * viewMatrix
-	viewProjection = GetProjectionMatrix() * GetViewMatrix();
-
-    return viewProjection;
+   
+   	return this->GetProjectionMatrix() * this->GetViewMatrix();
 }
 
 mat4 Camera::GetProjectionMatrix() const

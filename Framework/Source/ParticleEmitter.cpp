@@ -11,10 +11,9 @@
 #include "Model.h"
 
 using namespace glm;
-using namespace std;
 
 ParticleEmitter::ParticleEmitter(glm::vec3 position, const Model* parent)
-: mpParent(parent), mPosition(position)
+	: mpParent(parent), mPosition(position)
 {
 }
 
@@ -25,21 +24,14 @@ ParticleEmitter::ParticleEmitter(glm::vec3 position, const Model* parent)
 // In these cases, you would sample a random point on these shapes
 glm::vec3 ParticleEmitter::GetRandomPosition()
 {
-    // @TODO 7 - Position from Parented Emitter
-    //
-    // Return the position where the particle is emitted.
-    // If the emitter is parented, the position is relative to its parent
+	// @TODO 7 - Position from Parented Emitter
+	//
+	// Return the position where the particle is emitted.
+	// If the emitter is parented, the position is relative to its parent
 
-	glm::vec3 position = mPosition;
-
-	//if there is a parent, add the current position to the emitter position. note that we extract the position from the world matrix since the model position is not updated from frame to frame.
-	if (mpParent != nullptr)
-		position = vec3(mpParent->GetWorldMatrix() * vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    
-    
-    return position;
+	vec3 position = this->mPosition;
+	if(this->mpParent != NULL) {
+		position += vec3(this->mpParent->GetWorldMatrix()[3]); //translation component
+	}
+	return position;
 }
-
-
-
-

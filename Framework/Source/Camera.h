@@ -14,7 +14,7 @@
 class Camera
 {
 public:
-	Camera();
+	Camera();    
 	virtual ~Camera();
 
 	virtual void Update(float dt) = 0;
