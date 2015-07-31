@@ -17,7 +17,7 @@ ParticleDescriptor::ParticleDescriptor()
 }
 
 // V2
-///*
+/*
 void ParticleDescriptor::SetFountainDescriptor()
 {
     velocity = vec3(0.0f, 10.0f, 0.0f);
@@ -63,10 +63,10 @@ void ParticleDescriptor::SetFireDescriptor()
     totalLifetime = 2.5f;
     totalLifetimeDelta = 0.0f;
 }
-//*/
+*/
 
 // V3
-/*
+///*
 void ParticleDescriptor::SetFountainDescriptor()
 {
     velocity = vec3(0.0f, 17.0f, 0.0f);
@@ -111,4 +111,4 @@ void ParticleDescriptor::SetFireDescriptor()
     totalLifetime = 1.7f;
     totalLifetimeDelta = 0.0f;
 }
-*/
+//*/
