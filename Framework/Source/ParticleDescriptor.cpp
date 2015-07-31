@@ -16,6 +16,30 @@ ParticleDescriptor::ParticleDescriptor()
     SetFountainDescriptor();
 }
 
+void ParticleDescriptor::SetShootingStarDescriptor() {
+	
+	velocity = vec3(10.0f, 0.0f, 0.0f);
+    velocityDeltaAngle = 10;
+    
+    //acceleration = vec3(0.0f, -9.8f, 0.0f);
+    
+    //initialSize = vec2(0.1f, 0.1f);
+    //initialSizeDelta = vec2(0.1f, 0.1f);
+    
+    //sizeGrowthVelocity = vec2(0.7f, 0.7f);
+    
+    initialColor = vec4(1.0f, 1.0f, 0.0f, 0.5f); // yellow
+    midColor = vec4(0.0f, 0.0f, 0.5f, 0.0f); // blue
+    endColor = vec4(1.0f, 1.0f, 1.0f, 1.0f); // white
+
+    emissionRate = 50.0f;
+    fadeInTime = 0.2f;
+    fadeOutTime = 0.7f;
+    totalLifetime = 2.0f;
+    totalLifetimeDelta = 0.3f;
+
+}
+
 // V2
 /*
 void ParticleDescriptor::SetFountainDescriptor()

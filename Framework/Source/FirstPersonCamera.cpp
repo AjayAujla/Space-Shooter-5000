@@ -61,7 +61,7 @@ void FirstPersonCamera::Update(float dt)
 	glm::normalize(sideVector);
 
 	// A S D W for motion along the camera basis vectors
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS)
+	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
 		mPosition += vec3(0.0, 1.0, 00) * dt * mSpeed;
 	}
