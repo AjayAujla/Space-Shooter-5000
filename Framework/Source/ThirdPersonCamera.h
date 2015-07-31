@@ -22,15 +22,10 @@ public:
 	virtual void Update(float dt);
 
 	virtual glm::mat4 GetViewMatrix() const;
-	virtual glm::mat4 GetProjectionMatrix() const;
 
 	void SetTargetModel(Model* m);
 	void SetRadius(float r);
 	
-	static float fieldOfView;
-	
-	static void scrollCallBack(GLFWwindow* window, double xOffset, double yOffset);
-
 private:
 	glm::vec3 mPosition;	
 	float mHorizontalAngle; // horizontal angle
@@ -43,6 +38,5 @@ private:
 	float mAngularSpeed;    // Degrees per pixel
 
 	glm::vec3 mLookAt;
-
 
 };

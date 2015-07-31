@@ -18,8 +18,6 @@
 
 using namespace glm;
 
-float ThirdPersonCamera::fieldOfView = 45.0f;
-
 ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m, float radius):  Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), mRadius(radius)
 {
 }
@@ -127,28 +125,4 @@ void ThirdPersonCamera::Update(float dt)
 glm::mat4 ThirdPersonCamera::GetViewMatrix() const
 {
 	return glm::lookAt(	mPosition, mPosition + mLookAt, vec3(0.0f, 1.0f, 0.0f) );
-}
-
-glm::mat4 ThirdPersonCamera::GetProjectionMatrix() const {
-	return perspective(ThirdPersonCamera::fieldOfView, 4.0f / 3.0f, 0.1f, 100.0f);
-}
-
-/**
-  *	Zooming functionality call back function confining field of view within upper and lower boundaries
-  * Must remain between [0, 180] degrees, otherwise the image flips
-  */
-void ThirdPersonCamera::scrollCallBack(GLFWwindow* window, double xOffset, double yOffset) {
-	
-	float multiplier = 5.0f; //arbitrary
-	float zoom = (float)yOffset * multiplier;
-	float lowerBound = 15.0f;
-	float upperBound = 155.0f;
-
-	if(ThirdPersonCamera::fieldOfView + zoom <= lowerBound) {
-		ThirdPersonCamera::fieldOfView = lowerBound;
-	} else if(ThirdPersonCamera::fieldOfView + zoom >= upperBound) {
-		ThirdPersonCamera::fieldOfView = upperBound;
-	} else {
-		ThirdPersonCamera::fieldOfView += zoom;
-	}
 }

@@ -10,6 +10,7 @@
 #pragma once
 
 #include <GLM/glm.hpp>
+#include <GLFW/glfw3.h>
 
 class Camera
 {
@@ -23,6 +24,7 @@ public:
 	virtual glm::mat4 GetProjectionMatrix() const;
 	glm::mat4 GetViewProjectionMatrix() const;
 
-private:
-
+	static float fieldOfView;
+	
+	static void scrollCallBack(GLFWwindow* window, double xOffset, double yOffset);
 };
