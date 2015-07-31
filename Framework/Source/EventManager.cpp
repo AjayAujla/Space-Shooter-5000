@@ -56,7 +56,6 @@ void EventManager::Initialize()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_DEPTH_BITS, 32);
-    
 #else
     // Allow older laptops to run the framework, even though, our framework
     // is compatible with OpenGL 3.3 (which removed many deprecated features)
@@ -68,7 +67,7 @@ void EventManager::Initialize()
     
 	// Open a window and create its OpenGL context
 	glfwWindowHint(GLFW_RESIZABLE, 0);
-	spWindow = glfwCreateWindow(1024, 768, "COMP371 - Assignment Framework", nullptr, nullptr);
+	spWindow = glfwCreateWindow(1024, 768, "Space Shooter 5000", nullptr, nullptr);
 
 	if (spWindow == nullptr)
 	{

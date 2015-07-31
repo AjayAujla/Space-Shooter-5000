@@ -9,3 +9,14 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+
+# Build results
+!bin/FreeImage.dll
+Debug/
+
+*.log
+
+# Visual C++ cache files
+ipch/
+*.opensdf
+*.sdf
