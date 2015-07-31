@@ -99,21 +99,6 @@ void ThirdPersonCamera::Update(float dt)
 		mPosition -= sideVector * dt * mSpeed;
 	}
 	
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-	{
-
-	}
-	
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS)
-	{
-	
-	}
-		
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-	{
-		ThirdPersonCamera::fieldOfView = 45.0f;
-	}
-	
 	// zooming functionality using mouse or trackpad scrolling
 	glfwSetScrollCallback(EventManager::GetWindow(), scrollCallBack);
 
