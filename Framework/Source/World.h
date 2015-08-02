@@ -19,6 +19,7 @@ class Model;
 class Animation;
 class AnimationKey;
 class ParticleSystem;
+class AsteroidSystem;
 
 class World
 {
@@ -49,6 +50,7 @@ private:
     std::vector<AnimationKey*> mAnimationKey;
 	std::vector<Camera*> mCamera;
     std::vector<ParticleSystem*> mParticleSystemList;
+    AsteroidSystem* mAsteroidSystem;
 	unsigned int mCurrentCamera;
 
     BillboardList* mpBillboardList;

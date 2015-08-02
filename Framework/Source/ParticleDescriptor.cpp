@@ -16,30 +16,6 @@ ParticleDescriptor::ParticleDescriptor()
     SetFountainDescriptor();
 }
 
-void ParticleDescriptor::SetShootingStarDescriptor() {
-	
-	velocity = vec3(10.0f, 0.0f, 0.0f);
-    velocityDeltaAngle = 10;
-    
-    //acceleration = vec3(0.0f, -9.8f, 0.0f);
-    
-    //initialSize = vec2(0.1f, 0.1f);
-    //initialSizeDelta = vec2(0.1f, 0.1f);
-    
-    //sizeGrowthVelocity = vec2(0.7f, 0.7f);
-    
-    initialColor = vec4(1.0f, 1.0f, 0.0f, 0.5f); // yellow
-    midColor = vec4(0.0f, 0.0f, 0.5f, 0.0f); // blue
-    endColor = vec4(1.0f, 1.0f, 1.0f, 1.0f); // white
-
-    emissionRate = 50.0f;
-    fadeInTime = 0.2f;
-    fadeOutTime = 0.7f;
-    totalLifetime = 2.0f;
-    totalLifetimeDelta = 0.3f;
-
-}
-
 // V2
 /*
 void ParticleDescriptor::SetFountainDescriptor()
@@ -133,6 +109,29 @@ void ParticleDescriptor::SetFireDescriptor()
     fadeInTime = 1.5f;
     fadeOutTime = 0.2f;
     totalLifetime = 1.7f;
+    totalLifetimeDelta = 0.0f;
+}
+
+void ParticleDescriptor::SetAsteroidDescriptor()
+{
+    velocity = vec3(0.0f, 5.4f, 0.0f);
+    velocityDeltaAngle = 10.0f;
+    
+    acceleration = vec3(0,0,0);
+    
+    initialSize = vec2(10.0f, 10.0f);
+    initialSizeDelta = vec2(0.02f, 0.02f);
+    
+    sizeGrowthVelocity = vec2(-2.4f, -2.4f);
+    
+    initialColor = vec4(1.0f, 0.0f, 0.0f, 0.2f);
+    midColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);
+    endColor = vec4(0.5f, 0.5f, 0.8f, 0.0f);
+    
+    emissionRate = 25.0f;
+    fadeInTime = 1.5f;
+    fadeOutTime = 0.2f;
+    totalLifetime = 5.0f;
     totalLifetimeDelta = 0.0f;
 }
 //*/
