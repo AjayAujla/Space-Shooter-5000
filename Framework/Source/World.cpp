@@ -42,12 +42,8 @@ World::World()
 	spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
 	mModel.push_back(spaceship);
 	
-	//setup third person camera
-	ThirdPersonCamera* newCam = new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f),spaceship);
-	newCam->SetRadius(3.0f);
-	mCamera.push_back(newCam);
-
 	// Setup Camera
+	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), spaceship, 5.0f));
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -168,7 +164,7 @@ void World::Update(float dt)
 		}
 	}
 
-	// Spacebar to change the shader
+	// 0 9 to change the shader
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_0 ) == GLFW_PRESS)
 	{
 		Renderer::SetShader(SHADER_SOLID_COLOR);

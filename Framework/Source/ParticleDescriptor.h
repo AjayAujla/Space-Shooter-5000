@@ -21,6 +21,8 @@ public:
     
     void SetFountainDescriptor();
     void SetFireDescriptor();
+
+	void SetShootingStarDescriptor();
     
 private:
     

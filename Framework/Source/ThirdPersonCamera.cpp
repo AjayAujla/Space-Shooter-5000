@@ -6,6 +6,8 @@
 // Copyright (c) 2014 Concordia University. All rights reserved.
 //
 
+#pragma once
+
 #include "ThirdPersonCamera.h"
 #include "EventManager.h"
 #include <GLM/glm.hpp>
@@ -14,11 +16,9 @@
 #include <GLFW/glfw3.h>
 #include <algorithm>
 
-
-
 using namespace glm;
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m) :  Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f)
+ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m, float radius):  Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), mRadius(radius)
 {
 }
 
@@ -93,15 +93,18 @@ void ThirdPersonCamera::Update(float dt)
 	{
 		mPosition += sideVector * dt * mSpeed;
 	}
-
+	
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_A ) == GLFW_PRESS)
 	{
 		mPosition -= sideVector * dt * mSpeed;
 	}
+	
+	// zooming functionality using mouse or trackpad scrolling
+	glfwSetScrollCallback(EventManager::GetWindow(), scrollCallBack);
 
 	//Simon addition
 	//model positioning in front of our third person camera
-	mTargetModel->SetPosition(mPosition + mLookAt*mRadius);
+	mTargetModel->SetPosition(mPosition + mLookAt * mRadius);
 }
 
 glm::mat4 ThirdPersonCamera::GetViewMatrix() const
