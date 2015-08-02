@@ -17,6 +17,7 @@
 
 #include "CubeModel.h"
 #include "SphereModel.h"
+#include "AsteroidModel.h"
 #include "Animation.h"
 #include "Billboard.h"
 #include <GLFW/glfw3.h>
@@ -42,8 +43,12 @@ World::World()
 	spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
 	mModel.push_back(spaceship);
 	
+	//setup third person camera
+	ThirdPersonCamera* newCam = new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f),spaceship, 3.0f);
+	newCam->SetRadius(3.0f);
+	mCamera.push_back(newCam);
+
 	// Setup Camera
-	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), spaceship, 5.0f));
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -92,6 +97,13 @@ World::World()
      ParticleSystem* ps = new ParticleSystem(emitter, fountainDescriptor);
      AddParticleSystem(ps);
      */
+    
+    ParticleDescriptor* asteroidDescriptor = new ParticleDescriptor();
+    asteroidDescriptor->SetAsteroidDescriptor();
+    
+    ParticleEmitter* emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
+    
+    mAsteroidSystem = new AsteroidSystem(emitter, asteroidDescriptor);
 
 	// TMP
 }
@@ -164,7 +176,7 @@ void World::Update(float dt)
 		}
 	}
 
-	// 0 9 to change the shader
+	// Spacebar to change the shader
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_0 ) == GLFW_PRESS)
 	{
 		Renderer::SetShader(SHADER_SOLID_COLOR);
@@ -201,6 +213,8 @@ void World::Update(float dt)
     {
         (*it)->Update(dt);
     }
+    
+    mAsteroidSystem->Update(dt);
     
     mpBillboardList->Update(dt);
 
@@ -293,7 +307,7 @@ void World::LoadScene(const char * scene_path)
 				CubeModel* cube = new CubeModel();
 				cube->Load(iss);
 				mModel.push_back(cube);
-			}
+            }
             else if( result == "sphere" )
             {
                 SphereModel* sphere = new SphereModel();

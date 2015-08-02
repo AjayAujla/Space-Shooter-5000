@@ -6,8 +6,6 @@
 // Copyright (c) 2014 Concordia University. All rights reserved.
 //
 
-#pragma once
-
 #include "ThirdPersonCamera.h"
 #include "EventManager.h"
 #include <GLM/glm.hpp>
