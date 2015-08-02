@@ -9,10 +9,12 @@
 
 #pragma once
 
+#include "AsteroidSystem.h"
 #include "Billboard.h"
 
 class ParticleDescriptor;
 class ParticleEmitter;
+class AsteroidSystem;
 
 struct Particle
 {

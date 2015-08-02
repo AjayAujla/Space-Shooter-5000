@@ -21,8 +21,7 @@ public:
     
     void SetFountainDescriptor();
     void SetFireDescriptor();
-
-	void SetShootingStarDescriptor();
+    void SetAsteroidDescriptor();
     
 private:
     
@@ -46,4 +45,5 @@ private:
     float totalLifetimeDelta;
     
     friend class ParticleSystem;
+    friend class AsteroidSystem;
 };

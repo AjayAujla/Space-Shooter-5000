@@ -35,3 +35,23 @@ glm::vec3 ParticleEmitter::GetRandomPosition()
 	}
 	return position;
 }
+
+glm::vec3 ParticleEmitter::GetAsteroidRandomPosition()
+{
+    
+    float maxRadius = 10;
+    
+    float randomX = GetRandomFloat(-maxRadius, maxRadius);
+    float randomY = GetRandomFloat(-maxRadius, maxRadius);
+    float randomZ = GetRandomFloat(-maxRadius, maxRadius);
+    
+    vec3 position = vec3(randomX, randomY, randomZ);
+    
+    return position;
+}
+
+float ParticleEmitter::GetRandomFloat(float min, float max)
+{
+    float value = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    return min + value*(max - min);
+}

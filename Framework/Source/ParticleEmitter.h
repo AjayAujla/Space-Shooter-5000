@@ -12,12 +12,15 @@
 #include <glm/glm.hpp>
 
 class Model;
+class EventManager;
 
 class ParticleEmitter
 {
 public:
     ParticleEmitter(glm::vec3 position, const Model* parent = nullptr);
     virtual glm::vec3 GetRandomPosition(); // Would be random for line / circle emitters
+    virtual glm::vec3 GetAsteroidRandomPosition();
+    float GetRandomFloat(float min, float max);
     
 private:
     const Model* mpParent;
