@@ -176,7 +176,13 @@ void World::Update(float dt)
 		}
 	}
 
-	// Spacebar to change the shader
+	// R to reset camera field of view
+	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_R ) == GLFW_PRESS)
+	{
+		mCamera[mCurrentCamera]->fieldOfView = 45.0f;
+	}
+	
+	// 0 9 to change the shader
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_0 ) == GLFW_PRESS)
 	{
 		Renderer::SetShader(SHADER_SOLID_COLOR);

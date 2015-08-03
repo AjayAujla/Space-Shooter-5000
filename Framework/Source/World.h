@@ -52,6 +52,5 @@ private:
     std::vector<ParticleSystem*> mParticleSystemList;
     AsteroidSystem* mAsteroidSystem;
 	unsigned int mCurrentCamera;
-
     BillboardList* mpBillboardList;
 };
