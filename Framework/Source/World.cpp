@@ -28,6 +28,7 @@
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 
+#include "Utilities.h"
 
 using namespace std;
 using namespace glm;

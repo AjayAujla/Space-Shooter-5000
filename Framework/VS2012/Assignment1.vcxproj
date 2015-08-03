@@ -113,6 +113,7 @@
     <ClCompile Include="..\Source\Renderer.cpp" />
     <ClCompile Include="..\Source\TextureLoader.cpp" />
     <ClCompile Include="..\Source\ThirdPersonCamera.cpp" />
+    <ClCompile Include="..\Source\Utilities.cpp" />
     <ClCompile Include="..\Source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +134,7 @@
     <ClInclude Include="..\Source\Renderer.h" />
     <ClInclude Include="..\Source\TextureLoader.h" />
     <ClInclude Include="..\Source\ThirdPersonCamera.h" />
+    <ClInclude Include="..\Source\Utilities.h" />
     <ClInclude Include="..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>
