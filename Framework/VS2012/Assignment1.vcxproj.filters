@@ -80,6 +80,9 @@
     <ClCompile Include="..\Source\ParticleSystem.cpp">
       <Filter>Source Files\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\AsteroidSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\EventManager.h">
@@ -132,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\ParticleSystem.h">
       <Filter>Source Files\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\AsteroidSystem.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
