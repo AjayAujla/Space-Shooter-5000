@@ -24,4 +24,5 @@ public:
 private:
 	vector<Projectile*> projectileContainer;
 	vec3 cameraLookAtVector;
+	int maximumCapacity;
 };

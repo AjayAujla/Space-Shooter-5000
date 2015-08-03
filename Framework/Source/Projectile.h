@@ -8,6 +8,8 @@ using namespace glm;
 #include "SphereModel.h"
 
 class Projectile: public SphereModel {
+	
+	friend class Gun;
 
 public:
 	Projectile();
@@ -23,9 +25,9 @@ private:
 	vec3 velocity;
 	
 	float timeFired;
+	float lifeTime;
 
 	bool fired;
 	bool collided;
-
-	friend class Gun;
+	bool outOfRange;
 };

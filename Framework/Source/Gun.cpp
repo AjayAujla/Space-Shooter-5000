@@ -1,59 +1,108 @@
 #pragma once
 
 #include "Gun.h"
+#include "Utilities.h"
 
 Gun::Gun() {
-	Gun(2);
+	Gun(5);
 }
 
-Gun::Gun(int maximumCapacity) : CubeModel() {
+Gun::Gun(int maximumCapacity) : CubeModel(), maximumCapacity(maximumCapacity) {
 	this->SetScaling(vec3(0.5f, 1.0f, 3.0f));
 	this->SetPosition(vec3(5.0f, 10.0f, 5.0f));
-	this->projectileContainer = vector<Projectile*>(maximumCapacity);
+	this->projectileContainer = vector<Projectile*>(this->maximumCapacity);
 }
 
 Gun::~Gun() {
-	for (Projectile* projectile : this->projectileContainer) {
-		delete projectile;
+	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
+		delete (*it);
 	}
 
 	this->projectileContainer.clear();
 }
 
 void Gun::Update(float deltaTime) {
-	for (Projectile* projectile : this->projectileContainer) {
-		cout << "Ajay: inside gun update projectile container for loop" << endl;
-		projectile->Update(deltaTime);
+	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
+		(*it)->Update(deltaTime);
 	}
 }
 
 void Gun::Draw() {
 	//CubeModel::Draw();
-	for (Projectile* projectile : this->projectileContainer) {
-		projectile->Draw();
+	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
+		if(!(*it)->outOfRange && !(*it)->collided) {
+			(*it)->Draw();
+		}
 	}
 }
 
 void Gun::shoot(vec3 cameraLookAtVector) {
-	cout << "Ajay: SHOOT" << endl;
-
 	if(!this->projectileContainer.empty()) {
 		this->clearProjectiles();
 	}
-	this->projectileContainer.push_back(new Projectile(this, cameraLookAtVector));
-	this->projectileContainer.back()->fired = true;
+	if(this->projectileContainer.size() <= this->maximumCapacity) {
+		this->projectileContainer.push_back(new Projectile(this, cameraLookAtVector));
+		this->projectileContainer.back()->fired = true;
+	}
 
-	cout << "Ajay: fired " << this->projectileContainer.back()->fired << endl
-		<< "Ajay: capacity" << this->projectileContainer.capacity() << endl
-		<< "Ajay: size " << this->projectileContainer.size() << endl;
+	Utilities::setConsoleOutputColor(1);
+	
+	cout 
+		<< "shoot: capacity " << this->projectileContainer.capacity() << endl
+		<< "shoot: size " << this->projectileContainer.size() << endl 
+		<< endl;
+	
+	Utilities::resetConsoleOutputColor();
+
+	/*
+	if(this->projectileContainer.size() >= this->maximumCapacity) {
+		this->projectileContainer.front()->outOfRange = true;
+		this->projectileContainer.erase(this->projectileContainer.begin());
+ 	}
+	*/
 }
 
 void Gun::clearProjectiles() {
-	if(this->projectileContainer.size() == this->projectileContainer.capacity()) {
-		cout << "Ajay: fired " << this->projectileContainer.back()->fired << endl
-		<< "Ajay: capacity" << this->projectileContainer.capacity() << endl
-		<< "Ajay: size " << this->projectileContainer.size() << endl;
-		//this->projectileContainer.erase(this->projectileContainer.begin());
+	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
+		if((*it)->outOfRange || (*it)->collided) {
+			
+			Utilities::setConsoleOutputColor(2);
+			
+			cout 
+				<< "before 1" << endl 
+				<< "erase outofrange/collided: capacity " << this->projectileContainer.capacity() << endl
+				<< "erase outofrange/collided: size " << this->projectileContainer.size() << endl;
+			
+			this->projectileContainer.erase(remove(this->projectileContainer.begin(), this->projectileContainer.end(), (*it)), this->projectileContainer.end());
+
+			cout  
+				<< "after 1" << endl
+				<< "erase outofrange/collided: capacity " << this->projectileContainer.capacity() << endl
+				<< "erase outofrange/collided: size " << this->projectileContainer.size() << endl 
+				<< endl;
+			
+			Utilities::resetConsoleOutputColor();
+		}
 	}
-	//this->projectileContainer.erase(remove(this->projectileContainer.begin(), this->projectileContainer.end(), 8), this->projectileContainer.end());
+
+	if(this->projectileContainer.size() == this->maximumCapacity) {
+		
+		Utilities::setConsoleOutputColor(3);
+			
+		cout 
+			<< "before 2" << endl 
+			<< "erase begin: capacity " << this->projectileContainer.capacity() << endl
+			<< "erase begin: size " << this->projectileContainer.size() << endl;
+			
+		//this->projectileContainer.erase(this->projectileContainer.begin());
+
+		cout 
+			<< "after 2" << endl
+			<< "erase begin: capacity " << this->projectileContainer.capacity() << endl
+			<< "erase begin: size " << this->projectileContainer.size() << endl
+			<< endl;
+			
+		Utilities::resetConsoleOutputColor();
+
+	}
 }
