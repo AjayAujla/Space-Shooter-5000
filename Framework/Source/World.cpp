@@ -28,6 +28,7 @@
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 
+#include "Utilities.h"
 
 using namespace std;
 using namespace glm;
@@ -38,17 +39,16 @@ World::World()
 {
     instance = this;
 
-	//setup model for third person camera
-	CubeModel* spaceship = new CubeModel();
-	spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
-	mModel.push_back(spaceship);
-	
-	//setup third person camera
-	ThirdPersonCamera* newCam = new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f),spaceship, 3.0f);
-	newCam->SetRadius(3.0f);
-	mCamera.push_back(newCam);
+	this->gun = new Gun();
+	mModel.push_back(this->gun);
 
+	//setup model for third person camera
+	this->spaceship = new CubeModel();
+	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
+	mModel.push_back(this->spaceship);
+	
 	// Setup Camera
+	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -66,37 +66,6 @@ World::World()
     assert(billboardTextureID != 0);
 
     mpBillboardList = new BillboardList(2048, billboardTextureID);
-
-    
-    // TODO - You can un-comment out these 2 temporary billboards and particle system
-    // That can help you debug billboards, you can set the billboard texture to billboardTest.png
-    
-	/*
-	 Billboard *b = new Billboard();
-     b->size  = glm::vec2(2.0, 2.0);
-     b->position = glm::vec3(0.0, 3.0, 0.0);
-     b->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-     
-     Billboard *b2 = new Billboard();
-     b2->size  = glm::vec2(2.0, 2.0);
-     b2->position = glm::vec3(0.0, 3.0, 1.0);
-     b2->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-
-     mpBillboardList->AddBillboard(b);
-     mpBillboardList->AddBillboard(b2);
-
-     
-     ParticleDescriptor* fountainDescriptor = new ParticleDescriptor();
-     fountainDescriptor->SetFireDescriptor();
-     
-     ParticleDescriptor* fireDescriptor = new ParticleDescriptor();
-     fireDescriptor->SetFireDescriptor();
-     
-     ParticleEmitter* emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
-     
-     ParticleSystem* ps = new ParticleSystem(emitter, fountainDescriptor);
-     AddParticleSystem(ps);
-     */
     
     ParticleDescriptor* asteroidDescriptor = new ParticleDescriptor();
     asteroidDescriptor->SetAsteroidDescriptor();
@@ -104,8 +73,6 @@ World::World()
     ParticleEmitter* emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
     
     mAsteroidSystem = new AsteroidSystem(emitter, asteroidDescriptor);
-
-	// TMP
 }
 
 World::~World()
@@ -176,7 +143,13 @@ void World::Update(float dt)
 		}
 	}
 
-	// Spacebar to change the shader
+	// R to reset camera field of view
+	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_R ) == GLFW_PRESS)
+	{
+		mCamera[mCurrentCamera]->fieldOfView = 45.0f;
+	}
+	
+	// 0 9 to change the shader
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_0 ) == GLFW_PRESS)
 	{
 		Renderer::SetShader(SHADER_SOLID_COLOR);
@@ -218,6 +191,19 @@ void World::Update(float dt)
     
     mpBillboardList->Update(dt);
 
+	// M to toggle wireframe textures
+	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_M ) == GLFW_PRESS)
+	{
+		TextureLoader::toggleWireframe();
+	}
+
+	// Left mouse button projectiles in camera lookAt vector direction
+	if(glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
+		vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
+		
+		this->gun->shoot(cameraLookAtVector);
+	}
 }
 
 void World::Draw()

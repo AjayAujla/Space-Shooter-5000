@@ -14,7 +14,8 @@ class TextureLoader
 {
 public:
     static int LoadTexture(const char * imagepath);
+	static void toggleWireframe();
 
 private:
-    
+    static bool toggle;
 };

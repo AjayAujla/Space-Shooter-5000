@@ -12,6 +12,7 @@
 
 #include "ParsingHelper.h"
 #include "Billboard.h"
+#include "Gun.h"
 #include <vector>
 
 class Camera;
@@ -52,6 +53,8 @@ private:
     std::vector<ParticleSystem*> mParticleSystemList;
     AsteroidSystem* mAsteroidSystem;
 	unsigned int mCurrentCamera;
-
     BillboardList* mpBillboardList;
+	
+	CubeModel* spaceship;
+	Gun* gun;
 };
