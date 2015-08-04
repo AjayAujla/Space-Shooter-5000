@@ -38,7 +38,7 @@ World* World::instance;
 World::World()
 {
     instance = this;
-
+	
 	this->gun = new Gun();
 	mModel.push_back(this->gun);
 
@@ -156,7 +156,7 @@ void World::Update(float dt)
 	}
 	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_9 ) == GLFW_PRESS)
 	{
-		Renderer::SetShader(SHADER_BLUE);
+		Renderer::SetShader(SHADER_TEXTURED);
 	}
 
     // Update animation and keys
@@ -188,13 +188,13 @@ void World::Update(float dt)
     }
     
     mAsteroidSystem->Update(dt);
-    
+
     mpBillboardList->Update(dt);
 
 	// M to toggle wireframe textures
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_M ) == GLFW_PRESS)
 	{
-		TextureLoader::toggleWireframe();
+		Renderer::toggleWireframe();
 	}
 
 	// Left mouse button projectiles in camera lookAt vector direction
