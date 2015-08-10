@@ -21,7 +21,12 @@ public:
 
 	void move(float deltaTime);
 
+	bool isCollided();
+	void setCollided(bool collided);
+
 private:
+	Model* parent;
+
 	vec3 velocity;
 	
 	float timeFired;

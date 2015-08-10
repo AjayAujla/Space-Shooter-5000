@@ -1,3 +1,5 @@
+#if defined(PLATFORM_OSX)
+#else
 #pragma once
 
 #include "Utilities.h"
@@ -26,3 +28,4 @@ void Utilities::setConsoleOutputColor(int color) {
 void Utilities::resetConsoleOutputColor() {
 	setConsoleOutputColor(7);
 }
+#endif

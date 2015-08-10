@@ -4,7 +4,6 @@
 #include "Utilities.h"
 
 Gun::Gun() {
-	Gun(5);
 }
 
 Gun::Gun(int maximumCapacity) : CubeModel(), maximumCapacity(maximumCapacity) {
@@ -22,13 +21,14 @@ Gun::~Gun() {
 }
 
 void Gun::Update(float deltaTime) {
+	Model::Update(deltaTime);
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
 		(*it)->Update(deltaTime);
 	}
 }
 
 void Gun::Draw() {
-	//CubeModel::Draw();
+	CubeModel::Draw();
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
 		if(!(*it)->outOfRange && !(*it)->collided) {
 			(*it)->Draw();

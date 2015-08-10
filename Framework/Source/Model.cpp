@@ -42,7 +42,6 @@ void Model::Draw()
 {
 }
 
-
 void Model::Load(ci_istringstream& iss)
 {
 	ci_string line;
