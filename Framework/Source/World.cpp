@@ -277,6 +277,8 @@ void World::Draw()
 		(*it)->Draw();
 	}
 
+	mAsteroidSystem->Draw();
+
 	// Draw Path Lines
 	
 	// Set Shader for path lines

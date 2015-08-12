@@ -63,23 +63,27 @@ void ParticleDescriptor::SetFireDescriptor()
 
 void ParticleDescriptor::SetAsteroidDescriptor()
 {
-    velocity = vec3(0.0f, 5.4f, 0.0f);
+    velocity = vec3(0.0f, 1.0f, 0.0f);
     velocityDeltaAngle = 10.0f;
     
     acceleration = vec3(0,0,0);
     
-    initialSize = vec2(10.0f, 10.0f);
+    initialSize = vec2(2.0f, 2.0f);
     initialSizeDelta = vec2(0.02f, 0.02f);
     
     sizeGrowthVelocity = vec2(-2.4f, -2.4f);
     
-    initialColor = vec4(1.0f, 0.0f, 0.0f, 0.2f);
-    midColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);
-    endColor = vec4(0.5f, 0.5f, 0.8f, 0.0f);
+    initialColor = vec4(0.0f, 0.0f, 1.0f, 0.2f);
+    midColor = vec4(0.0f, 1.0f, 1.0f, 1.0f);
+    endColor = vec4(1.0f, 1.0f, 1.0f, 0.5f);
     
     emissionRate = 25.0f;
     fadeInTime = 1.5f;
     fadeOutTime = 0.2f;
     totalLifetime = 5.0f;
     totalLifetimeDelta = 0.0f;
+}
+
+void ParticleDescriptor::setInitialSize(vec2 size) {
+	this->initialSize = size;
 }
