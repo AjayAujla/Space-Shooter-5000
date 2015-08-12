@@ -1,13 +1,65 @@
 #version 330 core
 
-// Ouput to fragment shader
+
+// Light and Material Uniform Variables
+uniform float materialAmbient; // Ambient Term
+uniform float materialDiffuse; // Diffuse Term
+uniform float materialSpecular; // Specular Term
+uniform float materialExponent; // Specular Exponent
+
+uniform vec3 lightColor;
+uniform vec3 lightAttenuation; // x: Constant  y: Linear  z: Quadratic
+
+
+// Inputs
+in vec4 v_color;		 // vertex color: also diffuse color
+
+in vec3 normal;          // Transformed normal in View Space
+in vec3 eyeVector;       // Vector from the vertex to the Camera in View Space
+in vec4 lightVector[3];     // Vector from the vertex to the Light in View Space
+						 // Length of lightVector is the distance between light and vertex
+						 // if w = 1: Point light, if w = 0: directional light
+
+// Output data
 out vec4 color;
 
-in vec4 v_color;
-in vec3 normal; // You will need this when you do per-fragment lighting
 
 void main()
 {
-	// set the fragment color to the interpolated vertex color
-	color = v_color;
+	// Implment Phong Shading based on the parameters above
+	// Remember that directional light don't have attenuation
+
+	float totalDiffuse = 0.0f;
+	float totalSpecular = 0.0f;
+
+	for(int i = 0; i < 3; i++)
+	{
+
+		float distance = length( lightVector[i]);
+	
+		vec4 n = normalize( vec4(normal,0));
+		vec4 l = normalize(lightVector[i]);
+		float cosTheta = clamp (dot(n,l),0,1);
+
+		vec4 E = normalize(vec4(eyeVector, 0));
+		vec4 R = reflect(-l,n);
+		float cosAlpha = clamp(dot(E,R),0,1);
+
+		float lightPower = 1.0f;
+		float lightColor = 1.0f;
+		
+		totalDiffuse = totalDiffuse + materialDiffuse * lightColor * lightPower * cosTheta;// (distance*distance);
+		totalSpecular = totalSpecular + materialSpecular * lightColor * lightPower * pow(cosAlpha,5)/ (distance*distance);
+	
+		
+	}
+
+	float Ambient = materialAmbient;
+
+	color = (Ambient + totalDiffuse + totalSpecular) * v_color;
+
+
+	/* Default
+		color = v_color;
+	*/
 }

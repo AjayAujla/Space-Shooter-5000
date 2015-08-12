@@ -28,8 +28,6 @@
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 
-#include "Utilities.h"
-
 using namespace std;
 using namespace glm;
 
@@ -38,22 +36,15 @@ World* World::instance;
 World::World()
 {
     instance = this;
-	
 
-	this->gun = new Gun();
-	mModel.push_back(this->gun);
-
-	//setup model for third person camera
-	this->spaceship = new CubeModel();
+	this->spaceship = new Spaceship();
 	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
 	mModel.push_back(this->spaceship);
 	
 #if defined(PLATFORM_OSX)
 	std::string texturePathPrefix = "Textures\\";
-	//this->skybox->initialize("Textures/skyboxPositiveX.png", "Textures/skyboxNegativeX.png", "Textures/skyboxPositiveY.png", "Textures/skyboxNegativeY.png", "Textures/skyboxPositiveZ.png", "Textures/skyboxNegativeZ.png");
 #else
     std::string texturePathPrefix = "..\\Assets\\Textures\\";
-	//this->skybox->initialize("../Assets/Textures/skyboxPositiveX.png", "../Assets/Textures/skyboxNegativeX.png", "../Assets/Textures/skyboxPositiveY.png", "../Assets/Textures/skyboxNegativeY.png", "../Assets/Textures/skyboxPositiveZ.png", "../Assets/Textures/skyboxNegativeZ.png");
 #endif
 	this->skybox = new Skybox(vec3(100.0f, 100.0f, 100.0f), texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
 	
@@ -64,13 +55,9 @@ World::World()
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
-    
-    // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 #if defined(PLATFORM_OSX)
-//    int billboardTextureID = TextureLoader::LoadTexture("Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("Textures/Particle.png");
 #else
-//    int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/Particle.png");
 #endif
     assert(billboardTextureID != 0);
@@ -212,7 +199,7 @@ void World::Update(float dt)
 		mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
 		vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
 		
-		this->gun->shoot(cameraLookAtVector);
+		this->spaceship->shoot(cameraLookAtVector);
 	}
 
 	this->skybox->Update(dt);
@@ -225,12 +212,64 @@ void World::Draw()
 	// Set shader to use
 	glUseProgram(Renderer::GetShaderProgramID());
 
+	// Material Coefficients
+	const float ka = 0.2f;
+	const float kd = 0.8f;
+	const float ks = 0.2f;
+	const float n = 90.0f;
+
+	// Light Coefficients
+	const vec3 lightColor(1.0f, 1.0f, 1.0f);
+	const float lightKc = 0.0f;
+	const float lightKl = 0.0f;
+	const float lightKq = 1.0f;
+	const vec4 lightPosition[3] = { vec4(5.0f, 5.0f, -20.0f, 1.0f),
+									vec4(-20.0f, 5.0f, 5.0f, 1.0f),
+									vec4(5.0f, 5.0f, 20.0f, 1.0f), };
+
 	// This looks for the MVP Uniform variable in the Vertex Program
 	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+	
+	// Get a handle for our Transformation Matrices uniform
+	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
+	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
+	GLuint ProjMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ProjectionTransform");
+
+	// Get a handle for Light Attributes uniform
+	GLuint LightPosition1ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[0]");
+	GLuint LightPosition2ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[1]");
+	GLuint LightPosition3ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[2]");
+	GLuint LightColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightColor");
+	GLuint LightAttenuationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightAttenuation");
+
+	// Get a handle for Material Attributes uniform
+	GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
+	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
+	GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
+	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
 
 	// Send the view projection constants to the shader
 	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
 	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+
+	mat4 V = mCamera[mCurrentCamera]->GetViewMatrix();
+	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
+	mat4 P = mCamera[mCurrentCamera]->GetProjectionMatrix();
+	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
+
+	// Draw the Vertex Buffer
+
+	// Set shader constants
+	glUniform1f(MaterialAmbientID, ka);
+	glUniform1f(MaterialDiffuseID, kd);
+	glUniform1f(MaterialSpecularID, ks);
+	glUniform1f(MaterialExponentID, n);
+
+	glUniform4f(LightPosition1ID, lightPosition[0].x, lightPosition[0].y, lightPosition[0].z, lightPosition[0].w);
+	glUniform4f(LightPosition2ID, lightPosition[1].x, lightPosition[1].y, lightPosition[1].z, lightPosition[1].w);
+	glUniform4f(LightPosition3ID, lightPosition[2].x, lightPosition[2].y, lightPosition[2].z, lightPosition[2].w);
+	glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
+	glUniform3f(LightAttenuationID, lightKc, lightKl, lightKq);
 
 	// Draw models
 	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
@@ -302,10 +341,9 @@ void World::LoadScene(const char * scene_path)
 		{
 			if( result == "cube" )
 			{
-				// Box attributes
 				CubeModel* cube = new CubeModel();
 				cube->Load(iss);
-				//mModel.push_back(cube);
+				mModel.push_back(cube);
             }
             else if( result == "sphere" )
             {

@@ -6,12 +6,12 @@ using namespace std;
 #include "Projectile.h"
 #include "CubeModel.h"
 
-class Gun : public CubeModel {
+class Spaceship : public CubeModel {
 
 public:
-	Gun();
-	Gun(int maximumCapacity);
-	virtual ~Gun();
+	Spaceship();
+	Spaceship(int maximumCapacity);
+	virtual ~Spaceship();
 	
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -25,4 +25,5 @@ private:
 	vector<Projectile*> projectileContainer;
 	vec3 cameraLookAtVector;
 	int maximumCapacity;
+
 };

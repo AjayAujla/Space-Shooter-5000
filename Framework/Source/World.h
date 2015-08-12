@@ -12,7 +12,7 @@
 
 #include "ParsingHelper.h"
 #include "Billboard.h"
-#include "Gun.h"
+#include "Spaceship.h"
 #include <vector>
 #include "Skybox.h"
 
@@ -43,7 +43,7 @@ public:
     void RemoveBillboard(Billboard* b);
     void AddParticleSystem(ParticleSystem* particleSystem);
     void RemoveParticleSystem(ParticleSystem* particleSystem);
-    
+
 private:
     static World* instance;
     
@@ -56,7 +56,6 @@ private:
 	unsigned int mCurrentCamera;
     BillboardList* mpBillboardList;
 	
-	CubeModel* spaceship;
-	Gun* gun;
 	Skybox* skybox;
+	Spaceship* spaceship;
 };

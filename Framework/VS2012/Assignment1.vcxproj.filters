@@ -83,13 +83,10 @@
     <ClCompile Include="..\Source\AsteroidSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Utilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Gun.cpp">
+    <ClCompile Include="..\Source\Projectile.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Projectile.cpp">
+    <ClCompile Include="..\Source\Spaceship.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Skybox.cpp">
@@ -151,13 +148,10 @@
     <ClInclude Include="..\Source\AsteroidSystem.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Utilities.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Gun.h">
+    <ClInclude Include="..\Source\Projectile.h">
       <Filter>Source Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Projectile.h">
+    <ClInclude Include="..\Source\Spaceship.h">
       <Filter>Source Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Skybox.h">
