@@ -49,7 +49,7 @@ World::World()
 	this->skybox = new Skybox(vec3(100.0f, 100.0f, 100.0f), texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
 	
 	// Setup Camera
-	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
+	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), this->spaceship, 5.0f));
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -153,7 +153,7 @@ void World::Update(float dt)
 	}
 	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_9 ) == GLFW_PRESS)
 	{
-		Renderer::SetShader(SHADER_TEXTURED);
+		Renderer::SetShader(SHADER_BLUE);
 	}
 
     // Update animation and keys
@@ -281,7 +281,7 @@ void World::Draw()
 	
 	// Set Shader for path lines
 	unsigned int prevShader = Renderer::GetCurrentShader();
-	Renderer::SetShader(SHADER_PATH_LINES);
+	//Renderer::SetShader(SHADER_PATH_LINES);
 	glUseProgram(Renderer::GetShaderProgramID());
 
 	// Send the view projection constants to the shader
@@ -353,7 +353,7 @@ void World::LoadScene(const char * scene_path)
 					int sphereTextureID = TextureLoader::LoadTexture("../Assets/Textures/moonTexture.jpg");
 				#endif
                 
-				SphereModel* moon = new SphereModel(sphereTextureID);
+				SphereModel* moon = new SphereModel(sphereTextureID, vec3(10.0f, 10.0f, 10.0f));
                 moon->Load(iss);
                 mModel.push_back(moon);
             }
