@@ -28,8 +28,8 @@ public:
 	virtual void Draw() = 0;
 
 	void Load(ci_istringstream& iss);
-
-	virtual glm::mat4 GetWorldMatrix() const;
+    
+    virtual glm::mat4 GetWorldMatrix() const;
 
 	void SetPosition(glm::vec3 position);
 	void SetScaling(glm::vec3 scaling);

@@ -8,18 +8,11 @@
 
 #pragma once
 
-#include "Billboard.h"
+#include "Asteroid.h"
 
 class ParticleDescriptor;
 class ParticleEmitter;
-
-struct Asteroid
-{
-    Billboard billboard;
-    float currentTime;
-    float lifeTime;
-    glm::vec3 velocity;
-};
+class Asteroid;
 
 class AsteroidSystem
 {
@@ -28,11 +21,11 @@ public:
     ~AsteroidSystem();
     
     void Update(float dt);
+    void Draw();
     
 private:
     ParticleDescriptor* mpDescriptor;
     ParticleEmitter* mpEmitter;
-    std::list<Asteroid*> mAsteroidList;
-    std::list<Asteroid*> mInactiveAsteroids;
-    
+    std::vector<Asteroid*> mAsteroidList;
+    std::vector<Asteroid*> mInactiveAsteroids;
 };

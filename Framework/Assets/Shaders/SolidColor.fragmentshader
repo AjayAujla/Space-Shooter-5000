@@ -62,4 +62,5 @@ void main()
 	/* Default
 		color = v_color;
 	*/
+
 }
