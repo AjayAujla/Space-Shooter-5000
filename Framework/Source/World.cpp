@@ -17,7 +17,6 @@
 
 #include "CubeModel.h"
 #include "SphereModel.h"
-#include "AsteroidModel.h"
 #include "Animation.h"
 #include "Billboard.h"
 #include <GLFW/glfw3.h>
@@ -38,33 +37,52 @@ World* World::instance;
 World::World()
 {
     instance = this;
-
-	this->gun = new Gun();
-	mModel.push_back(this->gun);
-
-	//setup model for third person camera
-	this->spaceship = new CubeModel();
-	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
-	mModel.push_back(this->spaceship);
-	
-	// Setup Camera
-	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
-	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
-	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
-	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
-	mCurrentCamera = 0;
-
+    
+    this->gun = new Gun();
+    mModel.push_back(this->gun);
+    
+    //setup model for third person camera
+    this->spaceship = new CubeModel();
+    this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
+    mModel.push_back(this->spaceship);
+    
+    //    Asteroid* asteroid1 = new Asteroid();
+    //    Asteroid* asteroid2 = new Asteroid();
+    //    Asteroid* asteroid3 = new Asteroid();
+    //
+    //    asteroid1->SetPosition(vec3(2,2,2));
+    //    asteroid2->SetPosition(vec3(3,2,3));
+    //    asteroid3->SetPosition(vec3(3,2,1));
+    //
+    //
+    //    mAsteroids.push_back(asteroid1);
+    //    mAsteroids.push_back(asteroid2);
+    //    mAsteroids.push_back(asteroid3);
+    
+    //    mModel.push_back(asteroid1);
+    //    mModel.push_back(asteroid2);
+    //    mModel.push_back(asteroid3);
+    
+    // Setup Camera
+    mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
+    mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
+    mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
+    mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
+    mCurrentCamera = 0;
+    
+    
+    
     
     // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 #if defined(PLATFORM_OSX)
-//    int billboardTextureID = TextureLoader::LoadTexture("Textures/BillboardTest.bmp");
+    //    int billboardTextureID = TextureLoader::LoadTexture("Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("Textures/Particle.png");
 #else
-//    int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
+    //    int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/Particle.png");
 #endif
     assert(billboardTextureID != 0);
-
+    
     mpBillboardList = new BillboardList(2048, billboardTextureID);
     
     ParticleDescriptor* asteroidDescriptor = new ParticleDescriptor();
@@ -77,88 +95,96 @@ World::World()
 
 World::~World()
 {
-	// Models
-	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
-	{
-		delete *it;
-	}
-
-	mModel.clear();
-
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		delete *it;
-	}
-
-	mAnimation.clear();
-
-	for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
-	{
-		delete *it;
-	}
-
-	mAnimationKey.clear();
-
-	// Camera
-	for (vector<Camera*>::iterator it = mCamera.begin(); it < mCamera.end(); ++it)
-	{
-		delete *it;
-	}
-	mCamera.clear();
-
-	delete mpBillboardList;
+    // Models
+    for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
+    {
+        delete *it;
+    }
+    
+    mModel.clear();
+    
+    for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+    {
+        delete *it;
+    }
+    
+    mAnimation.clear();
+    
+    for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
+    {
+        delete *it;
+    }
+    
+    mAnimationKey.clear();
+    
+    // Camera
+    for (vector<Camera*>::iterator it = mCamera.begin(); it < mCamera.end(); ++it)
+    {
+        delete *it;
+    }
+    mCamera.clear();
+    
+    delete mpBillboardList;
 }
 
 World* World::GetInstance()
 {
+    if(instance == nullptr)
+        instance = new World();
     return instance;
 }
 
 void World::Update(float dt)
 {
-	// User Inputs
-	// 1 2 3 4 to change the Camera
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_1 ) == GLFW_PRESS)
-	{
-		mCurrentCamera = 0;
-	}
-	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_2 ) == GLFW_PRESS)
-	{
-		if (mCamera.size() > 1)
-		{
-			mCurrentCamera = 1;
-		}
-	}
-	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_3 ) == GLFW_PRESS)
-	{
-		if (mCamera.size() > 2)
-		{
-			mCurrentCamera = 2;
-		}
-	} else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_4 ) == GLFW_PRESS)
-	{
-		if (mCamera.size() > 3)
-		{
-			mCurrentCamera = 3;
-		}
-	}
-
-	// R to reset camera field of view
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_R ) == GLFW_PRESS)
-	{
-		mCamera[mCurrentCamera]->fieldOfView = 45.0f;
-	}
-	
-	// 0 9 to change the shader
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_0 ) == GLFW_PRESS)
-	{
-		Renderer::SetShader(SHADER_SOLID_COLOR);
-	}
-	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_9 ) == GLFW_PRESS)
-	{
-		Renderer::SetShader(SHADER_BLUE);
-	}
-
+    
+    
+    //    Asteroid* asteroid = new Asteroid();
+    //    asteroid->SetScaling(vec3(5,5,5));
+    //    mModel.push_back(asteroid);
+    
+    // User Inputs
+    // 1 2 3 4 to change the Camera
+    if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_1 ) == GLFW_PRESS)
+    {
+        mCurrentCamera = 0;
+    }
+    else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_2 ) == GLFW_PRESS)
+    {
+        if (mCamera.size() > 1)
+        {
+            mCurrentCamera = 1;
+        }
+    }
+    else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_3 ) == GLFW_PRESS)
+    {
+        if (mCamera.size() > 2)
+        {
+            mCurrentCamera = 2;
+        }
+    } else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_4 ) == GLFW_PRESS)
+    {
+        if (mCamera.size() > 3)
+        {
+            mCurrentCamera = 3;
+        }
+    }
+    
+    // R to reset camera field of view
+    if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_R ) == GLFW_PRESS)
+    {
+        mCamera[mCurrentCamera]->fieldOfView = 45.0f;
+    }
+    
+    // 0 9 to change the shader
+    if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_0 ) == GLFW_PRESS)
+    {
+        Renderer::SetShader(SHADER_SOLID_COLOR);
+    }
+    else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_9 ) == GLFW_PRESS)
+    {
+        Renderer::SetShader(SHADER_BLUE);
+    }
+    
     // Update animation and keys
     for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
     {
@@ -169,16 +195,16 @@ void World::Update(float dt)
     {
         (*it)->Update(dt);
     }
-
-
-	// Update current Camera
-	mCamera[mCurrentCamera]->Update(dt);
-
-	// Update models
-	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
-	{
-		(*it)->Update(dt);
-	}
+    
+    
+    // Update current Camera
+    mCamera[mCurrentCamera]->Update(dt);
+    
+    // Update models
+    for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
+    {
+        (*it)->Update(dt);
+    }
     
     // Update billboards
     
@@ -190,161 +216,169 @@ void World::Update(float dt)
     mAsteroidSystem->Update(dt);
     
     mpBillboardList->Update(dt);
-
-	// M to toggle wireframe textures
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_M ) == GLFW_PRESS)
-	{
-		TextureLoader::toggleWireframe();
-	}
-
-	// Left mouse button projectiles in camera lookAt vector direction
-	if(glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-		mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
-		vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
-		
-		this->gun->shoot(cameraLookAtVector);
-	}
+    
+    // M to toggle wireframe textures
+    if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_M ) == GLFW_PRESS)
+    {
+        TextureLoader::toggleWireframe();
+    }
+    
+    // Left mouse button projectiles in camera lookAt vector direction
+    if(glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+        mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
+        vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
+        
+        this->gun->shoot(cameraLookAtVector);
+    }
+    
 }
 
 void World::Draw()
 {
-	Renderer::BeginFrame();
-	
-	// Set shader to use
-	glUseProgram(Renderer::GetShaderProgramID());
-
-	// Material Coefficients
-	const float ka = 0.2f;
-	const float kd = 0.8f;
-	const float ks = 0.2f;
-	const float n = 90.0f;
-
-	// Light Coefficients
-	const vec3 lightColor(1.0f, 1.0f, 1.0f);
-	const float lightKc = 0.0f;
-	const float lightKl = 0.0f;
-	const float lightKq = 1.0f;
-	const vec4 lightPosition[3] = { vec4(5.0f, 5.0f, -20.0f, 1.0f),
-									vec4(-20.0f, 5.0f, 5.0f, 1.0f),
-									vec4(5.0f, 5.0f, 20.0f, 1.0f), };
-
-	// This looks for the MVP Uniform variable in the Vertex Program
-	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-
-	// Get a handle for our Transformation Matrices uniform
-	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
-	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
-	GLuint ProjMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ProjectionTransform");
-
-	// Get a handle for Light Attributes uniform
-	GLuint LightPosition1ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[0]");
-	GLuint LightPosition2ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[1]");
-	GLuint LightPosition3ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[2]");
-	GLuint LightColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightColor");
-	GLuint LightAttenuationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightAttenuation");
-
-	// Get a handle for Material Attributes uniform
-	GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
-	GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
-	GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
-	GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
-
-	// Send the view projection constants to the shader
-	mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
-
-	mat4 V = mCamera[mCurrentCamera]->GetViewMatrix();
-	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
-	mat4 P = mCamera[mCurrentCamera]->GetProjectionMatrix();
-	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
-
-	// Draw the Vertex Buffer
-
-	// Set shader constants
-	glUniform1f(MaterialAmbientID, ka);
-	glUniform1f(MaterialDiffuseID, kd);
-	glUniform1f(MaterialSpecularID, ks);
-	glUniform1f(MaterialExponentID, n);
-
-	glUniform4f(LightPosition1ID, lightPosition[0].x, lightPosition[0].y, lightPosition[0].z, lightPosition[0].w);
-	glUniform4f(LightPosition2ID, lightPosition[1].x, lightPosition[1].y, lightPosition[1].z, lightPosition[1].w);
-	glUniform4f(LightPosition3ID, lightPosition[2].x, lightPosition[2].y, lightPosition[2].z, lightPosition[2].w);
-	glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
-	glUniform3f(LightAttenuationID, lightKc, lightKl, lightKq);
-
-	// Draw models
-	for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
-	{
-		(*it)->Draw();
-	}
-
-	// Draw Path Lines
-	
-	// Set Shader for path lines
-	unsigned int prevShader = Renderer::GetCurrentShader();
-	Renderer::SetShader(SHADER_PATH_LINES);
-	glUseProgram(Renderer::GetShaderProgramID());
-
-	// Send the view projection constants to the shader
-	VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
-
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
-
-		(*it)->Draw();
-	}
-
-	for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
-	{
-		mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
-		glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
-
-		(*it)->Draw();
-	}
-
+    Renderer::BeginFrame();
+    
+    // Set shader to use
+    glUseProgram(Renderer::GetShaderProgramID());
+    
+    // Material Coefficients
+    const float ka = 0.2f;
+    const float kd = 0.8f;
+    const float ks = 0.2f;
+    const float n = 90.0f;
+    
+    // Light Coefficients
+    const vec3 lightColor(1.0f, 1.0f, 1.0f);
+    const float lightKc = 0.0f;
+    const float lightKl = 0.0f;
+    const float lightKq = 1.0f;
+    const vec4 lightPosition[3] = { vec4(5.0f, 5.0f, -20.0f, 1.0f),
+        vec4(-20.0f, 5.0f, 5.0f, 1.0f),
+        vec4(5.0f, 5.0f, 20.0f, 1.0f), };
+    
+    // This looks for the MVP Uniform variable in the Vertex Program
+    GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+    
+    // Get a handle for our Transformation Matrices uniform
+    GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
+    GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
+    GLuint ProjMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ProjectionTransform");
+    
+    // Get a handle for Light Attributes uniform
+    GLuint LightPosition1ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[0]");
+    GLuint LightPosition2ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[1]");
+    GLuint LightPosition3ID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldLightPosition[2]");
+    GLuint LightColorID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightColor");
+    GLuint LightAttenuationID = glGetUniformLocation(Renderer::GetShaderProgramID(), "lightAttenuation");
+    
+    // Get a handle for Material Attributes uniform
+    GLuint MaterialAmbientID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialAmbient");
+    GLuint MaterialDiffuseID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialDiffuse");
+    GLuint MaterialSpecularID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialSpecular");
+    GLuint MaterialExponentID = glGetUniformLocation(Renderer::GetShaderProgramID(), "materialExponent");
+    
+    // Send the view projection constants to the shader
+    mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+    glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+    
+    
+    GLuint ViewMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
+    mat4 V = mCamera[mCurrentCamera]->GetViewMatrix();
+    glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
+    
+    mat4 ViewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
+//    glUniformMatrix4fv(ViewMatrixLocation, 1, GL_FALSE, &ViewMatrix[0][0]);
+    
+    mat4 P = mCamera[mCurrentCamera]->GetProjectionMatrix();
+    glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
+    
+    // Draw the Vertex Buffer
+    // Set shader constants
+    glUniform1f(MaterialAmbientID, ka);
+    glUniform1f(MaterialDiffuseID, kd);
+    glUniform1f(MaterialSpecularID, ks);
+    glUniform1f(MaterialExponentID, n);
+    glUniform4f(LightPosition1ID, lightPosition[0].x, lightPosition[0].y, lightPosition[0].z, lightPosition[0].w);
+    glUniform4f(LightPosition2ID, lightPosition[1].x, lightPosition[1].y, lightPosition[1].z, lightPosition[1].w);
+    glUniform4f(LightPosition3ID, lightPosition[2].x, lightPosition[2].y, lightPosition[2].z, lightPosition[2].w);
+    glUniform3f(LightColorID, lightColor.r, lightColor.g, lightColor.b);
+    glUniform3f(LightAttenuationID, lightKc, lightKl, lightKq);
+    
+    // Draw models
+    for (vector<Model*>::iterator it = mModel.begin(); it < mModel.end(); ++it)
+    {
+        (*it)->Draw();
+    }
+    
+    // Draw the asteroids
+    mAsteroidSystem->Draw();
+    
+    
+    // Draw Path Lines
+    
+    // Set Shader for path lines
+    unsigned int prevShader = Renderer::GetCurrentShader();
+    Renderer::SetShader(SHADER_PATH_LINES);
+    glUseProgram(Renderer::GetShaderProgramID());
+    
+    // Send the view projection constants to the shader
+    VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
+    glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+    
+    for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+    {
+        mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+        glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+        
+        (*it)->Draw();
+    }
+    
+    for (vector<AnimationKey*>::iterator it = mAnimationKey.begin(); it < mAnimationKey.end(); ++it)
+    {
+        mat4 VP = mCamera[mCurrentCamera]->GetViewProjectionMatrix();
+        glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
+        
+        (*it)->Draw();
+    }
+    
     Renderer::CheckForErrors();
     
     // Draw Billboards
     mpBillboardList->Draw();
-
-
-	// Restore previous shader
-	Renderer::SetShader((ShaderType) prevShader);
-
-	Renderer::EndFrame();
+    
+    // Restore previous shader
+    Renderer::SetShader((ShaderType) prevShader);
+    
+    Renderer::EndFrame();
 }
 
 void World::LoadScene(const char * scene_path)
 {
-	// Using case-insensitive strings and streams for easier parsing
-	ci_ifstream input;
-	input.open(scene_path, ios::in);
-
-	// Invalid file
-	if(input.fail() )
-	{	 
-		fprintf(stderr, "Error loading file: %s\n", scene_path);
-		getchar();
-		exit(-1);
-	}
-
-	ci_string item;
-	while( std::getline( input, item, '[' ) )   
-	{
+    // Using case-insensitive strings and streams for easier parsing
+    ci_ifstream input;
+    input.open(scene_path, ios::in);
+    
+    // Invalid file
+    if(input.fail() )
+    {
+        fprintf(stderr, "Error loading file: %s\n", scene_path);
+        getchar();
+        exit(-1);
+    }
+    
+    ci_string item;
+    while( std::getline( input, item, '[' ) )
+    {
         ci_istringstream iss( item );
-
-		ci_string result;
-		if( std::getline( iss, result, ']') )
-		{
-			if( result == "cube" )
-			{
-				// Box attributes
-				CubeModel* cube = new CubeModel();
-				cube->Load(iss);
-				mModel.push_back(cube);
+        
+        ci_string result;
+        if( std::getline( iss, result, ']') )
+        {
+            if( result == "cube" )
+            {
+                // Box attributes
+                CubeModel* cube = new CubeModel();
+                cube->Load(iss);
+                mModel.push_back(cube);
             }
             else if( result == "sphere" )
             {
@@ -352,38 +386,38 @@ void World::LoadScene(const char * scene_path)
                 sphere->Load(iss);
                 mModel.push_back(sphere);
             }
-			else if ( result == "animationkey" )
-			{
-				AnimationKey* key = new AnimationKey();
-				key->Load(iss);
-				mAnimationKey.push_back(key);
-			}
-			else if (result == "animation")
-			{
-				Animation* anim = new Animation();
-				anim->Load(iss);
-				mAnimation.push_back(anim);
-			}
-			else if ( result.empty() == false && result[0] == '#')
-			{
-				// this is a comment line
-			}
-			else
-			{
-				fprintf(stderr, "Error loading scene file... !");
-				getchar();
-				exit(-1);
-			}
-	    }
-	}
-	input.close();
-
-	// Set Animation vertex buffers
-	for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
-	{
-		// Draw model
-		(*it)->CreateVertexBuffer();
-	}
+            else if ( result == "animationkey" )
+            {
+                AnimationKey* key = new AnimationKey();
+                key->Load(iss);
+                mAnimationKey.push_back(key);
+            }
+            else if (result == "animation")
+            {
+                Animation* anim = new Animation();
+                anim->Load(iss);
+                mAnimation.push_back(anim);
+            }
+            else if ( result.empty() == false && result[0] == '#')
+            {
+                // this is a comment line
+            }
+            else
+            {
+                fprintf(stderr, "Error loading scene file... !");
+                getchar();
+                exit(-1);
+            }
+        }
+    }
+    input.close();
+    
+    // Set Animation vertex buffers
+    for (vector<Animation*>::iterator it = mAnimation.begin(); it < mAnimation.end(); ++it)
+    {
+        // Draw model
+        (*it)->CreateVertexBuffer();
+    }
 }
 
 Animation* World::FindAnimation(ci_string animName)
@@ -412,7 +446,7 @@ AnimationKey* World::FindAnimationKey(ci_string keyName)
 
 const Camera* World::GetCurrentCamera() const
 {
-     return mCamera[mCurrentCamera];
+    return mCamera[mCurrentCamera];
 }
 
 void World::AddBillboard(Billboard* b)

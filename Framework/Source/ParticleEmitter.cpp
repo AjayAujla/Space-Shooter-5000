@@ -39,7 +39,7 @@ glm::vec3 ParticleEmitter::GetRandomPosition()
 glm::vec3 ParticleEmitter::GetAsteroidRandomPosition()
 {
     
-    float maxRadius = 10;
+    float maxRadius = 15;
     
     float randomX = GetRandomFloat(-maxRadius, maxRadius);
     float randomY = GetRandomFloat(-maxRadius, maxRadius);

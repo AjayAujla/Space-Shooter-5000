@@ -1302,14 +1302,15 @@ void SphereModel::Update(float dt)
 
 void SphereModel::Draw()
 {
-    // Draw the Vertex Buffer
-    // Note this draws a unit Cube
-    // The Model View Projection transforms are computed in the Vertex Shader
+//    // Draw the Vertex Buffer
+//    // Note this draws a unit Cube
+//    // The Model View Projection transforms are computed in the Vertex Shader
     glBindVertexArray(mVertexArrayID);
 
-    GLuint WorldMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform"); 
+    GLuint WorldMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
     glUniformMatrix4fv(WorldMatrixLocation, 1, GL_FALSE, &GetWorldMatrix()[0][0]);
-    
+
+
     // 1st attribute buffer : vertex Positions
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferID);

@@ -45,14 +45,14 @@ void Gun::shoot(vec3 cameraLookAtVector) {
 		this->projectileContainer.back()->fired = true;
 	}
 
-	Utilities::setConsoleOutputColor(1);
+//	Utilities::setConsoleOutputColor(1);
 	
 	cout 
 		<< "shoot: capacity " << this->projectileContainer.capacity() << endl
 		<< "shoot: size " << this->projectileContainer.size() << endl 
 		<< endl;
 	
-	Utilities::resetConsoleOutputColor();
+//	Utilities::resetConsoleOutputColor();
 
 	/*
 	if(this->projectileContainer.size() >= this->maximumCapacity) {
@@ -66,7 +66,7 @@ void Gun::clearProjectiles() {
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
 		if((*it)->outOfRange || (*it)->collided) {
 			
-			Utilities::setConsoleOutputColor(2);
+//			Utilities::setConsoleOutputColor(2);
 			
 			cout 
 				<< "before 1" << endl 
@@ -81,13 +81,13 @@ void Gun::clearProjectiles() {
 				<< "erase outofrange/collided: size " << this->projectileContainer.size() << endl 
 				<< endl;
 			
-			Utilities::resetConsoleOutputColor();
+//			Utilities::resetConsoleOutputColor();
 		}
 	}
 
 	if(this->projectileContainer.size() == this->maximumCapacity) {
 		
-		Utilities::setConsoleOutputColor(3);
+//		Utilities::setConsoleOutputColor(3);
 			
 		cout 
 			<< "before 2" << endl 
@@ -102,7 +102,7 @@ void Gun::clearProjectiles() {
 			<< "erase begin: size " << this->projectileContainer.size() << endl
 			<< endl;
 			
-		Utilities::resetConsoleOutputColor();
+//		Utilities::resetConsoleOutputColor();
 
 	}
 }

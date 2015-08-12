@@ -35,6 +35,9 @@
 		03FE4ED81B2FA9830020F06F /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03FE4ED61B2FA9830020F06F /* Animation.cpp */; };
 		198B803C1B6DFED500A56CDE /* ThirdPersonCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198B803A1B6DFED500A56CDE /* ThirdPersonCamera.cpp */; };
 		198B803F1B6DFFAE00A56CDE /* AsteroidSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */; };
+		19A01CEB1B7ADE7400938CA9 /* Gun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19A01CE71B7ADE7400938CA9 /* Gun.cpp */; };
+		19A01CEC1B7ADE7400938CA9 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19A01CE91B7ADE7400938CA9 /* Projectile.cpp */; };
+		19A01CF11B7AE04100938CA9 /* Asteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19A01CF01B7AE04100938CA9 /* Asteroid.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,6 +104,12 @@
 		198B803B1B6DFED500A56CDE /* ThirdPersonCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPersonCamera.h; sourceTree = "<group>"; };
 		198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsteroidSystem.cpp; sourceTree = "<group>"; };
 		198B803E1B6DFFAE00A56CDE /* AsteroidSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsteroidSystem.h; sourceTree = "<group>"; };
+		19A01CE71B7ADE7400938CA9 /* Gun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gun.cpp; sourceTree = "<group>"; };
+		19A01CE81B7ADE7400938CA9 /* Gun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gun.h; sourceTree = "<group>"; };
+		19A01CE91B7ADE7400938CA9 /* Projectile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projectile.cpp; sourceTree = "<group>"; };
+		19A01CEA1B7ADE7400938CA9 /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
+		19A01CED1B7ADF8100938CA9 /* Asteroid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Asteroid.h; sourceTree = "<group>"; };
+		19A01CF01B7AE04100938CA9 /* Asteroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Asteroid.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,12 +176,12 @@
 		038B785E1A6EB3F500111E36 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */,
-				198B803E1B6DFFAE00A56CDE /* AsteroidSystem.h */,
-				198B803A1B6DFED500A56CDE /* ThirdPersonCamera.cpp */,
-				198B803B1B6DFED500A56CDE /* ThirdPersonCamera.h */,
 				03FE4ED61B2FA9830020F06F /* Animation.cpp */,
 				03FE4ED71B2FA9830020F06F /* Animation.h */,
+				19A01CF01B7AE04100938CA9 /* Asteroid.cpp */,
+				19A01CED1B7ADF8100938CA9 /* Asteroid.h */,
+				198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */,
+				198B803E1B6DFFAE00A56CDE /* AsteroidSystem.h */,
 				039EC67E1B4DAFBD0061B0B7 /* Billboard.cpp */,
 				039EC67F1B4DAFBD0061B0B7 /* Billboard.h */,
 				03FE4E951B2F8D990020F06F /* Camera.cpp */,
@@ -183,6 +192,8 @@
 				03FE4E9A1B2F8D990020F06F /* EventManager.h */,
 				03FE4E9B1B2F8D990020F06F /* FirstPersonCamera.cpp */,
 				03FE4E9C1B2F8D990020F06F /* FirstPersonCamera.h */,
+				19A01CE71B7ADE7400938CA9 /* Gun.cpp */,
+				19A01CE81B7ADE7400938CA9 /* Gun.h */,
 				03FE4E9D1B2F8D990020F06F /* main.cpp */,
 				03FE4E9E1B2F8D990020F06F /* Model.cpp */,
 				03FE4E9F1B2F8D990020F06F /* Model.h */,
@@ -193,6 +204,8 @@
 				039EC6841B4DAFD90061B0B7 /* ParticleEmitter.h */,
 				039EC6851B4DAFD90061B0B7 /* ParticleSystem.cpp */,
 				039EC6861B4DAFD90061B0B7 /* ParticleSystem.h */,
+				19A01CE91B7ADE7400938CA9 /* Projectile.cpp */,
+				19A01CEA1B7ADE7400938CA9 /* Projectile.h */,
 				03FE4EA31B2F8D990020F06F /* Renderer.cpp */,
 				03FE4EA41B2F8D990020F06F /* Renderer.h */,
 				03FE4EA51B2F8D990020F06F /* SphereModel.cpp */,
@@ -201,6 +214,8 @@
 				03FE4EA81B2F8D990020F06F /* StaticCamera.h */,
 				039EC68A1B4DAFEA0061B0B7 /* TextureLoader.cpp */,
 				039EC68B1B4DAFEA0061B0B7 /* TextureLoader.h */,
+				198B803A1B6DFED500A56CDE /* ThirdPersonCamera.cpp */,
+				198B803B1B6DFED500A56CDE /* ThirdPersonCamera.h */,
 				03FE4EA91B2F8D990020F06F /* World.cpp */,
 				03FE4EAA1B2F8D990020F06F /* World.h */,
 			);
@@ -276,12 +291,15 @@
 				198B803F1B6DFFAE00A56CDE /* AsteroidSystem.cpp in Sources */,
 				039EC6891B4DAFD90061B0B7 /* ParticleSystem.cpp in Sources */,
 				03FE4EB51B2F8D990020F06F /* World.cpp in Sources */,
+				19A01CEC1B7ADE7400938CA9 /* Projectile.cpp in Sources */,
 				039EC68C1B4DAFEA0061B0B7 /* TextureLoader.cpp in Sources */,
 				03FE4EB21B2F8D990020F06F /* Renderer.cpp in Sources */,
 				03FE4EB01B2F8D990020F06F /* Model.cpp in Sources */,
 				03FE4EAF1B2F8D990020F06F /* main.cpp in Sources */,
 				03FE4EAB1B2F8D990020F06F /* Camera.cpp in Sources */,
 				03FE4ED81B2FA9830020F06F /* Animation.cpp in Sources */,
+				19A01CF11B7AE04100938CA9 /* Asteroid.cpp in Sources */,
+				19A01CEB1B7ADE7400938CA9 /* Gun.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
