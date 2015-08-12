@@ -13,6 +13,10 @@
 #include "ParsingHelper.h"
 #include "Billboard.h"
 #include "Gun.h"
+#include "StarSphereModel.h"
+#include "ParticleEmitter.h"
+#include "ParticleDescriptor.h"
+#include "ParticleSystem.h"
 #include <vector>
 
 class Camera;
@@ -56,5 +60,14 @@ private:
     BillboardList* mpBillboardList;
 	
 	CubeModel* spaceship;
+	StarSphereModel* star1;
+	StarSphereModel* star2;
+	StarSphereModel* star3;
+	StarSphereModel* gunLocation;
 	Gun* gun;
+
+	ParticleEmitter* emitter;
+	ParticleDescriptor* desc;
+	ParticleSystem* particleSystem;
+	
 };

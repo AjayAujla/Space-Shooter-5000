@@ -92,6 +92,9 @@
     <ClCompile Include="..\Source\Projectile.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\StarSphereModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\EventManager.h">
@@ -155,6 +158,9 @@
       <Filter>Source Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Projectile.h">
+      <Filter>Source Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\StarSphereModel.h">
       <Filter>Source Files\Model</Filter>
     </ClInclude>
   </ItemGroup>

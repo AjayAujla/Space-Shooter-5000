@@ -107,6 +107,7 @@
     <ClCompile Include="..\Source\ParticleSystem.cpp" />
     <ClCompile Include="..\Source\Projectile.cpp" />
     <ClCompile Include="..\Source\SphereModel.cpp" />
+    <ClCompile Include="..\Source\StarSphereModel.cpp" />
     <ClCompile Include="..\Source\StaticCamera.cpp" />
     <ClCompile Include="..\Source\EventManager.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="..\Source\ParticleSystem.h" />
     <ClInclude Include="..\Source\Projectile.h" />
     <ClInclude Include="..\Source\SphereModel.h" />
+    <ClInclude Include="..\Source\StarSphereModel.h" />
     <ClInclude Include="..\Source\StaticCamera.h" />
     <ClInclude Include="..\Source\EventManager.h" />
     <ClInclude Include="..\Source\Model.h" />
