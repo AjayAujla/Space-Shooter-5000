@@ -12,7 +12,7 @@
 
 #include "ParsingHelper.h"
 #include "Billboard.h"
-#include "Gun.h"
+#include "Spaceship.h"
 #include <vector>
 
 class Camera;
@@ -55,6 +55,5 @@ private:
 	unsigned int mCurrentCamera;
     BillboardList* mpBillboardList;
 	
-	CubeModel* spaceship;
-	Gun* gun;
+	Spaceship* spaceship;
 };

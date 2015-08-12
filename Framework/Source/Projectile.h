@@ -9,7 +9,7 @@ using namespace glm;
 
 class Projectile: public SphereModel {
 	
-	friend class Gun;
+	friend class Spaceship;
 
 public:
 	Projectile();

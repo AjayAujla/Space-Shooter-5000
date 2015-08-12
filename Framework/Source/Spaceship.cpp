@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Gun.h"
+#include "Spaceship.h"
 #include "Utilities.h"
 
-Gun::Gun() {
+Spaceship::Spaceship() {
 }
 
-Gun::Gun(int maximumCapacity) : CubeModel(), maximumCapacity(maximumCapacity) {
+Spaceship::Spaceship(int maximumCapacity) : CubeModel(), maximumCapacity(maximumCapacity) {
 	this->SetScaling(vec3(0.5f, 1.0f, 3.0f));
 	this->SetPosition(vec3(5.0f, 10.0f, 5.0f));
 	this->projectileContainer = vector<Projectile*>(this->maximumCapacity);
 }
 
-Gun::~Gun() {
+Spaceship::~Spaceship() {
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
 		delete (*it);
 	}
@@ -20,14 +20,14 @@ Gun::~Gun() {
 	this->projectileContainer.clear();
 }
 
-void Gun::Update(float deltaTime) {
+void Spaceship::Update(float deltaTime) {
 	Model::Update(deltaTime);
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
 		(*it)->Update(deltaTime);
 	}
 }
 
-void Gun::Draw() {
+void Spaceship::Draw() {
 	CubeModel::Draw();
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
 		if(!(*it)->outOfRange && !(*it)->collided) {
@@ -36,7 +36,7 @@ void Gun::Draw() {
 	}
 }
 
-void Gun::shoot(vec3 cameraLookAtVector) {
+void Spaceship::shoot(vec3 cameraLookAtVector) {
 	if(!this->projectileContainer.empty()) {
 		this->clearProjectiles();
 	}
@@ -62,7 +62,7 @@ void Gun::shoot(vec3 cameraLookAtVector) {
 	*/
 }
 
-void Gun::clearProjectiles() {
+void Spaceship::clearProjectiles() {
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
 		if((*it)->outOfRange || (*it)->collided) {
 			

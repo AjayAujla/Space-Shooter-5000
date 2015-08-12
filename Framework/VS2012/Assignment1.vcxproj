@@ -101,7 +101,7 @@
     <ClCompile Include="..\Source\Billboard.cpp" />
     <ClCompile Include="..\Source\Camera.cpp" />
     <ClCompile Include="..\Source\FirstPersonCamera.cpp" />
-    <ClCompile Include="..\Source\Gun.cpp" />
+    <ClCompile Include="..\Source\Spaceship.cpp" />
     <ClCompile Include="..\Source\ParticleDescriptor.cpp" />
     <ClCompile Include="..\Source\ParticleEmitter.cpp" />
     <ClCompile Include="..\Source\ParticleSystem.cpp" />
@@ -124,7 +124,7 @@
     <ClInclude Include="..\Source\Billboard.h" />
     <ClInclude Include="..\Source\Camera.h" />
     <ClInclude Include="..\Source\FirstPersonCamera.h" />
-    <ClInclude Include="..\Source\Gun.h" />
+    <ClInclude Include="..\Source\Spaceship.h" />
     <ClInclude Include="..\Source\ParsingHelper.h" />
     <ClInclude Include="..\Source\ParticleDescriptor.h" />
     <ClInclude Include="..\Source\ParticleEmitter.h" />

@@ -39,16 +39,13 @@ World::World()
 {
     instance = this;
 
-	this->gun = new Gun();
-	mModel.push_back(this->gun);
-
-	//setup model for third person camera
-	this->spaceship = new CubeModel();
+	this->spaceship = new Spaceship();
 	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
-	//mModel.push_back(this->spaceship);
+	mModel.push_back(this->spaceship);
+
 	
 	// Setup Camera
-	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->gun, 5.0f));
+	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -202,7 +199,7 @@ void World::Update(float dt)
 		mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
 		vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
 		
-		this->gun->shoot(cameraLookAtVector);
+		this->spaceship->shoot(cameraLookAtVector);
 	}
 }
 
