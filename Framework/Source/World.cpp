@@ -39,6 +39,7 @@ World::World()
 {
     instance = this;
 	
+
 	this->gun = new Gun();
 	mModel.push_back(this->gun);
 
@@ -46,6 +47,15 @@ World::World()
 	this->spaceship = new CubeModel();
 	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
 	mModel.push_back(this->spaceship);
+	
+#if defined(PLATFORM_OSX)
+	std::string texturePathPrefix = "Textures\\";
+	//this->skybox->initialize("Textures/skyboxPositiveX.png", "Textures/skyboxNegativeX.png", "Textures/skyboxPositiveY.png", "Textures/skyboxNegativeY.png", "Textures/skyboxPositiveZ.png", "Textures/skyboxNegativeZ.png");
+#else
+    std::string texturePathPrefix = "..\\Assets\\Textures\\";
+	//this->skybox->initialize("../Assets/Textures/skyboxPositiveX.png", "../Assets/Textures/skyboxNegativeX.png", "../Assets/Textures/skyboxPositiveY.png", "../Assets/Textures/skyboxNegativeY.png", "../Assets/Textures/skyboxPositiveZ.png", "../Assets/Textures/skyboxNegativeZ.png");
+#endif
+	this->skybox = new Skybox(texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
 	
 	// Setup Camera
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
@@ -204,6 +214,8 @@ void World::Update(float dt)
 		
 		this->gun->shoot(cameraLookAtVector);
 	}
+
+	this->skybox->Update(dt);
 }
 
 void World::Draw()
@@ -258,6 +270,7 @@ void World::Draw()
     // Draw Billboards
     mpBillboardList->Draw();
 
+	this->skybox->Draw();
 
 	// Restore previous shader
 	Renderer::SetShader((ShaderType) prevShader);

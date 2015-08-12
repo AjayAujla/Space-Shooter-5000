@@ -14,6 +14,7 @@
 #include "Billboard.h"
 #include "Gun.h"
 #include <vector>
+#include "Skybox.h"
 
 class Camera;
 class Model;
@@ -57,4 +58,5 @@ private:
 	
 	CubeModel* spaceship;
 	Gun* gun;
+	Skybox* skybox;
 };

@@ -96,6 +96,11 @@ void Renderer::Initialize()
 							shaderPathPrefix + "Texture.fragmentshader")
                                );
 
+	sShaderProgramID.push_back(
+				LoadShaders(shaderPathPrefix + "CubeMapTexture.vertexshader",
+							shaderPathPrefix + "CubeMapTexture.fragmentshader")
+                               );
+
 	sCurrentShader = 0;
 }
 
