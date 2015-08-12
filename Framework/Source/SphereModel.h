@@ -15,6 +15,7 @@ class SphereModel : public Model
 {
 public:
 	SphereModel(glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f));
+	SphereModel(int textureID, glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f));
     virtual ~SphereModel(void);
 
     virtual void Update(float dt);
@@ -29,12 +30,12 @@ private:
     {
         glm::vec3 position;
         glm::vec3 normal;
-        glm::vec3 color;
+        glm::vec4 color;
+		glm::vec2 textureCoordinate;
     };
 
+	int mTextureID;
     unsigned int mVertexArrayID;
     unsigned int mVertexBufferID;
     unsigned int numOfVertices;
 };
-
-

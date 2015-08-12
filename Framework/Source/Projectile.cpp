@@ -1,20 +1,17 @@
 #pragma once
 
 #include "Projectile.h"
+#include "TextureLoader.h"
 #include <iostream>
 using namespace std;
 
 #include <glm/ext.hpp>
 
-Projectile::Projectile() : SphereModel() {
-
-}
-
-Projectile::Projectile(Model* model, vec3 cameraLookAtVector) : SphereModel(), timeFired(0.0f), lifeTime(0.0f), fired(false), collided(false), outOfRange(false) {
+Projectile::Projectile(Model* model, vec3 cameraLookAtVector, int textureID) : SphereModel(textureID), timeFired(0.0f), lifeTime(0.0f), fired(false), collided(false), outOfRange(false) {
 	this->parent = model;
-	this->mPosition = model->GetPosition(); //+= vec3(model->GetWorldMatrix()[3]);
+	this->mPosition = model->GetPosition();
 	this->velocity = cameraLookAtVector * 20.0f; // trajectory
-	this->mScaling = vec3(0.5f, 0.5f, 0.5f); // temporary solution to give ellipse shape pointed towrads the direction that it is shooting
+	this->mScaling = vec3(0.5f, 0.5f, 0.5f);
 }
 
 Projectile::~Projectile() {

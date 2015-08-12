@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Spaceship.h"
+#include "TextureLoader.h"
 
 Spaceship::Spaceship() {
 }
@@ -40,7 +41,12 @@ void Spaceship::shoot(vec3 cameraLookAtVector) {
 		this->clearProjectiles();
 	}
 	if(this->projectileContainer.size() <= this->maximumCapacity) {
-		this->projectileContainer.push_back(new Projectile(this, cameraLookAtVector));
+		#if defined(PLATFORM_OSX)
+			int textureID = TextureLoader::LoadTexture("Textures/projectileTexture.jpg");
+		#else
+			int textureID = TextureLoader::LoadTexture("../Assets/Textures/projectileTexture.jpg");
+		#endif
+		this->projectileContainer.push_back(new Projectile(this, cameraLookAtVector, textureID));
 		this->projectileContainer.back()->fired = true;
 	}
 	/*

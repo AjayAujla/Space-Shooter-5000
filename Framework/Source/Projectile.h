@@ -13,7 +13,7 @@ class Projectile: public SphereModel {
 
 public:
 	Projectile();
-	Projectile(Model* model, vec3 cameraLookAtVector);
+	Projectile(Model* model, vec3 cameraLookAtVector, int textureID);
 	virtual ~Projectile();
     
 	virtual void Update(float deltaTime);
@@ -35,4 +35,6 @@ private:
 	bool fired;
 	bool collided;
 	bool outOfRange;
+	
+	int textureID;
 };

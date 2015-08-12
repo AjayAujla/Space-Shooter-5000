@@ -38,7 +38,7 @@ World::World()
     instance = this;
 
 	this->spaceship = new Spaceship();
-	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
+	this->spaceship->SetScaling(vec3(1.0f, 1.0f, 2.0f));
 	mModel.push_back(this->spaceship);
 	
 #if defined(PLATFORM_OSX)
@@ -347,9 +347,15 @@ void World::LoadScene(const char * scene_path)
             }
             else if( result == "sphere" )
             {
-                SphereModel* sphere = new SphereModel();
-                sphere->Load(iss);
-                mModel.push_back(sphere);
+				#if defined(PLATFORM_OSX)
+					int sphereTextureID = TextureLoader::LoadTexture("Textures/moonTexture.jpg");
+				#else
+					int sphereTextureID = TextureLoader::LoadTexture("../Assets/Textures/moonTexture.jpg");
+				#endif
+                
+				SphereModel* moon = new SphereModel(sphereTextureID);
+                moon->Load(iss);
+                mModel.push_back(moon);
             }
 			else if ( result == "animationkey" )
 			{
