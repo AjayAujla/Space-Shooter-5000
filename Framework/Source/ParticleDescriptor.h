@@ -22,6 +22,7 @@ public:
     void SetFountainDescriptor();
     void SetFireDescriptor();
     void SetAsteroidDescriptor();
+	void setInitialSize(vec2 size);
     
 private:
     
