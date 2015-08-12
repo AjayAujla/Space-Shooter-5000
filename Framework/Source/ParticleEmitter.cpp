@@ -38,16 +38,29 @@ glm::vec3 ParticleEmitter::GetRandomPosition()
 
 glm::vec3 ParticleEmitter::GetAsteroidRandomPosition()
 {
-    
-    float maxRadius = 10;
-    
+    float maxRadius = 30;
     float randomX = GetRandomFloat(-maxRadius, maxRadius);
-    float randomY = GetRandomFloat(-maxRadius, maxRadius);
+    randomX = ParticleEmitter::clampValue(randomX);
+    
+    float randomY = GetRandomFloat(0, maxRadius);
+    randomY = ParticleEmitter::clampValue(randomY);
+    
     float randomZ = GetRandomFloat(-maxRadius, maxRadius);
+    randomZ = ParticleEmitter::clampValue(randomZ);
     
     vec3 position = vec3(randomX, randomY, randomZ);
     
     return position;
+}
+
+// used to correct asteroids initial point
+float ParticleEmitter::clampValue(float f) {
+    if(f < 0) {
+        f = clamp(f, f, f+10);
+    } else {
+        f = clamp(f, f-10, f);
+    }
+    return f;
 }
 
 float ParticleEmitter::GetRandomFloat(float min, float max)

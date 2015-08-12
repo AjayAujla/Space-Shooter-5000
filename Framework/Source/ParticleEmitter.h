@@ -25,4 +25,5 @@ public:
 private:
     const Model* mpParent;
     glm::vec3 mPosition;
+	float clampValue(float f);
 };
