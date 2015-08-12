@@ -45,6 +45,8 @@ public:
     
     static void CheckForErrors();
     static bool PrintError();
+	
+	static void toggleWireframe();
 
 private:
 	static GLFWwindow* spWindow;
@@ -52,5 +54,5 @@ private:
 	static std::vector<unsigned int> sShaderProgramID;
 	static unsigned int sCurrentShader;
 
+	static bool toggle;
 };
-

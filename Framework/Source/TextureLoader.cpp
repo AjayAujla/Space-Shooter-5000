@@ -13,8 +13,6 @@
 
 #include <FreeImageIO.h>
 
-bool TextureLoader::toggle = false;
-
 int TextureLoader::LoadTexture(const char * imagepath)
 {    
     // Load image using the Free Image library
@@ -45,13 +43,4 @@ int TextureLoader::LoadTexture(const char * imagepath)
     FreeImage_Unload(image32bits);
  
     return texture;
-}
-void TextureLoader::toggleWireframe() {
-	if(toggle) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-	else {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-	toggle = !toggle;
 }

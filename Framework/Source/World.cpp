@@ -191,7 +191,7 @@ void World::Update(float dt)
 	// M to toggle wireframe textures
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_M ) == GLFW_PRESS)
 	{
-		TextureLoader::toggleWireframe();
+		Renderer::toggleWireframe();
 	}
 
 	// Left mouse button projectiles in camera lookAt vector direction
