@@ -39,7 +39,7 @@ World::World()
 
 
 	this->spaceship = new Spaceship();
-	this->spaceship->SetScaling(vec3(1.0f, 1.0f, 2.0f));
+	this->spaceship->SetScaling(vec3(1.0f, 1.0f, 1.0f));
 	mModel.push_back(this->spaceship);
 
 	//setup sphere model 1
@@ -78,14 +78,10 @@ World::World()
 	std::string texturePathPrefix = "Textures\\";
 #else
     std::string texturePathPrefix = "..\\Assets\\Textures\\";
-	//SphereModel* sphere = new SphereModel(TextureLoader::LoadTexture("../Assets/Textures/projectileTexture.jpg"));
 #endif
 	this->skybox = new Skybox(vec3(100.0f, 100.0f, 100.0f), texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
-	SphereModel* sphere = new SphereModel(TextureLoader::LoadTexture("..\\Assets\\Textures\\projectileTexture.jpg"));
-	mModel.push_back(sphere);
 
 	// Setup Camera
-	
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), this->spaceship, 5.0f));
 	
 	ThirdPersonCamera* newCam = new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), spaceship);
@@ -247,6 +243,7 @@ void World::Update(float dt)
 
 	//Collision Detection
 	vector<Projectile*> projectileContainer = this->spaceship->getProjectileContainer();
+	vector<Asteroid*> asteroidContainer = mAsteroidSystem->getAsteroidList();
 	
 	for (int i = 0; i < projectileContainer.size(); ++i) {
 		if (projectileContainer[i]->outOfRange) continue;
@@ -258,10 +255,16 @@ void World::Update(float dt)
 		for (int j = 1; j < this->mModel.size(); ++j) {
 			collide(projectileContainer[i],mModel[j]);
 		}
+		for (int j = 1; j < asteroidContainer.size(); ++j) {
+			collide(projectileContainer[i],asteroidContainer[j]);
+		}
 	}
 	for (int i = 0; i<mModel.size();++i){
 		for (int j=i+1; j<mModel.size();++j){
 			collide(mModel[i],mModel[j]);
+		}
+		for (int j = 1; j < asteroidContainer.size(); ++j) {
+			collide(mModel[i],asteroidContainer[j]);
 		}
 	}
 	//end collision detection
