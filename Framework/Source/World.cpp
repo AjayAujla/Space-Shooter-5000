@@ -54,21 +54,48 @@ World::World()
 	//setup star model 1
 	this->star1 = new StarSphereModel();
 	this->star1->SetPosition(vec3(5.0f, 5.0f, -20.0f));
+
+	this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this->star1);
+	this->desc = new ParticleDescriptor();
+
+	desc->SetFountainDescriptor();
+
+	this->particleSystem = new ParticleSystem(emitter, desc);
+	AddParticleSystem(this->particleSystem);
+
 	mModel.push_back(this->star1);
 
 	//setup star model 2
 	this->star2 = new StarSphereModel();
 	this->star2->SetPosition(vec3(-20.0f, 5.0f, 5.0f));
+
+	this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this->star2);
+	this->desc = new ParticleDescriptor();
+
+	desc->SetFountainDescriptor();
+
+	this->particleSystem = new ParticleSystem(emitter, desc);
+	AddParticleSystem(this->particleSystem);
+
 	mModel.push_back(this->star2);
 
 	//setup star model 3
 	this->star3 = new StarSphereModel();
 	this->star3->SetPosition(vec3(5.0f, 5.0f, 20.0f));
+
+	this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this->star3);
+	this->desc = new ParticleDescriptor();
+
+	desc->SetFountainDescriptor();
+
+	this->particleSystem = new ParticleSystem(emitter, desc);
+	AddParticleSystem(this->particleSystem);
+
 	mModel.push_back(this->star3);
 
 	//setup gun location (to see where the gun is shooting from)
 	this->gunLocation = new StarSphereModel();
-	this->gunLocation->SetPosition(vec3(0.0f, 0.0f, 0.0f));
+	this->gunLocation->SetPosition(vec3(10.0f, 10.0f, 10.0f));
 	mModel.push_back(this->gunLocation);
 	
 	// Setup Camera
@@ -239,7 +266,7 @@ void World::Update(float dt)
 			}
 			
 			
-			this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
+			this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this->gunLocation);
 			this->desc = new ParticleDescriptor();
 
 			desc->SetFountainDescriptor();
@@ -263,7 +290,7 @@ void World::Update(float dt)
 			this->particleSystem->~ParticleSystem();
 			RemoveParticleSystem(this->particleSystem);
 			
-			this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
+			this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this->gunLocation);
 			this->desc = new ParticleDescriptor();
 
 			desc->SetFireDescriptor();
