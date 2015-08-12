@@ -12,7 +12,7 @@ using namespace std;
 class Skybox : public CubeModel {
 	
 public:
-	Skybox(string positiveXImagePath, string negativeXImagePath, string positiveYImagePath, string negativeYImagePath, string positiveZImagePath, string negativeZImagePath);
+	Skybox(vec3 size, string positiveXImagePath, string negativeXImagePath, string positiveYImagePath, string negativeYImagePath, string positiveZImagePath, string negativeZImagePath);
 	virtual ~Skybox();
 
 	void Update(float dt);

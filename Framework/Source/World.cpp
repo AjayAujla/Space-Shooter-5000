@@ -55,7 +55,7 @@ World::World()
     std::string texturePathPrefix = "..\\Assets\\Textures\\";
 	//this->skybox->initialize("../Assets/Textures/skyboxPositiveX.png", "../Assets/Textures/skyboxNegativeX.png", "../Assets/Textures/skyboxPositiveY.png", "../Assets/Textures/skyboxNegativeY.png", "../Assets/Textures/skyboxPositiveZ.png", "../Assets/Textures/skyboxNegativeZ.png");
 #endif
-	this->skybox = new Skybox(texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
+	this->skybox = new Skybox(vec3(100.0f, 100.0f, 100.0f), texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
 	
 	// Setup Camera
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
@@ -305,7 +305,7 @@ void World::LoadScene(const char * scene_path)
 				// Box attributes
 				CubeModel* cube = new CubeModel();
 				cube->Load(iss);
-				mModel.push_back(cube);
+				//mModel.push_back(cube);
             }
             else if( result == "sphere" )
             {

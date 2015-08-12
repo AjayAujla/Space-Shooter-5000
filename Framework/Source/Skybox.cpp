@@ -8,7 +8,7 @@
 #include "Camera.h"
 #include <FreeImageIO.h>
 
-Skybox::Skybox(string positiveXImagePath, string negativeXImagePath, string positiveYImagePath, string negativeYImagePath, string positiveZImagePath, string negativeZImagePath)
+Skybox::Skybox(vec3 size, string positiveXImagePath, string negativeXImagePath, string positiveYImagePath, string negativeYImagePath, string positiveZImagePath, string negativeZImagePath)
 {    
 	skyboxFileNames[0] = positiveXImagePath;
 	skyboxFileNames[1] = negativeXImagePath;
@@ -50,60 +50,62 @@ Skybox::Skybox(string positiveXImagePath, string negativeXImagePath, string posi
 		FreeImage_Unload(image32bits);
 	}
 
+	vec3 halfSize = size * 0.5f;
+
 	SkyboxVertex skyboxVertexBuffer[] = {  
 		// NegativeX Face
-		{ vec3( 50.0f, 50.0f, 50.0f), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3( 50.0f, -50.0f, -50.0f), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
-		{ vec3( 50.0f, 50.0f, -50.0f), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, halfSize.y, halfSize.z), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3( halfSize.x, -halfSize.y, -halfSize.z), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
+		{ vec3( halfSize.x, halfSize.y, -halfSize.z), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
-		{ vec3( 50.0f, 50.0f, 50.0f), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3( 50.0f, -50.0f, -50.0f), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
-		{ vec3( 50.0f, -50.0f, 50.0f), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, halfSize.y, halfSize.z), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3( halfSize.x, -halfSize.y, -halfSize.z), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
+		{ vec3( halfSize.x, -halfSize.y, halfSize.z), vec3(1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 		
 		// PositiveX Face
-		{ vec3(-50.0f, -50.0f, -50.0f), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3(-50.0f, -50.0f, 50.0f), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
-		{ vec3(-50.0f, 50.0f, 50.0f), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, -halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
+		{ vec3(-halfSize.x, halfSize.y, halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
-		{ vec3(-50.0f, -50.0f, -50.0f), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3(-50.0f, 50.0f, 50.0f), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
-		{ vec3(-50.0f, 50.0f, -50.0f), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, -halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3(-halfSize.x, halfSize.y, halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
+		{ vec3(-halfSize.x, halfSize.y, -halfSize.z), vec3(-1.0f, 0.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
 		// PositiveY Face
-		{ vec3( 50.0f, 50.0f, 50.0f), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3( 50.0f, 50.0f, -50.0f), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
-		{ vec3(-50.0f, 50.0f, -50.0f), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, halfSize.y, halfSize.z), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3( halfSize.x, halfSize.y, -halfSize.z), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
+		{ vec3(-halfSize.x, halfSize.y, -halfSize.z), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
-		{ vec3( 50.0f, 50.0f, 50.0f), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3(-50.0f, 50.0f, -50.0f), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
-		{ vec3(-50.0f, 50.0f, 50.0f), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, halfSize.y, halfSize.z), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3(-halfSize.x, halfSize.y, -halfSize.z), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
+		{ vec3(-halfSize.x, halfSize.y, halfSize.z), vec3(0.0f, 1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
 		// NegativeY Face
-		{ vec3( 50.0f, -50.0f, 50.0f), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3(-50.0f, -50.0f, -50.0f), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
-		{ vec3( 50.0f, -50.0f, -50.0f), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, -halfSize.y, halfSize.z), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, -halfSize.z), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
+		{ vec3( halfSize.x, -halfSize.y, -halfSize.z), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 								
-		{ vec3( 50.0f, -50.0f, 50.0f), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3(-50.0f, -50.0f, 50.0f), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
-		{ vec3(-50.0f, -50.0f, -50.0f), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, -halfSize.y, halfSize.z), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, halfSize.z), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, -halfSize.z), vec3(0.0f, -1.0f, 0.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
 		// PositiveZ Face
-		{ vec3( 50.0f, 50.0f, -50.0f), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3(-50.0f, 50.0f, -50.0f), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
-		{ vec3(-50.0f, -50.0f, -50.0f), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, halfSize.y, -halfSize.z), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3(-halfSize.x, halfSize.y, -halfSize.z), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, -halfSize.z), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
-		{ vec3( 50.0f, 50.0f, -50.0f), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3( 50.0f, -50.0f, -50.0f), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
-		{ vec3(-50.0f, -50.0f, -50.0f), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3( halfSize.x, halfSize.y, -halfSize.z), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3( halfSize.x, -halfSize.y, -halfSize.z), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, -halfSize.z), vec3(0.0f, 0.0f, -1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
 		// NegativeZ Face
-		{ vec3(-50.0f, 50.0f, 50.0f), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3(-50.0f, -50.0f, 50.0f), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
-		{ vec3( 50.0f, -50.0f, 50.0f), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3(-halfSize.x, halfSize.y, halfSize.z), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3(-halfSize.x, -halfSize.y, halfSize.z), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 0.0f) },
+		{ vec3( halfSize.x, -halfSize.y, halfSize.z), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 
-		{ vec3(-50.0f, 50.0f, 50.0f), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
-		{ vec3( 50.0f, 50.0f, 50.0f), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
-		{ vec3( 50.0f, -50.0f, 50.0f), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
+		{ vec3(-halfSize.x, halfSize.y, halfSize.z), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(1.0f, 1.0f) },
+		{ vec3( halfSize.x, halfSize.y, halfSize.z), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 1.0f) },
+		{ vec3( halfSize.x, -halfSize.y, halfSize.z), vec3(0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 1.0f, 1.0f), vec2(0.0f, 0.0f) },
 	};
 
 	glGenVertexArrays(1, &skyboxVertexArrayID); // Create a vertex array
@@ -136,7 +138,11 @@ void Skybox::Draw() {
 
 	GLuint textureCube;
 	glGenTextures(1, &textureCube);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTextureIDs[0]);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, *skyboxTextureIDs);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTextureIDs[0]);
+	for(int skyboxTexture : skyboxTextureIDs) {
+		glBindTexture(GL_TEXTURE_2D, skyboxTexture);
+	}
 	
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
@@ -146,17 +152,9 @@ void Skybox::Draw() {
 
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
-	/*
-	int skyboxTextureIDs[6] = {this->skyboxPositiveXID, this->skyboxNegativeXID, this->skyboxPositiveYID, this->skyboxNegativeYID, this->skyboxPositiveZID, this->skyboxNegativeZID};
-	for(int skyboxTexture : skyboxTextureIDs) {
-		glBindTexture(GL_TEXTURE_2D, skyboxTexture);
-	}
 
-	GLuint skyboxTexture = skyboxPositiveXID;
-	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-	*/
 	GLuint textureLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "cubemapTexture");
-	glUniform1i(textureLocation, 0);				// Set our Texture sampler to user Texture Unit 0
+	glUniform1i(textureLocation, 0);
 	const Camera* currentCamera = World::GetInstance()->GetCurrentCamera();
 	mat4 VP = currentCamera->GetViewProjectionMatrix();
 	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
@@ -215,8 +213,6 @@ void Skybox::Draw() {
 							(void*) (2* sizeof(vec3) + sizeof(vec4)) // texture coordinates are Offseted by 2 vec3 (see class Vertex) and a vec4
 						);
 
-	// Draw the triangles !
-
 	glDisableVertexAttribArray(3);
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);*/
@@ -226,14 +222,3 @@ void Skybox::Draw() {
 
 	Renderer::SetShader(oldShader);
 }
-/*
-	
-	
-	GLuint skyboxTextures;
-	glBindTexture(GL_TEXTURE_2D, skyboxTextures);
-
-	glUniform1i(textureLocation, 0);	
-
-	
-	glBindVertexArray(skyboxVertexArrayID);
-*/
