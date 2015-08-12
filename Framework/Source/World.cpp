@@ -37,19 +37,62 @@ World::World()
 {
     instance = this;
 
+
 	this->spaceship = new Spaceship();
 	this->spaceship->SetScaling(vec3(1.0f, 1.0f, 2.0f));
 	mModel.push_back(this->spaceship);
+
+	//setup sphere model 1
+	this->sphere1 = new SphereModel(TextureLoader::LoadTexture("..\\Assets\\Textures\\asteroidTexture.jpg"));
+	this->sphere1->SetPosition(vec3(5.0f, 5.0f, -20.0f));
+	this->sphere1->SetVelocity(vec3(1.0f, 0.0f, 0.0f));
+
+	this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this->sphere1);
+	this->desc = new ParticleDescriptor();
+
+	desc->SetFireDescriptor();
+
+	this->particleSystem = new ParticleSystem(emitter, desc);
+	AddParticleSystem(this->particleSystem);
+
+	mModel.push_back(this->sphere1);
+
+	//setup sphere model 2
+	this->sphere2 = new SphereModel(TextureLoader::LoadTexture("..\\Assets\\Textures\\asteroidTexture.jpg"));
+	this->sphere2->SetPosition(vec3(5.0f, 5.0f, -20.0f));
+	this->sphere2->SetVelocity(vec3(0.0f, 0.0f, 1.0f));
+
+	this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), this->sphere2);
+	this->desc = new ParticleDescriptor();
+
+	desc->SetFireDescriptor();
+
+	this->particleSystem = new ParticleSystem(emitter, desc);
+	AddParticleSystem(this->particleSystem);
+
+	mModel.push_back(this->sphere2);
+
+
 	
 #if defined(PLATFORM_OSX)
 	std::string texturePathPrefix = "Textures\\";
 #else
     std::string texturePathPrefix = "..\\Assets\\Textures\\";
+	//SphereModel* sphere = new SphereModel(TextureLoader::LoadTexture("../Assets/Textures/projectileTexture.jpg"));
 #endif
 	this->skybox = new Skybox(vec3(100.0f, 100.0f, 100.0f), texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
-	
+	SphereModel* sphere = new SphereModel(TextureLoader::LoadTexture("..\\Assets\\Textures\\projectileTexture.jpg"));
+	mModel.push_back(sphere);
+
 	// Setup Camera
+	
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), this->spaceship, 5.0f));
+	
+	ThirdPersonCamera* newCam = new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), spaceship);
+	newCam->SetCinematic(true);
+	newCam->SetCinematicRadius(6.0f);
+	mCamera.push_back(newCam);
+
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -202,7 +245,49 @@ void World::Update(float dt)
 		this->spaceship->shoot(cameraLookAtVector);
 	}
 
+	//Collision Detection
+	vector<Projectile*> projectileContainer = this->spaceship->getProjectileContainer();
+	
+	for (int i = 0; i < projectileContainer.size(); ++i) {
+		if (projectileContainer[i]->outOfRange) continue;
+		
+		//for (int j = i+1; j < projectileContainer.size(); ++j) {
+			//collide(projectileContainer[i],projectileContainer[j]);
+		//}
+
+		for (int j = 1; j < this->mModel.size(); ++j) {
+			collide(projectileContainer[i],mModel[j]);
+		}
+	}
+	for (int i = 0; i<mModel.size();++i){
+		for (int j=i+1; j<mModel.size();++j){
+			collide(mModel[i],mModel[j]);
+		}
+	}
+	//end collision detection
+
 	this->skybox->Update(dt);
+}
+
+//returns true if there was a collision, false otherwise
+bool World::collide(Model* m1, Model* m2){
+	vec3 p1 = m1->GetPosition();
+	vec3 p2 = m2->GetPosition();
+	vec3 dp = p2-p1;
+	float norm2 = dp.x*dp.x+dp.y*dp.y+dp.z*dp.z;
+	if(norm2 <= m1->GetRadius() + m2->GetRadius()){
+		//there was a collision, update velocities
+
+		//cout << "there was a collision" << endl;
+		//TODO
+		m2->SetVelocity(m2->GetVelocity() + 0.5f * m1->GetVelocity());
+		m1->SetVelocity(-1.0f * m1->GetVelocity());
+
+		return true;
+	}
+	//no collision
+	return false;
+	
 }
 
 void World::Draw()

@@ -13,10 +13,16 @@
 
 #include <GLFW/glfw3.h>
 #include <algorithm>
+#include <math.h>
+
 
 using namespace glm;
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m, float radius):  Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), mRadius(radius)
+ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m, float radius) : Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), toggleCinematic(false), mCinematicRadius(3), mCurrentTime(0.0f), mRadius(radius)
+{
+}
+
+ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m) :  Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), toggleCinematic(false), mCinematicRadius(3), mCurrentTime(0.0f)
 {
 }
 
@@ -66,43 +72,61 @@ void ThirdPersonCamera::Update(float dt)
 	vec3 sideVector = glm::cross(mLookAt, vec3(0.0f, 1.0f, 0.0f));
 	glm::normalize(sideVector);
 
-	// A S D W for motion along the camera basis vectors
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_SPACE) == GLFW_PRESS)
-	{
-		mPosition +=  glm::vec3(0.0,1.0,0.0) * dt * mSpeed;
-	}
+	mCurrentTime += dt;
+	if (mCurrentTime > 10 * 3.14159265358979323846) mCurrentTime = 0;//loop at 10pi
 
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-	{
-		mPosition -= glm::vec3(0.0, 1.0, 0.0) * dt * mSpeed;
-	}
 	
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_W ) == GLFW_PRESS)
-	{
-		mPosition += mLookAt * dt * mSpeed;
+
+
+	if (!toggleCinematic){
+		// A S D W for motion along the camera basis vectors
+		if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			//mPosition +=  glm::vec3(0.0,1.0,0.0) * dt * mSpeed;
+			mTargetModel->SetPosition(mTargetModel->GetPosition() + vec3(0.0, 1.0, 0.0)*dt*mSpeed);
+		}
+
+		if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		{
+			//mPosition -= glm::vec3(0.0, 1.0, 0.0) * dt * mSpeed;
+			mTargetModel->SetPosition(mTargetModel->GetPosition() - vec3(0.0, 1.0, 0.0)*dt*mSpeed);
+		}
+
+		if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+		{
+			//mPosition += mLookAt * dt * mSpeed;
+			mTargetModel->SetPosition(mTargetModel->GetPosition() + mLookAt*dt*mSpeed);
+		}
+
+		if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+		{
+			//mPosition -= mLookAt * dt * mSpeed;
+			mTargetModel->SetPosition(mTargetModel->GetPosition() - mLookAt*dt*mSpeed);
+		}
+
+		if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+		{
+			//mPosition += sideVector * dt * mSpeed;
+			mTargetModel->SetPosition(mTargetModel->GetPosition() + sideVector*dt*mSpeed);
+		}
+
+		if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
+		{
+			//mPosition -= sideVector * dt * mSpeed;
+			mTargetModel->SetPosition(mTargetModel->GetPosition() - sideVector*dt*mSpeed);
+		}
+
+		//Simon addition
+		//model positioning in front of our third person camera
+		mPosition = mTargetModel->GetPosition() - mLookAt*mRadius + vec3(0.0f, 2.0f, 0.0f);
+	}
+	else{
+		//if cinematic, then reposition camera according to function and update lookAt
+		vec3 ellipsePosition = vec3(1.6f * mCinematicRadius * cos(mCurrentTime), 1.5 + 1.5*sin(mCurrentTime - (3.14159265358979323846 / 2.0)), mCinematicRadius * sin(mCurrentTime));
+		mPosition = mTargetModel->GetPosition() + ellipsePosition;
+		mLookAt = normalize(mTargetModel->GetPosition() - mPosition);
 	}
 
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_S ) == GLFW_PRESS)
-	{
-		mPosition -= mLookAt * dt * mSpeed;
-	}
-
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_D ) == GLFW_PRESS)
-	{
-		mPosition += sideVector * dt * mSpeed;
-	}
-	
-	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_A ) == GLFW_PRESS)
-	{
-		mPosition -= sideVector * dt * mSpeed;
-	}
-	
-	// zooming functionality using mouse or trackpad scrolling
-	glfwSetScrollCallback(EventManager::GetWindow(), scrollCallBack);
-
-	//Simon addition
-	//model positioning in front of our third person camera
-	mTargetModel->SetPosition(mPosition + mLookAt * mRadius);
 }
 
 glm::mat4 ThirdPersonCamera::GetViewMatrix() const

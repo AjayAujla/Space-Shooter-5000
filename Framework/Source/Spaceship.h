@@ -19,7 +19,7 @@ public:
 	void shoot(vec3 cameraLookAtVector);
 	void clearProjectiles();
 
-	vector<Projectile*> getProjectileContainer();
+	vector<Projectile*> getProjectileContainer() {return this->projectileContainer;}
 
 private:
 	vector<Projectile*> projectileContainer;
