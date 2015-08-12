@@ -43,7 +43,6 @@ World::World()
 	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
 	mModel.push_back(this->spaceship);
 
-	
 	// Setup Camera
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
@@ -51,8 +50,6 @@ World::World()
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
-    
-    // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 #if defined(PLATFORM_OSX)
 //    int billboardTextureID = TextureLoader::LoadTexture("Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("Textures/Particle.png");
