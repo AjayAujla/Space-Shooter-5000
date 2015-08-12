@@ -224,7 +224,7 @@ void World::Draw()
 
 	// This looks for the MVP Uniform variable in the Vertex Program
 	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-
+	
 	// Get a handle for our Transformation Matrices uniform
 	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
 	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
