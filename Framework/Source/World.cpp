@@ -17,6 +17,7 @@
 
 #include "CubeModel.h"
 #include "SphereModel.h"
+#include "StarSphereModel.h"
 #include "AsteroidModel.h"
 #include "Animation.h"
 #include "Billboard.h"
@@ -35,6 +36,9 @@ using namespace glm;
 
 World* World::instance;
 
+bool IsMuzzleFlashEmitted = false; // need the check, so that you don't emit particles multiple times.
+bool FirstTimeShooting = true; // it crashes otherwise.
+
 World::World()
 {
     instance = this;
@@ -46,6 +50,26 @@ World::World()
 	this->spaceship = new CubeModel();
 	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
 	mModel.push_back(this->spaceship);
+
+	//setup star model 1
+	this->star1 = new StarSphereModel();
+	this->star1->SetPosition(vec3(5.0f, 5.0f, -20.0f));
+	mModel.push_back(this->star1);
+
+	//setup star model 2
+	this->star2 = new StarSphereModel();
+	this->star2->SetPosition(vec3(-20.0f, 5.0f, 5.0f));
+	mModel.push_back(this->star2);
+
+	//setup star model 3
+	this->star3 = new StarSphereModel();
+	this->star3->SetPosition(vec3(5.0f, 5.0f, 20.0f));
+	mModel.push_back(this->star3);
+
+	//setup gun location (to see where the gun is shooting from)
+	this->gunLocation = new StarSphereModel();
+	this->gunLocation->SetPosition(vec3(0.0f, 0.0f, 0.0f));
+	mModel.push_back(this->gunLocation);
 	
 	// Setup Camera
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
@@ -197,12 +221,60 @@ void World::Update(float dt)
 		TextureLoader::toggleWireframe();
 	}
 
+	
+
 	// Left mouse button projectiles in camera lookAt vector direction
 	if(glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
 		mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
 		vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
 		
 		this->gun->shoot(cameraLookAtVector);
+
+		if (!IsMuzzleFlashEmitted)
+		{
+			if (!FirstTimeShooting)
+			{
+				this->particleSystem->~ParticleSystem();
+				RemoveParticleSystem(this->particleSystem);
+			}
+			
+			
+			this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
+			this->desc = new ParticleDescriptor();
+
+			desc->SetFountainDescriptor();
+
+			this->particleSystem = new ParticleSystem(emitter, desc);
+			AddParticleSystem(this->particleSystem);
+
+			IsMuzzleFlashEmitted = true;
+
+			if (FirstTimeShooting)
+			{
+				FirstTimeShooting = false;
+			}
+		}
+	}
+
+	if (glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+		
+		if (IsMuzzleFlashEmitted)
+		{
+			this->particleSystem->~ParticleSystem();
+			RemoveParticleSystem(this->particleSystem);
+			
+			this->emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
+			this->desc = new ParticleDescriptor();
+
+			desc->SetFireDescriptor();
+
+			this->particleSystem = new ParticleSystem(emitter, desc);
+			AddParticleSystem(this->particleSystem);
+
+			IsMuzzleFlashEmitted = false;
+		}
+	
+	
 	}
 }
 
@@ -432,6 +504,6 @@ void World::AddParticleSystem(ParticleSystem* particleSystem)
 
 void World::RemoveParticleSystem(ParticleSystem* particleSystem)
 {
-    vector<ParticleSystem*>::iterator it = std::find(mParticleSystemList.begin(), mParticleSystemList.end(), particleSystem);
+	vector<ParticleSystem*>::iterator it = std::find(mParticleSystemList.begin(), mParticleSystemList.end(), particleSystem);
     mParticleSystemList.erase(it);
 }
