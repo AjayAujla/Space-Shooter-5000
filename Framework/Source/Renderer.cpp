@@ -36,6 +36,7 @@ unsigned int Renderer::sCurrentShader;
 
 GLFWwindow* Renderer::spWindow = nullptr;
 
+bool Renderer::toggle = false;
 
 void Renderer::Initialize()
 {
@@ -91,12 +92,16 @@ void Renderer::Initialize()
                                );
     
     sShaderProgramID.push_back(
-                               LoadShaders(shaderPathPrefix + "Texture.vertexshader",
-                                           shaderPathPrefix + "Texture.fragmentshader")
+				LoadShaders(shaderPathPrefix + "Texture.vertexshader",
+							shaderPathPrefix + "Texture.fragmentshader")
+                               );
+
+	sShaderProgramID.push_back(
+				LoadShaders(shaderPathPrefix + "CubeMapTexture.vertexshader",
+							shaderPathPrefix + "CubeMapTexture.fragmentshader")
                                );
 
 	sCurrentShader = 0;
-
 }
 
 void Renderer::Shutdown()
@@ -288,3 +293,12 @@ void Renderer::CheckForErrors()
     }
 }
 
+void Renderer::toggleWireframe() {
+	if(toggle) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	else {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	toggle = !toggle;
+}

@@ -25,4 +25,3 @@ void main()
 	v_color = vertexColor;
 	UV = vertexUV;
 }
-

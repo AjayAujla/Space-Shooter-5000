@@ -9,11 +9,11 @@ using namespace glm;
 
 class Projectile: public SphereModel {
 	
-	friend class Gun;
+	friend class Spaceship;
 
 public:
 	Projectile();
-	Projectile(Model* model, vec3 cameraLookAtVector);
+	Projectile(Model* model, vec3 cameraLookAtVector, int textureID);
 	virtual ~Projectile();
     
 	virtual void Update(float deltaTime);
@@ -21,7 +21,12 @@ public:
 
 	void move(float deltaTime);
 
+	bool isCollided();
+	void setCollided(bool collided);
+
 private:
+	Model* parent;
+
 	vec3 velocity;
 	
 	float timeFired;
@@ -30,4 +35,6 @@ private:
 	bool fired;
 	bool collided;
 	bool outOfRange;
+	
+	int textureID;
 };

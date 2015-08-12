@@ -28,8 +28,6 @@
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 
-#include "Utilities.h"
-
 using namespace std;
 using namespace glm;
 
@@ -39,13 +37,16 @@ World::World()
 {
     instance = this;
 
-	this->gun = new Gun();
-	mModel.push_back(this->gun);
-
-	//setup model for third person camera
-	this->spaceship = new CubeModel();
-	this->spaceship->SetScaling(vec3(1.0f, 2.0f, 1.0f));
+	this->spaceship = new Spaceship();
+	this->spaceship->SetScaling(vec3(1.0f, 1.0f, 2.0f));
 	mModel.push_back(this->spaceship);
+	
+#if defined(PLATFORM_OSX)
+	std::string texturePathPrefix = "Textures\\";
+#else
+    std::string texturePathPrefix = "..\\Assets\\Textures\\";
+#endif
+	this->skybox = new Skybox(vec3(100.0f, 100.0f, 100.0f), texturePathPrefix + "skyboxPositiveX.png", texturePathPrefix + "skyboxNegativeX.png", texturePathPrefix + "skyboxPositiveY.png", texturePathPrefix + "skyboxNegativeY.png", texturePathPrefix + "skyboxPositiveZ.png", texturePathPrefix + "skyboxNegativeZ.png");
 	
 	// Setup Camera
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f,1.0f,5.0f), this->spaceship, 5.0f));
@@ -54,13 +55,9 @@ World::World()
 	mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
 	mCurrentCamera = 0;
 
-    
-    // TODO: You can play with different textures by changing the billboardTest.bmp to another texture
 #if defined(PLATFORM_OSX)
-//    int billboardTextureID = TextureLoader::LoadTexture("Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("Textures/Particle.png");
 #else
-//    int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/BillboardTest.bmp");
     int billboardTextureID = TextureLoader::LoadTexture("../Assets/Textures/Particle.png");
 #endif
     assert(billboardTextureID != 0);
@@ -156,7 +153,7 @@ void World::Update(float dt)
 	}
 	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_9 ) == GLFW_PRESS)
 	{
-		Renderer::SetShader(SHADER_BLUE);
+		Renderer::SetShader(SHADER_TEXTURED);
 	}
 
     // Update animation and keys
@@ -188,13 +185,13 @@ void World::Update(float dt)
     }
     
     mAsteroidSystem->Update(dt);
-    
+
     mpBillboardList->Update(dt);
 
 	// M to toggle wireframe textures
 	if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_M ) == GLFW_PRESS)
 	{
-		TextureLoader::toggleWireframe();
+		Renderer::toggleWireframe();
 	}
 
 	// Left mouse button projectiles in camera lookAt vector direction
@@ -202,8 +199,10 @@ void World::Update(float dt)
 		mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
 		vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
 		
-		this->gun->shoot(cameraLookAtVector);
+		this->spaceship->shoot(cameraLookAtVector);
 	}
+
+	this->skybox->Update(dt);
 }
 
 void World::Draw()
@@ -230,7 +229,7 @@ void World::Draw()
 
 	// This looks for the MVP Uniform variable in the Vertex Program
 	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
-
+	
 	// Get a handle for our Transformation Matrices uniform
 	GLuint WorldMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform");
 	GLuint ViewMatrixID = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewTransform");
@@ -310,6 +309,7 @@ void World::Draw()
     // Draw Billboards
     mpBillboardList->Draw();
 
+	this->skybox->Draw();
 
 	// Restore previous shader
 	Renderer::SetShader((ShaderType) prevShader);
@@ -341,16 +341,21 @@ void World::LoadScene(const char * scene_path)
 		{
 			if( result == "cube" )
 			{
-				// Box attributes
 				CubeModel* cube = new CubeModel();
 				cube->Load(iss);
 				mModel.push_back(cube);
             }
             else if( result == "sphere" )
             {
-                SphereModel* sphere = new SphereModel();
-                sphere->Load(iss);
-                mModel.push_back(sphere);
+				#if defined(PLATFORM_OSX)
+					int sphereTextureID = TextureLoader::LoadTexture("Textures/moonTexture.jpg");
+				#else
+					int sphereTextureID = TextureLoader::LoadTexture("../Assets/Textures/moonTexture.jpg");
+				#endif
+                
+				SphereModel* moon = new SphereModel(sphereTextureID);
+                moon->Load(iss);
+                mModel.push_back(moon);
             }
 			else if ( result == "animationkey" )
 			{

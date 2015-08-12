@@ -24,6 +24,7 @@ enum ShaderType
 	SHADER_PATH_LINES,
 	SHADER_BLUE,
     SHADER_TEXTURED,
+    SHADER_CUBEMAP_TEXTURED,
 	NUM_SHADERS
 };
 
@@ -45,6 +46,8 @@ public:
     
     static void CheckForErrors();
     static bool PrintError();
+	
+	static void toggleWireframe();
 
 private:
 	static GLFWwindow* spWindow;
@@ -52,5 +55,5 @@ private:
 	static std::vector<unsigned int> sShaderProgramID;
 	static unsigned int sCurrentShader;
 
+	static bool toggle;
 };
-
