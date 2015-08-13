@@ -8,7 +8,7 @@ using namespace std;
 Asteroid::Asteroid(vec3 position, int textureID) : SphereModel(textureID), lifeTime(0.0f) {
     // @TODO: update model mPosition based on transformations so it can be retrieved via mPosition easily
     this->mPosition = position; //+= vec3(model->GetWorldMatrix()[3]);
-    this->mVelocity = vec3(2.0f, 2.0f, 2.0f); // temporary solution to give ellipse shape pointed towards the direction that it is shooting
+    this->velocity = vec3(2.0f, 2.0f, 2.0f); // temporary solution to give ellipse shape pointed towards the direction that it is shooting
     this->lifeTime = 50;
 }
 
@@ -17,6 +17,7 @@ Asteroid::~Asteroid() {
 
 void Asteroid::Update(float deltaTime) {
     //position
+
     vec3 worldOrigin = vec3(0.0f, 0.0f, 0.0f);
     vec3 currentPosition = this->GetPosition();
     vec3 difference = currentPosition - worldOrigin;
@@ -31,10 +32,6 @@ void Asteroid::Update(float deltaTime) {
 
 void Asteroid::Draw(){
     SphereModel::Draw();
-}
-
-void Asteroid::setVelocity(vec3 velocity) {
-    this->mVelocity = velocity;
 }
 
 ParticleSystem* Asteroid::getParticleSystem() {

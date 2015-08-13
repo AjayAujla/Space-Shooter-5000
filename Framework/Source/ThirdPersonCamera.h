@@ -10,13 +10,12 @@
 
 #include "Camera.h"
 #include "Model.h"
-#include <GLFW/glfw3.h>
-
 
 class ThirdPersonCamera : public Camera
 {
 public:
-	ThirdPersonCamera(glm::vec3 position, Model *m, float radius);
+	ThirdPersonCamera(glm::vec3 position, Model* m, float radius);
+	ThirdPersonCamera(glm::vec3 position, Model *m);
 	virtual ~ThirdPersonCamera();
 
 	virtual void Update(float dt);
@@ -25,7 +24,10 @@ public:
 
 	void SetTargetModel(Model* m);
 	void SetRadius(float r);
-	
+
+	void SetCinematic(bool c){ toggleCinematic = c; }
+	void SetCinematicRadius(float r){ mCinematicRadius = r; }
+
 private:
 	glm::vec3 mPosition;	
 	float mHorizontalAngle; // horizontal angle
@@ -37,6 +39,9 @@ private:
 	float mSpeed;			// World units per second
 	float mAngularSpeed;    // Degrees per pixel
 
-	glm::vec3 mLookAt;
+	bool toggleCinematic;
+	float mCinematicRadius;
+	float mCurrentTime; 
 
+	glm::vec3 mLookAt;
 };

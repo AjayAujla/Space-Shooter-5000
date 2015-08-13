@@ -22,6 +22,9 @@ public:
     
     void Update(float dt);
     void Draw();
+
+	std::vector<Asteroid*> getAsteroidList() {return this->mAsteroidList;}
+
     
 private:
     ParticleDescriptor* mpDescriptor;

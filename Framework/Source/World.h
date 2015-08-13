@@ -15,6 +15,10 @@
 #include "Spaceship.h"
 #include <vector>
 #include "Skybox.h"
+#include "SphereModel.h"
+#include "ParticleDescriptor.h"
+#include "ParticleEmitter.h"
+#include "ParticleSystem.h"
 
 class Camera;
 class Model;
@@ -55,6 +59,12 @@ private:
     AsteroidSystem* mAsteroidSystem;
 	unsigned int mCurrentCamera;
     BillboardList* mpBillboardList;
+	bool collide(Model* m1, Model* m2);
+	ParticleSystem* particleSystem;
+	ParticleEmitter* emitter;
+	ParticleDescriptor* desc;
+	SphereModel* sphere1;
+	SphereModel* sphere2;
 	
 	Skybox* skybox;
 	Spaceship* spaceship;
