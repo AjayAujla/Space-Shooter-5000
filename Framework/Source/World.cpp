@@ -246,7 +246,7 @@ void World::Update(float dt)
 	vector<Asteroid*> asteroidContainer = mAsteroidSystem->getAsteroidList();
 	
 	for (int i = 0; i < projectileContainer.size(); ++i) {
-		if (projectileContainer[i]->outOfRange) continue;
+		if (!projectileContainer[i]->IsActive()) continue;
 		
 		//for (int j = i+1; j < projectileContainer.size(); ++j) {
 			//collide(projectileContainer[i],projectileContainer[j]);

@@ -30,7 +30,7 @@ void Spaceship::Update(float deltaTime) {
 void Spaceship::Draw() {
 	CubeModel::Draw();
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
-		if(!(*it)->outOfRange && !(*it)->collided) {
+		if((*it)->isActive) {
 			(*it)->Draw();
 		}
 	}
@@ -47,7 +47,7 @@ void Spaceship::shoot(vec3 cameraLookAtVector) {
 			int textureID = TextureLoader::LoadTexture("../Assets/Textures/projectileTexture.jpg");
 		#endif
 		this->projectileContainer.push_back(new Projectile(this, cameraLookAtVector, textureID));
-		this->projectileContainer.back()->fired = true;
+		this->projectileContainer.back()->isActive = true;
 	}
 	/*
 	if(this->projectileContainer.size() >= this->maximumCapacity) {
@@ -59,7 +59,7 @@ void Spaceship::shoot(vec3 cameraLookAtVector) {
 
 void Spaceship::clearProjectiles() {
 	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
-		if((*it)->outOfRange || (*it)->collided) {
+		if(!(*it)->isActive) {
 			this->projectileContainer.erase(remove(this->projectileContainer.begin(), this->projectileContainer.end(), (*it)), this->projectileContainer.end());
 		}
 	}

@@ -7,9 +7,17 @@ using namespace std;
 
 #include <glm/ext.hpp>
 
-Projectile::Projectile(Model* model, vec3 cameraLookAtVector, int textureID) : SphereModel(textureID), timeFired(0.0f), lifeTime(0.0f), fired(false), collided(false), outOfRange(false) {
+Projectile::Projectile(Model* model, vec3 cameraLookAtVector, int textureID) : SphereModel(textureID), timeFired(0.0f), time(0.0f), lifetime(5.0f), isActive(false) {
 	this->parent = model;
 	this->mPosition = model->GetPosition();
+	this->velocity = cameraLookAtVector * 20.0f; // trajectory
+	this->mScaling = vec3(0.5f, 0.5f, 0.5f);
+	this->mass = 0.5f;
+}
+
+Projectile::Projectile(Model* model, vec3 cameraLookAtVector, vec3 relativePosition, int textureID) : SphereModel(textureID), timeFired(0.0f), time(0.0f), lifetime(5.0f), isActive(false) {
+	this->parent = model;
+	this->mPosition = model->GetPosition() + relativePosition;
 	this->velocity = cameraLookAtVector * 20.0f; // trajectory
 	this->mScaling = vec3(0.5f, 0.5f, 0.5f);
 	this->mass = 0.5f;
@@ -19,37 +27,17 @@ Projectile::~Projectile() {
 	
 }
 
-bool Projectile::isCollided() {
-	return this->collided;
-}
-
-void Projectile::setCollided(bool collided) {
-	this->collided = collided;
-}
-
-void Projectile::Update(float deltaTime) {
-	Model::Update(deltaTime);
-	
-	/*if(this->outOfRange || this->collided) {
-		delete this;
-	}*/
-	if(this->fired) {
-		this->move(deltaTime);
+void Projectile::Update(float dt) {
+	if (isActive){
+		Model::Update(dt);
+		time += dt;
+		if (time > lifetime) isActive = false;
 	}
 }
 
 void Projectile::Draw(){
-	if(this->fired) {
-		SphereModel::Draw();
-	}
+	if(isActive) SphereModel::Draw();
 }
 
-void Projectile::move(float deltaTime) {
-	//this->mPosition += this->velocity * deltaTime;
+//void Projectile::MakeActive(Model* model, vec3 cameraLookAtVector, vec3 relativePosition, int textureID){}
 
-	// optional. without life time, the bullets continue on thier trajectory
-	this->lifeTime += deltaTime;
-	if(this->lifeTime >= 5.0f) {
-		this->outOfRange = true;
-	}
-}
