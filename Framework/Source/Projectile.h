@@ -23,18 +23,16 @@ public:
 
 	bool isCollided();
 	void setCollided(bool collided);
-
+	
+	bool outOfRange;
 private:
 	Model* parent;
-
-	vec3 velocity;
 	
 	float timeFired;
 	float lifeTime;
 
 	bool fired;
 	bool collided;
-	bool outOfRange;
 	
 	int textureID;
 };

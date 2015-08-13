@@ -14,6 +14,7 @@
 #include <vector>
 
 #include <GLM/glm.hpp>
+using namespace glm;
 
 class Animation;
 class ParticleSystem;
@@ -41,6 +42,14 @@ public:
 	float     GetRotationAngle() const	{ return mRotationAngleInDegrees; }
     ci_string GetName()                 { return mName; }
 
+	void SetMass(float mass) {this->mass = mass;}
+	void SetVelocity(vec3 velocity) {this->velocity = velocity;}
+	void SetRadius(float radius) {this->radius = radius;}
+
+	float GetMass() {return this->mass;}
+	vec3 GetVelocity() {return this->velocity;}
+	float GetRadius() {return this->radius;}
+
 protected:
 	virtual bool ParseLine(const std::vector<ci_string> &token) = 0;
 
@@ -49,6 +58,10 @@ protected:
 	glm::vec3 mScaling;
 	glm::vec3 mRotationAxis;
 	float     mRotationAngleInDegrees;
+	
+	float mass;
+	vec3 velocity;
+	float radius;
 
     // Makes the model follow a list of Animation Keys so it's world transform changes over time
     Animation* mAnimation;

@@ -180,15 +180,6 @@
     <None Include="..\Assets\Shaders\SolidColor.vertexshader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="..\Assets\Scenes\CoordinateSystem.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
-    <None Include="..\Assets\Scenes\AnimatedScene.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
-    <None Include="..\Assets\Scenes\StaticScene.scene">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
     <None Include="..\Assets\Scenes\AnimatedSceneWithParticles.scene">
       <Filter>Resource Files\Scenes</Filter>
     </None>

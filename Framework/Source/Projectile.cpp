@@ -12,6 +12,7 @@ Projectile::Projectile(Model* model, vec3 cameraLookAtVector, int textureID) : S
 	this->mPosition = model->GetPosition();
 	this->velocity = cameraLookAtVector * 20.0f; // trajectory
 	this->mScaling = vec3(0.5f, 0.5f, 0.5f);
+	this->mass = 0.5f;
 }
 
 Projectile::~Projectile() {
@@ -44,13 +45,11 @@ void Projectile::Draw(){
 }
 
 void Projectile::move(float deltaTime) {
-	this->mPosition += this->velocity * deltaTime;
+	//this->mPosition += this->velocity * deltaTime;
 
 	// optional. without life time, the bullets continue on thier trajectory
-	/*
 	this->lifeTime += deltaTime;
 	if(this->lifeTime >= 5.0f) {
 		this->outOfRange = true;
 	}
-	*/
 }

@@ -21,7 +21,7 @@ using namespace glm;
 
 Model::Model() 
 : mName("UNNAMED"), mPosition(0.0f, 0.0f, 0.0f), mScaling(1.0f, 1.0f, 1.0f), mRotationAxis(0.0f, 1.0f, 0.0f),
-  mRotationAngleInDegrees(0.0f), mAnimation(nullptr), mParticleSystem(nullptr)
+  mRotationAngleInDegrees(0.0f), mAnimation(nullptr), mParticleSystem(nullptr), mass(1.0f), velocity(vec3(0.0f, 0.0f, 0.0f)), radius(2.0f)
 {
 }
 
@@ -36,6 +36,7 @@ Model::~Model()
 
 void Model::Update(float dt)
 {
+	mPosition += velocity * dt;
 }
 
 void Model::Draw()
