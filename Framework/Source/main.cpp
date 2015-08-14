@@ -30,9 +30,9 @@ int main(int argc, char*argv[])
 		// Static Scene contains no animation
 		// Animated Scene does
 #if defined(PLATFORM_OSX)		
-		world.LoadScene("Scenes/AnimatedSceneWithParticles.scene");
+		world.LoadScene("Scenes/SolarSystemScene.scene");
 #else
-		world.LoadScene("../Assets/Scenes/AnimatedSceneWithParticles.scene");
+		world.LoadScene("../Assets/Scenes/SolarSystemScene.scene");
 #endif
 	}
 

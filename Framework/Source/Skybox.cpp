@@ -133,6 +133,13 @@ void Skybox::Draw() {
 	
 	glActiveTexture(GL_TEXTURE0);
     glEnable(GL_TEXTURE_CUBE_MAP);
+	
+	GLint previousCullFaceMode;
+	glGetIntegerv(GL_CULL_FACE_MODE, &previousCullFaceMode);
+	GLint previousDepthFunctionMode;
+	glGetIntegerv(GL_DEPTH_FUNC, &previousDepthFunctionMode);
+	glCullFace(GL_FRONT);
+	glDepthFunc(GL_LEQUAL);
 
 	int skyboxTextureIDs[6] = {this->skyboxPositiveXID, this->skyboxNegativeXID, this->skyboxPositiveYID, this->skyboxNegativeYID, this->skyboxPositiveZID, this->skyboxNegativeZID};
 
@@ -156,7 +163,12 @@ void Skybox::Draw() {
 	GLuint textureLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "cubemapTexture");
 	glUniform1i(textureLocation, 0);
 	const Camera* currentCamera = World::GetInstance()->GetCurrentCamera();
-	mat4 VP = currentCamera->GetViewProjectionMatrix();
+	mat4 V = currentCamera->GetViewMatrix();
+	V[3].x = 0;
+	V[3].y = 0;
+	V[3].z = 0;
+	mat4 P = currentCamera->GetProjectionMatrix();
+	mat4 VP = P * V;
 	GLuint VPMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "ViewProjectionTransform");
 	glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &VP[0][0]);
 	GLuint WorldMatrixLocation = glGetUniformLocation(Renderer::GetShaderProgramID(), "WorldTransform"); 
@@ -220,5 +232,9 @@ void Skybox::Draw() {
 	glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices: 3 * 2 * 6 (3 per triangle, 2 triangles per face, 6 faces)
 	glDisableVertexAttribArray(0);
 
+	glCullFace(previousCullFaceMode);
+	glDepthFunc(previousDepthFunctionMode);
+    glDisable(GL_TEXTURE_CUBE_MAP);
+	
 	Renderer::SetShader(oldShader);
 }
