@@ -33,6 +33,10 @@
 		03FE4ED41B2FA1210020F06F /* Scenes in CopyFiles */ = {isa = PBXBuildFile; fileRef = 03FE4ED21B2FA1010020F06F /* Scenes */; };
 		03FE4ED51B2FA1210020F06F /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 03FE4ED31B2FA1010020F06F /* Shaders */; };
 		03FE4ED81B2FA9830020F06F /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03FE4ED61B2FA9830020F06F /* Animation.cpp */; };
+		194D09531B7D86DD00B6D8B2 /* Asteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D094D1B7D86DD00B6D8B2 /* Asteroid.cpp */; };
+		194D09541B7D86DD00B6D8B2 /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D094F1B7D86DD00B6D8B2 /* Skybox.cpp */; };
+		194D09551B7D86DD00B6D8B2 /* Spaceship.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D09511B7D86DD00B6D8B2 /* Spaceship.cpp */; };
+		194D09581B7D870500B6D8B2 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D09561B7D870500B6D8B2 /* Projectile.cpp */; };
 		198B803C1B6DFED500A56CDE /* ThirdPersonCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198B803A1B6DFED500A56CDE /* ThirdPersonCamera.cpp */; };
 		198B803F1B6DFFAE00A56CDE /* AsteroidSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */; };
 /* End PBXBuildFile section */
@@ -97,6 +101,14 @@
 		03FE4ED31B2FA1010020F06F /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Shaders; path = ../Assets/Shaders; sourceTree = "<group>"; };
 		03FE4ED61B2FA9830020F06F /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		03FE4ED71B2FA9830020F06F /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		194D094D1B7D86DD00B6D8B2 /* Asteroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Asteroid.cpp; sourceTree = "<group>"; };
+		194D094E1B7D86DD00B6D8B2 /* Asteroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Asteroid.h; sourceTree = "<group>"; };
+		194D094F1B7D86DD00B6D8B2 /* Skybox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Skybox.cpp; sourceTree = "<group>"; };
+		194D09501B7D86DD00B6D8B2 /* Skybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skybox.h; sourceTree = "<group>"; };
+		194D09511B7D86DD00B6D8B2 /* Spaceship.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spaceship.cpp; sourceTree = "<group>"; };
+		194D09521B7D86DD00B6D8B2 /* Spaceship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spaceship.h; sourceTree = "<group>"; };
+		194D09561B7D870500B6D8B2 /* Projectile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projectile.cpp; sourceTree = "<group>"; };
+		194D09571B7D870500B6D8B2 /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
 		198B803A1B6DFED500A56CDE /* ThirdPersonCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThirdPersonCamera.cpp; sourceTree = "<group>"; };
 		198B803B1B6DFED500A56CDE /* ThirdPersonCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPersonCamera.h; sourceTree = "<group>"; };
 		198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsteroidSystem.cpp; sourceTree = "<group>"; };
@@ -175,6 +187,14 @@
 				03FE4ED71B2FA9830020F06F /* Animation.h */,
 				039EC67E1B4DAFBD0061B0B7 /* Billboard.cpp */,
 				039EC67F1B4DAFBD0061B0B7 /* Billboard.h */,
+				194D094D1B7D86DD00B6D8B2 /* Asteroid.cpp */,
+				194D094E1B7D86DD00B6D8B2 /* Asteroid.h */,
+				194D094F1B7D86DD00B6D8B2 /* Skybox.cpp */,
+				194D09561B7D870500B6D8B2 /* Projectile.cpp */,
+				194D09571B7D870500B6D8B2 /* Projectile.h */,
+				194D09501B7D86DD00B6D8B2 /* Skybox.h */,
+				194D09511B7D86DD00B6D8B2 /* Spaceship.cpp */,
+				194D09521B7D86DD00B6D8B2 /* Spaceship.h */,
 				03FE4E951B2F8D990020F06F /* Camera.cpp */,
 				03FE4E961B2F8D990020F06F /* Camera.h */,
 				03FE4E971B2F8D990020F06F /* CubeModel.cpp */,
@@ -264,9 +284,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				194D09581B7D870500B6D8B2 /* Projectile.cpp in Sources */,
 				03FE4EB41B2F8D990020F06F /* StaticCamera.cpp in Sources */,
 				039EC6801B4DAFBD0061B0B7 /* Billboard.cpp in Sources */,
 				03FE4EAD1B2F8D990020F06F /* EventManager.cpp in Sources */,
+				194D09541B7D86DD00B6D8B2 /* Skybox.cpp in Sources */,
 				03FE4EB31B2F8D990020F06F /* SphereModel.cpp in Sources */,
 				198B803C1B6DFED500A56CDE /* ThirdPersonCamera.cpp in Sources */,
 				039EC6871B4DAFD90061B0B7 /* ParticleDescriptor.cpp in Sources */,
@@ -276,11 +298,13 @@
 				198B803F1B6DFFAE00A56CDE /* AsteroidSystem.cpp in Sources */,
 				039EC6891B4DAFD90061B0B7 /* ParticleSystem.cpp in Sources */,
 				03FE4EB51B2F8D990020F06F /* World.cpp in Sources */,
+				194D09551B7D86DD00B6D8B2 /* Spaceship.cpp in Sources */,
 				039EC68C1B4DAFEA0061B0B7 /* TextureLoader.cpp in Sources */,
 				03FE4EB21B2F8D990020F06F /* Renderer.cpp in Sources */,
 				03FE4EB01B2F8D990020F06F /* Model.cpp in Sources */,
 				03FE4EAF1B2F8D990020F06F /* main.cpp in Sources */,
 				03FE4EAB1B2F8D990020F06F /* Camera.cpp in Sources */,
+				194D09531B7D86DD00B6D8B2 /* Asteroid.cpp in Sources */,
 				03FE4ED81B2FA9830020F06F /* Animation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
