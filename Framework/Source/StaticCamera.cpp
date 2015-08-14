@@ -27,6 +27,8 @@ StaticCamera::~StaticCamera()
 void StaticCamera::Update(float dt)
 {
 	EventManager::EnableMouseCursor();
+
+	glfwSetScrollCallback(EventManager::GetWindow(), scrollCallBack);
 }
 
 glm::mat4 StaticCamera::GetViewMatrix() const

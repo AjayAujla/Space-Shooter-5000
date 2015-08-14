@@ -52,6 +52,6 @@ key      = "KeyCycle8"  time = 14.0f
 key      = "KeyCycle1"  time = 16.0f
 
 [Sphere]
-name     = "Sphere"
+name     = "Moon"
 position = 10.0 2.0 0.0
 animation = "CycleAnim"
