@@ -11,9 +11,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/common.hpp>
 
-Planet::Planet(float offset, int textureID) : SphereModel(textureID) {
+Planet::Planet(vec3 position, int textureID) : SphereModel(textureID) {
 
-    this->mPosition = vec3(offset);
+    this->mPosition = position;
 
     this->mRotationAxis = vec3(0.0f, 1.0f, 0.0f);
     

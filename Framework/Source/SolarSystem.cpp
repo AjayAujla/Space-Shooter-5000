@@ -36,15 +36,17 @@ SolarSystem::SolarSystem()
     int sunTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/sun.jpg");
 #endif
     
-    Planet* mercury = new Planet(5, mercuryTextureID);
-    Planet* venus = new Planet(10, venusTextureID);
-    Planet* earth = new Planet(15, earthTextureID);
-    Planet* mars = new Planet(20, marsTextureID);
-    Planet* jupiter = new Planet(25, jupiterTextureID);
-    Planet* saturn = new Planet(30, saturnTextureID);
-    Planet* uranus = new Planet(35, uranusTextureID);
-    Planet* neptune = new Planet(40, neptuneTextureID);
-    Planet* pluto = new Planet(45, plutoTextureID);
+    vec3 offset = vec3(4.0f);
+    
+    Planet* mercury = new Planet(offset, mercuryTextureID);
+    Planet* venus = new Planet(mercury->GetPosition() + offset, venusTextureID);
+    Planet* earth = new Planet(venus->GetPosition() + offset, earthTextureID);
+    Planet* mars = new Planet(earth->GetPosition() + offset, marsTextureID);
+    Planet* jupiter = new Planet(mars->GetPosition() + offset, jupiterTextureID);
+    Planet* saturn = new Planet(jupiter->GetPosition() + offset, saturnTextureID);
+    Planet* uranus = new Planet(saturn->GetPosition() + offset, uranusTextureID);
+    Planet* neptune = new Planet(uranus->GetPosition() + offset, neptuneTextureID);
+    Planet* pluto = new Planet(neptune->GetPosition() + offset, plutoTextureID);
     
     sun = new SphereModel(sunTextureID);
     sun->SetScaling(vec3(5));

@@ -12,7 +12,7 @@ class Planet : public SphereModel {
     
 public:
 
-    Planet(float offset, int textureID);
+    Planet(vec3 position, int textureID);
     virtual ~Planet();
     
     virtual void Update(float deltaTime);
@@ -21,9 +21,6 @@ public:
 private:
     
     float currentAngle;
-    float offset; // distance from the sun
-                 // the sun being in the center of universe
-    
     vec3 acceleration;
     
 };
