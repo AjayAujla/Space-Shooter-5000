@@ -20,8 +20,10 @@ public:
     
 private:
     
-    vec3 axis;  // center of universe (sun)
+    float currentAngle;
     float offset; // distance from the sun
                  // the sun being in the center of universe
+    
+    vec3 acceleration;
     
 };

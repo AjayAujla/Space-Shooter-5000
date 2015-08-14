@@ -22,6 +22,7 @@ SolarSystem::SolarSystem()
     int uranusTextureID = TextureLoader::LoadTexture("Textures/planets/uranus.jpg");
     int neptuneTextureID = TextureLoader::LoadTexture("Textures/planets/neptune.jpg");
     int plutoTextureID = TextureLoader::LoadTexture("Textures/planets/pluto.jpg");
+    int sunTextureID = TextureLoader::LoadTexture("Textures/planets/sun.jpg");
 #else
     int mercuryTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/mercury.jpg");
     int venusTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/venus.jpg");
@@ -32,6 +33,7 @@ SolarSystem::SolarSystem()
     int uranusTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/uranus.jpg");
     int neptuneTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/neptune.jpg");
     int plutoTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/pluto.jpg");
+    int sunTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/sun.jpg");
 #endif
     
     Planet* mercury = new Planet(5, mercuryTextureID);
@@ -43,6 +45,9 @@ SolarSystem::SolarSystem()
     Planet* uranus = new Planet(35, uranusTextureID);
     Planet* neptune = new Planet(40, neptuneTextureID);
     Planet* pluto = new Planet(45, plutoTextureID);
+    
+    sun = new SphereModel(sunTextureID);
+    sun->SetScaling(vec3(5));
     
     mPlanets.push_back(mercury);
     mPlanets.push_back(venus);
@@ -70,10 +75,13 @@ void SolarSystem::Update(float dt) {
         p->Update(dt);
     }
     
+    sun->Update(dt);
+    
 }
 
 void SolarSystem::Draw() {
     for(Planet* p : mPlanets) {
         p->Draw();
     }
+//    sun->Draw();
 }

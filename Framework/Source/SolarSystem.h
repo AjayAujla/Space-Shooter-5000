@@ -24,5 +24,6 @@ public:
 private:
     
     std::vector<Planet*> mPlanets;
+    SphereModel* sun;
     
 };

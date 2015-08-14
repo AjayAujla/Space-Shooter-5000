@@ -8,19 +8,40 @@
 
 #include "Planet.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/common.hpp>
+
 Planet::Planet(float offset, int textureID) : SphereModel(textureID) {
 
     this->mPosition = vec3(offset);
 
-    this->axis = vec3(0, 1, 0);
+    this->mRotationAxis = vec3(0.0f, 1.0f, 0.0f);
+    
+    this->currentAngle = 0.0f;
+    
+    this->velocity = vec3(5.0f, 0.0f, 5.0f);    // no velocity in y axis
+    this->acceleration = vec3(5.0f, 0.0f, 5.0f);
 }
 
 Planet::~Planet() {
 }
 
-void Planet::Update(float deltaTime) {
+void Planet::Update(float dt) {
     // rotate around sun using rotate() function
-    std::cout << "Planet drawned!" << std::endl;
+    if(currentAngle >= 360)
+        currentAngle = 0;
+
+    mat4 rotationMatrix = rotate(mat4(1.0f), ++currentAngle, this->mRotationAxis);
+    
+    this->velocity = vec3(rotationMatrix * vec4(this->velocity, 1.0f));
+    
+    //position
+    this->mPosition += this->velocity * dt + 0.5f*dt*dt; // x_final = x_initial + v * t + 0.5 * a * t^2
+    std::cout << this->mPosition.x << ", " << this->mPosition.z << ", " <<this->mPosition.z << std::endl;
+    
+    // for debugging
+//    if(this->mPosition.x > 100)
+//        this->mPosition = vec3(0);
     
 }
 
