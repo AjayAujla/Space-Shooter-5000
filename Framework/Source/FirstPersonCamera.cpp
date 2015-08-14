@@ -90,6 +90,7 @@ void FirstPersonCamera::Update(float dt)
 	{
 		mPosition -= sideVector * dt * mSpeed;
 	}
+	glfwSetScrollCallback(EventManager::GetWindow(), scrollCallBack);
 }
 
 glm::mat4 FirstPersonCamera::GetViewMatrix() const

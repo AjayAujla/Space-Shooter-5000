@@ -126,7 +126,7 @@ void ThirdPersonCamera::Update(float dt)
 		mPosition = mTargetModel->GetPosition() + ellipsePosition;
 		mLookAt = normalize(mTargetModel->GetPosition() - mPosition);
 	}
-
+	glfwSetScrollCallback(EventManager::GetWindow(), scrollCallBack);
 }
 
 glm::mat4 ThirdPersonCamera::GetViewMatrix() const
