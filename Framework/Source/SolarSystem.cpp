@@ -38,15 +38,17 @@ SolarSystem::SolarSystem()
     
     vec3 offset = vec3(4.0f);
     
-    Planet* mercury = new Planet(offset, mercuryTextureID);
-    Planet* venus = new Planet(mercury->GetPosition() + offset, venusTextureID);
-    Planet* earth = new Planet(venus->GetPosition() + offset, earthTextureID);
-    Planet* mars = new Planet(earth->GetPosition() + offset, marsTextureID);
-    Planet* jupiter = new Planet(mars->GetPosition() + offset, jupiterTextureID);
-    Planet* saturn = new Planet(jupiter->GetPosition() + offset, saturnTextureID);
-    Planet* uranus = new Planet(saturn->GetPosition() + offset, uranusTextureID);
-    Planet* neptune = new Planet(uranus->GetPosition() + offset, neptuneTextureID);
-    Planet* pluto = new Planet(neptune->GetPosition() + offset, plutoTextureID);
+    // this is the real order of the planets, DO NOT CHANGE!
+    // the mass (3rd argument) is relatively correct, DO NOT CHANGE!
+    Planet* mercury = new Planet(vec3(10.0f), mercuryTextureID, 20.0f);
+    Planet* venus = new Planet(mercury->GetPosition() + offset, venusTextureID, 40.0f);
+    Planet* earth = new Planet(venus->GetPosition() + offset, earthTextureID, 50.0f);
+    Planet* mars = new Planet(earth->GetPosition() + offset, marsTextureID, 30.0f);
+    Planet* jupiter = new Planet(mars->GetPosition() + offset, jupiterTextureID, 90.0f);
+    Planet* saturn = new Planet(jupiter->GetPosition() + offset, saturnTextureID, 80.0f);
+    Planet* uranus = new Planet(saturn->GetPosition() + offset, uranusTextureID, 60.0f);
+    Planet* neptune = new Planet(uranus->GetPosition() + offset, neptuneTextureID, 70.0f);
+    Planet* pluto = new Planet(neptune->GetPosition() + offset, plutoTextureID, 10.0f);
     
     sun = new SphereModel(sunTextureID);
     sun->SetScaling(vec3(5));
@@ -69,6 +71,7 @@ SolarSystem::~SolarSystem() {
         delete *it;
     }
     mPlanets.resize(0);
+    delete sun;
 }
 
 void SolarSystem::Update(float dt) {
@@ -76,7 +79,6 @@ void SolarSystem::Update(float dt) {
     for(Planet* p : mPlanets) {
         p->Update(dt);
     }
-    
     sun->Update(dt);
     
 }
@@ -85,5 +87,5 @@ void SolarSystem::Draw() {
     for(Planet* p : mPlanets) {
         p->Draw();
     }
-//    sun->Draw();
+    sun->Draw();
 }

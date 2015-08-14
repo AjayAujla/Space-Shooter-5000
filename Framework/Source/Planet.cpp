@@ -7,41 +7,28 @@
 //
 
 #include "Planet.h"
+#include "EventManager.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/common.hpp>
 
-Planet::Planet(vec3 position, int textureID) : SphereModel(textureID) {
+Planet::Planet(vec3 position, int textureID, float mass) : SphereModel(textureID) {
 
     this->mPosition = position;
-
-    this->mRotationAxis = vec3(0.0f, 1.0f, 0.0f);
+    this->mass = mass;
     
-    this->currentAngle = 0.0f;
-    
-    this->velocity = vec3(5.0f, 0.0f, 5.0f);    // no velocity in y axis
-    this->acceleration = vec3(5.0f, 0.0f, 5.0f);
 }
 
 Planet::~Planet() {
 }
 
 void Planet::Update(float dt) {
-    // rotate around sun using rotate() function
-    if(currentAngle >= 360)
-        currentAngle = 0;
-
-    mat4 rotationMatrix = rotate(mat4(1.0f), ++currentAngle, this->mRotationAxis);
     
-    this->velocity = vec3(rotationMatrix * vec4(this->velocity, 1.0f));
+    float angle =dt/this->mass*10;
     
-    //position
-    this->mPosition += this->velocity * dt + 0.5f*dt*dt; // x_final = x_initial + v * t + 0.5 * a * t^2
-    std::cout << this->mPosition.x << ", " << this->mPosition.z << ", " <<this->mPosition.z << std::endl;
-    
-    // for debugging
-//    if(this->mPosition.x > 100)
-//        this->mPosition = vec3(0);
+    this->mPosition.x = this->mPosition.x*cos(angle) - this->mPosition.z*sin(angle);
+    this->mPosition.y = 0;
+    this->mPosition.z = this->mPosition.x*sin(angle) + this->mPosition.z*cos(angle);
     
 }
 

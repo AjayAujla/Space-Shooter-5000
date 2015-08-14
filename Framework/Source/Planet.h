@@ -12,15 +12,12 @@ class Planet : public SphereModel {
     
 public:
 
-    Planet(vec3 position, int textureID);
+    Planet(vec3 position, int textureID, float mass);
     virtual ~Planet();
     
     virtual void Update(float deltaTime);
     virtual void Draw();
     
 private:
-    
-    float currentAngle;
-    vec3 acceleration;
     
 };
