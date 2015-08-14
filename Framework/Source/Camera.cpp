@@ -7,8 +7,6 @@
 // Copyright (c) 2014-2015 Concordia University. All rights reserved.
 //
 
-#pragma once
-
 #include "Camera.h"
 #include "FirstPersonCamera.h"
 #include <GLM/gtx/transform.hpp>

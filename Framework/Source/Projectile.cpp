@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Projectile.h"
 #include "TextureLoader.h"
 #include <iostream>

@@ -38,6 +38,7 @@
 		194D09551B7D86DD00B6D8B2 /* Spaceship.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D09511B7D86DD00B6D8B2 /* Spaceship.cpp */; };
 		194D09581B7D870500B6D8B2 /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D09561B7D870500B6D8B2 /* Projectile.cpp */; };
 		194D095B1B7D890400B6D8B2 /* SolarSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D09591B7D890400B6D8B2 /* SolarSystem.cpp */; };
+		194D095E1B7D8BCC00B6D8B2 /* Planet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 194D095C1B7D8BCC00B6D8B2 /* Planet.cpp */; };
 		198B803C1B6DFED500A56CDE /* ThirdPersonCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198B803A1B6DFED500A56CDE /* ThirdPersonCamera.cpp */; };
 		198B803F1B6DFFAE00A56CDE /* AsteroidSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */; };
 /* End PBXBuildFile section */
@@ -112,6 +113,8 @@
 		194D09571B7D870500B6D8B2 /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
 		194D09591B7D890400B6D8B2 /* SolarSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SolarSystem.cpp; sourceTree = "<group>"; };
 		194D095A1B7D890400B6D8B2 /* SolarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SolarSystem.h; sourceTree = "<group>"; };
+		194D095C1B7D8BCC00B6D8B2 /* Planet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Planet.cpp; sourceTree = "<group>"; };
+		194D095D1B7D8BCC00B6D8B2 /* Planet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Planet.h; sourceTree = "<group>"; };
 		198B803A1B6DFED500A56CDE /* ThirdPersonCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThirdPersonCamera.cpp; sourceTree = "<group>"; };
 		198B803B1B6DFED500A56CDE /* ThirdPersonCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdPersonCamera.h; sourceTree = "<group>"; };
 		198B803D1B6DFFAE00A56CDE /* AsteroidSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsteroidSystem.cpp; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 				03FE4EAA1B2F8D990020F06F /* World.h */,
 				194D09591B7D890400B6D8B2 /* SolarSystem.cpp */,
 				194D095A1B7D890400B6D8B2 /* SolarSystem.h */,
+				194D095C1B7D8BCC00B6D8B2 /* Planet.cpp */,
+				194D095D1B7D8BCC00B6D8B2 /* Planet.h */,
 			);
 			name = Source;
 			path = ../Source;
@@ -304,6 +309,7 @@
 				198B803F1B6DFFAE00A56CDE /* AsteroidSystem.cpp in Sources */,
 				039EC6891B4DAFD90061B0B7 /* ParticleSystem.cpp in Sources */,
 				03FE4EB51B2F8D990020F06F /* World.cpp in Sources */,
+				194D095E1B7D8BCC00B6D8B2 /* Planet.cpp in Sources */,
 				194D09551B7D86DD00B6D8B2 /* Spaceship.cpp in Sources */,
 				039EC68C1B4DAFEA0061B0B7 /* TextureLoader.cpp in Sources */,
 				03FE4EB21B2F8D990020F06F /* Renderer.cpp in Sources */,

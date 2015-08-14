@@ -6,13 +6,9 @@
 //  Copyright (c) 2015 Concordia. All rights reserved.
 //
 
-#ifndef __COMP371_Framework__SolarSystem__
-#define __COMP371_Framework__SolarSystem__
+#include "Planet.h"
 
-#include <stdio.h>
-#include "SphereModel.h"
-
-#endif /* defined(__COMP371_Framework__SolarSystem__) */
+class Planet;
 
 class SolarSystem
 {
@@ -27,7 +23,6 @@ public:
     
 private:
     
-    SphereModel* sun;
-    std::vector<SphereModel*> mPlanets;
+    std::vector<Planet*> mPlanets;
     
 };
