@@ -65,7 +65,7 @@ AsteroidSystem::~AsteroidSystem()
 void AsteroidSystem::Update(float dt)
 {
     // Emit particle according to the emission rate
-    float averageTimeBetweenEmission = 10.0f / mpDescriptor->emissionRate;
+    float averageTimeBetweenEmission = 30.0f / mpDescriptor->emissionRate;
     float randomValue = EventManager::GetRandomFloat(0.0f, 1.0f) * averageTimeBetweenEmission;
     
     while (mInactiveAsteroids.size() > 0 && randomValue < dt)
