@@ -19,6 +19,7 @@
 #include "ParticleDescriptor.h"
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
+#include "SolarSystem.h"
 
 class Camera;
 class Model;
@@ -26,6 +27,7 @@ class Animation;
 class AnimationKey;
 class ParticleSystem;
 class AsteroidSystem;
+class SolarSystem;
 
 class World
 {
@@ -57,6 +59,7 @@ private:
     std::vector<Camera*> mCamera;
     std::vector<ParticleSystem*> mParticleSystemList;
     AsteroidSystem* mAsteroidSystem;
+    SolarSystem* mSolarSystem;
     unsigned int mCurrentCamera;
     BillboardList* mpBillboardList;
     bool collide(Model* m1, Model* m2);
