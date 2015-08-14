@@ -18,8 +18,8 @@ ParticleDescriptor::ParticleDescriptor()
 
 void ParticleDescriptor::SetFountainDescriptor()
 {
-	velocity = vec3(0.0f, 17.0f, 0.0f);
-	velocityDeltaAngle = 15;
+	velocity = vec3(0.0f, 4.0f, 0.0f);
+	velocityDeltaAngle = 90;
 
 	acceleration = vec3(0.0f, -7.0f, 0.0f);
 
