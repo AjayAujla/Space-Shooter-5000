@@ -33,6 +33,14 @@ using namespace glm;
 
 World* World::instance;
 
+//Muzzle Flash initializations.
+bool IsMuzzleFlashEmitted = false; // need the check, so that you don't emit particles multiple times.
+bool FirstTimeShooting = true; // it crashes otherwise.
+bool SmokeParticleDestroyedOnRelease = true;
+float SmokeTimer = 0.0f;
+float EnemyShotTimer = 0.0f;
+float FrameDeltaTime = 1.0f / 60.0f;
+
 World::World()
 {
     instance = this;
@@ -41,6 +49,12 @@ World::World()
 	this->spaceship = new Spaceship();
 	this->spaceship->SetScaling(vec3(1.0f, 1.0f, 1.0f));
 	mModel.push_back(this->spaceship);
+
+	//setup enemy spaceship 1
+	this->enemySpaceship1 = new Spaceship();
+	this->enemySpaceship1->SetPosition(vec3(7.0f, 7.0f, 7.0f));
+	this->enemySpaceship1->SetVelocity(vec3(-3.0f, 0.0f, 0.0f));
+	mModel.push_back(this->enemySpaceship1);
 
 	//setup sphere model 1
 	#if defined(PLATFORM_OSX)
@@ -241,12 +255,89 @@ void World::Update(float dt)
 	}
 
 	// Left mouse button projectiles in camera lookAt vector direction
-	if(glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+	// Also incorporates the muzzle flash to the spaceship
+	if (glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
 		mat4 viewMatrix = mCamera[mCurrentCamera]->GetViewMatrix();
 		vec3 cameraLookAtVector = -normalize(vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]));
-		
+
 		this->spaceship->shoot(cameraLookAtVector);
+
+		if (!IsMuzzleFlashEmitted)
+		{
+
+			if (!FirstTimeShooting && !SmokeParticleDestroyedOnRelease)
+			{
+				this->particleSystem->~ParticleSystem();
+				RemoveParticleSystem(this->particleSystem);
+			}
+
+			SmokeTimer = 0.0f;
+			SmokeParticleDestroyedOnRelease = false;
+
+
+			this->emitter = new ParticleEmitter(vec3(2.0f, 0.0f, 0.0f), this->spaceship);
+			this->desc = new ParticleDescriptor();
+
+			desc->SetFountainDescriptor();
+
+			this->particleSystem = new ParticleSystem(emitter, desc);
+			AddParticleSystem(this->particleSystem);
+
+			IsMuzzleFlashEmitted = true;
+
+			if (FirstTimeShooting)
+			{
+				FirstTimeShooting = false;
+			}
+		}
 	}
+
+	if (glfwGetMouseButton(EventManager::GetWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE) {
+
+		if (IsMuzzleFlashEmitted)
+		{
+			this->particleSystem->~ParticleSystem();
+			RemoveParticleSystem(this->particleSystem);
+
+			this->emitter = new ParticleEmitter(vec3(2.0f, 0.0f, 0.0f), this->spaceship);
+			this->desc = new ParticleDescriptor();
+
+			desc->SetFireDescriptor();
+
+			this->particleSystem = new ParticleSystem(emitter, desc);
+			AddParticleSystem(this->particleSystem);
+
+			IsMuzzleFlashEmitted = false;
+		}
+
+		SmokeTimer = SmokeTimer + FrameDeltaTime;
+
+		if ((SmokeTimer >= 1.5f) && !SmokeParticleDestroyedOnRelease)
+		{
+			this->particleSystem->~ParticleSystem();
+			RemoveParticleSystem(this->particleSystem);
+
+			SmokeParticleDestroyedOnRelease = true;
+		}
+	}
+
+
+	// Timer for enemy spaceship to automatically shoot, and in the direction of the spaceship.
+
+	EnemyShotTimer = EnemyShotTimer + FrameDeltaTime;
+
+	if (mod(EnemyShotTimer, 2.0f) >= 1.5f)
+	{
+		this->enemySpaceship1->shoot((this->spaceship->GetPosition() - this->enemySpaceship1->GetPosition()));
+	}
+
+	// Make the enemy spaceship move in a certain pattern
+
+	if ((this->enemySpaceship1->GetPosition().x <= -7.0f) || (this->enemySpaceship1->GetPosition().x >= 7.0f))
+	{
+		this->enemySpaceship1->SetVelocity(-1.0f * this->enemySpaceship1->GetVelocity());
+	}
+
 
 	//Collision Detection
 	vector<Projectile*> projectileContainer = this->spaceship->getProjectileContainer();

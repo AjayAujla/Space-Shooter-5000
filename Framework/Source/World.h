@@ -68,4 +68,5 @@ private:
 	
 	Skybox* skybox;
 	Spaceship* spaceship;
+	Spaceship* enemySpaceship1;
 };
