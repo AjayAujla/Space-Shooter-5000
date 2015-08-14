@@ -223,7 +223,7 @@ void World::Update(float dt)
         (*it)->Update(dt);
     }
     
-    mAsteroidSystem->Update(dt);
+//    mAsteroidSystem->Update(dt);
 
     mpBillboardList->Update(dt);
 
@@ -365,7 +365,7 @@ void World::Draw()
 		(*it)->Draw();
 	}
 
-	mAsteroidSystem->Draw();
+//	mAsteroidSystem->Draw();
 
 	// Draw Path Lines
 	
