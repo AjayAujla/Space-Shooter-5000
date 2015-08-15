@@ -24,16 +24,16 @@ SolarSystem::SolarSystem()
     int plutoTextureID = TextureLoader::LoadTexture("Textures/planets/pluto.jpg");
     int sunTextureID = TextureLoader::LoadTexture("Textures/planets/sun.jpg");
 #else
-    int mercuryTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/mercury.jpg");
-    int venusTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/venus.jpg");
-    int earthTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/earth.jpg");
-    int marsTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/mars.jpg");
-    int jupiterTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/jupiter.jpg");
-    int saturnTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/saturn.jpg");
-    int uranusTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/uranus.jpg");
-    int neptuneTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/neptune.jpg");
-    int plutoTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/pluto.jpg");
-    int sunTextureID = TextureLoader::LoadTexture("../Assets/planets/Textures/planets/sun.jpg");
+    int mercuryTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/mercury.jpg");
+    int venusTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/venus.jpg");
+    int earthTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/earth.jpg");
+    int marsTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/mars.jpg");
+    int jupiterTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/jupiter.jpg");
+    int saturnTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/saturn.jpg");
+    int uranusTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/uranus.jpg");
+    int neptuneTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/neptune.jpg");
+    int plutoTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/pluto.jpg");
+    int sunTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/sun.jpg");
 #endif
     
     vec3 offset = vec3(4.0f);
@@ -62,7 +62,6 @@ SolarSystem::SolarSystem()
     mPlanets.push_back(uranus);
     mPlanets.push_back(neptune);
     mPlanets.push_back(pluto);
-    
 }
 
 SolarSystem::~SolarSystem() {
