@@ -58,9 +58,9 @@ void Spaceship::shoot(vec3 cameraLookAtVector) {
 }
 
 void Spaceship::clearProjectiles() {
-	for(vector<Projectile*>::iterator it = this->projectileContainer.begin(); it != this->projectileContainer.end(); ++it) {
-		if((*it) != nullptr && !(*it)->isActive) {
-			this->projectileContainer.erase(remove(this->projectileContainer.begin(), this->projectileContainer.end(), (*it)), this->projectileContainer.end());
+    for(Projectile* p : projectileContainer) {
+		if(p != nullptr && !p->isActive) {
+			this->projectileContainer.erase(remove(this->projectileContainer.begin(), this->projectileContainer.end(), p), this->projectileContainer.end());
 		}
 	}
 
