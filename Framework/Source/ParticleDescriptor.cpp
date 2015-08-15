@@ -73,8 +73,8 @@ void ParticleDescriptor::SetAsteroidDescriptor()
     
     sizeGrowthVelocity = vec2(-2.4f, -2.4f);
     
-    initialColor = vec4(0.0f, 0.0f, 1.0f, 0.2f);
-    midColor = vec4(0.0f, 1.0f, 1.0f, 1.0f);
+    initialColor = vec4(1.0f, 1.0f, 1.0f, 0.5f);
+    midColor = vec4(1.0f, 1.0f, 1.0f, 0.5f);
     endColor = vec4(1.0f, 1.0f, 1.0f, 0.5f);
     
     emissionRate = 25.0f;
