@@ -79,7 +79,7 @@ void AsteroidSystem::Update(float dt)
         newAsteroid->SetPosition(mpEmitter->GetAsteroidRandomPosition());
         
         // giving random size to asteroids
-		float randomSize = mpEmitter->GetRandomFloat(1, 3);
+		float randomSize = mpEmitter->GetRandomFloat(0.5, 1.5);
 		newAsteroid->SetScaling(vec3(randomSize));
 
         mpEmitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), newAsteroid);
@@ -104,14 +104,10 @@ void AsteroidSystem::Update(float dt)
         // TODO: modify so that asteroid dies if:
         // 1: asteroid has been shot x times and has no more lives
         // 2: asteroid has reached World origin vec3(0.0f, 0.0f, 0.0f)
-        if (a->GetPosition().x >= -2.0f && a->GetPosition().x <= 2.0f)
+        if (abs(a->GetPosition().x - a->getTarget().x) <= 2.0f || a->getLifeTime() <= dt)
         {
-            std::cout << a->GetPosition().x << " has been destroyed." << std::endl;
-            
             mInactiveAsteroids.push_back(a);
-            
             delete a->getParticleSystem();
-            
             it = mAsteroidList.erase(it);
         }
         else
