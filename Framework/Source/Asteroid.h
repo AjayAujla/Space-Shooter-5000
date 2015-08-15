@@ -20,11 +20,14 @@ public:
     
     ParticleSystem* getParticleSystem();
     void setParticleSystem(ParticleSystem* ps);
+    float getLifeTime();
+    vec3 getTarget();
     
 private:
     float lifeTime;
     
     ParticleSystem* mParticleSystem;
+    vec3 target;
     
     float bSpline(float t);
     
