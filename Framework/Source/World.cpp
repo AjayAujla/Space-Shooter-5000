@@ -112,6 +112,7 @@ World::World()
     mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
     mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
     mCamera.push_back(new StaticCamera(vec3(0.5f,  0.5f, 5.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
+    mCamera.push_back(new StaticCamera(vec3(0.0f,  50.0f, 0.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
     mCurrentCamera = 0;
     
 #if defined(PLATFORM_OSX)
@@ -198,22 +199,24 @@ void World::Update(float dt)
         {
             mCurrentCamera = 3;
         }
+    } else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_5 ) == GLFW_PRESS)
+    {
+        if (mCamera.size() > 4)
+        {
+            mCurrentCamera = 4;
+        }
+    } else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_6 ) == GLFW_PRESS)
+    {
+        if (mCamera.size() > 5)
+        {
+            mCurrentCamera = 5;
+        }
     }
     
     // R to reset camera field of view
     if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_R ) == GLFW_PRESS)
     {
         mCamera[mCurrentCamera]->fieldOfView = 45.0f;
-    }
-    
-    // 0 9 to change the shader
-    if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_0 ) == GLFW_PRESS)
-    {
-        Renderer::SetShader(SHADER_SOLID_COLOR);
-    }
-    else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_9 ) == GLFW_PRESS)
-    {
-        Renderer::SetShader(SHADER_BLUE);
     }
     
     // Update animation and keys
@@ -341,13 +344,14 @@ void World::Update(float dt)
     
     //Collision Detection
     vector<Projectile*> projectileContainer = this->spaceship->getProjectileContainer();
+    vector<Projectile*> enemyProjectileContainer = this->enemySpaceship1->getProjectileContainer();
     vector<Asteroid*> asteroidContainer = mAsteroidSystem->getAsteroidList();
     
     for (int i = 0; i < projectileContainer.size(); ++i) {
         if (!projectileContainer[i]->IsActive()) continue;
         
-        //for (int j = i+1; j < projectileContainer.size(); ++j) {
-        //collide(projectileContainer[i],projectileContainer[j]);
+        //for (int j = 0; j < projectileContainer.size(); ++j) {
+        //collide(projectileContainer[i], enemyProjectileContainer[j]);
         //}
         
         for (int j = 1; j < this->mModel.size(); ++j) {
