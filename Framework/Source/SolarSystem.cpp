@@ -36,7 +36,7 @@ SolarSystem::SolarSystem()
     int sunTextureID = TextureLoader::LoadTexture("../Assets/Textures/planets/sun.jpg");
 #endif
     
-    vec3 offset = vec3(4.0f);
+    vec3 offset = vec3(6.0f);
     
     // this is the real order of the planets, DO NOT CHANGE!
     // the mass (3rd argument) is relatively correct, DO NOT CHANGE!
@@ -48,7 +48,18 @@ SolarSystem::SolarSystem()
     Planet* saturn = new Planet(jupiter->GetPosition() + offset, saturnTextureID, 80.0f);
     Planet* uranus = new Planet(saturn->GetPosition() + offset, uranusTextureID, 60.0f);
     Planet* neptune = new Planet(uranus->GetPosition() + offset, neptuneTextureID, 70.0f);
-    Planet* pluto = new Planet(neptune->GetPosition() + offset, plutoTextureID, 10.0f);
+    Planet* pluto = new Planet(neptune->GetPosition() + offset, plutoTextureID, 20.0f);
+    
+    // their size is relatively correct, DO NOT CHANGE!
+    pluto->SetScaling(vec3(0.4f));
+    mercury->SetScaling(vec3(0.6f));
+    mars->SetScaling(vec3(0.8f));
+    venus->SetScaling(vec3(1.0f));
+    earth->SetScaling(vec3(1.2f));
+    neptune->SetScaling(vec3(2.0f));
+    uranus->SetScaling(vec3(2.2f));
+    saturn->SetScaling(vec3(3.0f));
+    jupiter->SetScaling(vec3(3.5f));
     
     sun = new SphereModel(sunTextureID);
     sun->SetScaling(vec3(5));
