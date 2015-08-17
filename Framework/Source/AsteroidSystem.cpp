@@ -24,12 +24,12 @@ AsteroidSystem::AsteroidSystem(ParticleEmitter* emitter, ParticleDescriptor* des
     assert(mpDescriptor != nullptr);
     assert(mpEmitter != nullptr);
     
-	#if defined(PLATFORM_OSX)
-		int textureID = TextureLoader::LoadTexture("Textures/asteroidTexture.jpg");
-	#else
-		int textureID = TextureLoader::LoadTexture("../Assets/Textures/asteroidTexture.jpg");
-	#endif
-
+#if defined(PLATFORM_OSX)
+    int textureID = TextureLoader::LoadTexture("Textures/asteroidTexture.jpg");
+#else
+    int textureID = TextureLoader::LoadTexture("../Assets/Textures/asteroidTexture.jpg");
+#endif
+    
     // Update Event Manager - Frame time / input / events processing
     
     // Pre-allocate the maximum number of particles at a give time, according to
@@ -39,7 +39,7 @@ AsteroidSystem::AsteroidSystem(ParticleEmitter* emitter, ParticleDescriptor* des
     mInactiveAsteroids.resize(maxAsteroids);
     for (std::vector<Asteroid*>::iterator it = mInactiveAsteroids.begin(); it != mInactiveAsteroids.end(); ++it)
     {
-		*it = new Asteroid(mpEmitter->GetAsteroidRandomPosition(), textureID);
+        *it = new Asteroid(mpEmitter->GetAsteroidRandomPosition(), textureID);
     }
     
 }
@@ -76,36 +76,23 @@ void AsteroidSystem::Update(float dt)
         mAsteroidList.push_back(newAsteroid);
         mInactiveAsteroids.pop_back();
         
-		newAsteroid->SetActive(true);
         newAsteroid->SetPosition(mpEmitter->GetAsteroidRandomPosition());
         
         // giving random size to asteroids
-		float randomSize = mpEmitter->GetRandomFloat(1, 3);
-		newAsteroid->SetScaling(vec3(randomSize));
-
-        mpEmitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), newAsteroid);
+        float randomSize = mpEmitter->GetRandomFloat(0.5, 1.5);
+        newAsteroid->SetScaling(vec3(randomSize));
         
-		mpDescriptor = new ParticleDescriptor();
-		mpDescriptor->setInitialSize(vec2(randomSize));
+        mpEmitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f), newAsteroid);
+        mpDescriptor = new ParticleDescriptor();
+        
+        mpDescriptor->setInitialSize(vec2(randomSize));
+        
         mpDescriptor->SetAsteroidDescriptor();
         
         
         ParticleSystem* ps = new ParticleSystem(mpEmitter, mpDescriptor);
         
         newAsteroid->setParticleSystem(ps);
-		//set velocity in random direction in semisphere facing origin from starting position
-		vec3 newVel = -newAsteroid->GetPosition();
-		//get rotation axis with cross product
-		vec3 any = vec3(1.0f,0.0f,0.0f);
-		if (normalize(any) == normalize(newVel)) any = vec3(0.0f, 0.0f, 1.0f);
-		newVel = EventManager::GetRandomFloat(0.5f, 2.0f)
-			*normalize(vec3(
-			glm::rotate(mat4(1.0f), EventManager::GetRandomFloat(0.0f, 360.0f), newVel)
-			*glm::rotate(mat4(1.0f), EventManager::GetRandomFloat(0.0f, 180.0f), cross(any,newVel))
-			*vec4(newVel,0.0f)
-			));
-
-		newAsteroid->SetVelocity(newVel);
     }
     
     for (std::vector<Asteroid*>::iterator it = mAsteroidList.begin(); it != mAsteroidList.end(); )
@@ -117,26 +104,10 @@ void AsteroidSystem::Update(float dt)
         // TODO: modify so that asteroid dies if:
         // 1: asteroid has been shot x times and has no more lives
         // 2: asteroid has reached World origin vec3(0.0f, 0.0f, 0.0f)
-		if (!a->isActive()){
-			//I (Simon) copied stuff below to destroy asteroid. Please change if required at some point
-			std::cout << "Asteroid has been inActivated due to time." << std::endl;
-
-			mInactiveAsteroids.push_back(a);
-
-			delete a->getParticleSystem();
-
-			it = mAsteroidList.erase(it);
-		}
-		else{ ++it; }
-		//Currently leaving this condition as well
-        if (a->GetPosition().x >= -2.0f && a->GetPosition().x <= 2.0f)
+        if (abs(a->GetPosition().x - a->getTarget().x) <= 2.0f || a->getLifeTime() <= dt)
         {
-            std::cout << a->GetPosition().x << "Asteroid hasd been inactivated due to position (close to origin)." << std::endl;
-            
             mInactiveAsteroids.push_back(a);
-            
             delete a->getParticleSystem();
-            
             it = mAsteroidList.erase(it);
         }
         else

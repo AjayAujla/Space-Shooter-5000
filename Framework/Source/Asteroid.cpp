@@ -1,36 +1,32 @@
 #include "Asteroid.h"
+#include "EventManager.h"
 #include <iostream>
 using namespace std;
 
 #include <glm/ext.hpp>
 #include <GL/glew.h>
 
-Asteroid::Asteroid(vec3 position, int textureID) : SphereModel(textureID), lifeTime(10.0f), mTime(0.0f), active(false) {
-    this->mPosition = position; //+= vec3(model->GetWorldMatrix()[3]);
-	//velocity set by callers since Asteroids are re-used
+Asteroid::Asteroid(vec3 position, int textureID) : SphereModel(textureID), lifeTime(0.0f) {
+    // @TODO: update model mPosition based on transformations so it can be retrieved via mPosition easily
+    this->mPosition = position;
+    this->velocity = vec3(2.0f, 2.0f, 2.0f);
+    this->lifeTime = 50;
+    
+    float randomTargetX = EventManager::GetRandomFloat(-30.0f, 30.0f);
+    float randomTargetY = EventManager::GetRandomFloat(-30.0f, 30.0f);
+    float randomTargetZ = EventManager::GetRandomFloat(-30.0f, 30.0f);
+    this->target = vec3(randomTargetX, randomTargetY, randomTargetZ);
 }
 
 Asteroid::~Asteroid() {
 }
 
 void Asteroid::Update(float deltaTime) {
-	//call model update to move according to velocity. update velocity as necessary first
-	mTime += deltaTime;
-	Model::Update(deltaTime);
-
-	if (mTime >= lifeTime) active = false;
-
-	//Simon Commented out below to work with Models now
-	//move position towards origin
-    //vec3 worldOrigin = vec3(0.0f, 0.0f, 0.0f);
-    //vec3 currentPosition = this->GetPosition();
-    //vec3 difference = currentPosition - worldOrigin;
     
-    //this->mPosition -= difference * deltaTime;
-//        float p = bSpline(deltaTime);
-//    this->SetPosition(vec3(p,p,p));
+    vec3 currentPosition = this->GetPosition();
+    vec3 difference = currentPosition - this->target;
     
-    //    difference = currentPosition - vec3(finalPosition, 1);
+    this->mPosition -= difference * deltaTime;
     
 }
 
@@ -56,4 +52,12 @@ float Asteroid::bSpline(float t) {
     float y = pow(t, 3) - 6*pow(t, 2) + 11*t + 6;
     
     return y;
+}
+
+float Asteroid::getLifeTime() {
+    return this->lifeTime;
+}
+
+vec3 Asteroid::getTarget() {
+    return this->target;
 }
