@@ -73,7 +73,11 @@ void ThirdPersonCamera::Update(float dt)
 	glm::normalize(sideVector);
 
 	mCurrentTime += dt;
-	if (mCurrentTime > 10 * 3.14159265358979323846) mCurrentTime = 0;//loop at 10pi
+	if (mCurrentTime > 4 * 3.14159265358979323846){//loop at 4pi (2 rotations) 
+		mCurrentTime = 0; 
+
+		//should generate new ellipse here (after each set of 2 rotations?)
+	}
 
 	
 

@@ -50,6 +50,8 @@ public:
 	vec3 GetVelocity() {return this->velocity;}
 	float GetRadius() {return this->radius;}
 
+	void CollisionReaction();
+
 protected:
 	virtual bool ParseLine(const std::vector<ci_string> &token) = 0;
 

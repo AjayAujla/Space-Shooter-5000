@@ -51,6 +51,7 @@ SolarSystem::SolarSystem()
     Planet* pluto = new Planet(neptune->GetPosition() + offset, plutoTextureID, 10.0f);
     
     sun = new SphereModel(sunTextureID);
+	sun->SetMass(10000.0f);
     sun->SetScaling(vec3(5));
     
     mPlanets.push_back(mercury);

@@ -20,10 +20,16 @@ public:
     
     ParticleSystem* getParticleSystem();
     void setParticleSystem(ParticleSystem* ps);
+
+	bool isActive(){ return active; }
+	void SetActive(bool a){ active = a; }
     
 private:
     float lifeTime;
-    
+	float mTime;
+
+	bool active;
+
     ParticleSystem* mParticleSystem;
     
     float bSpline(float t);

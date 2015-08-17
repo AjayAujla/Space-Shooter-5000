@@ -21,8 +21,9 @@ using namespace glm;
 
 Model::Model() 
 : mName("UNNAMED"), mPosition(0.0f, 0.0f, 0.0f), mScaling(1.0f, 1.0f, 1.0f), mRotationAxis(0.0f, 1.0f, 0.0f),
-  mRotationAngleInDegrees(0.0f), mAnimation(nullptr), mParticleSystem(nullptr), mass(1.0f), velocity(vec3(0.0f, 0.0f, 0.0f)), radius(2.0f)
+  mRotationAngleInDegrees(0.0f), mAnimation(nullptr), mParticleSystem(nullptr), mass(1.0f), velocity(vec3(0.0f, 0.0f, 0.0f))
 {
+	radius = glm::max(glm::max(mScaling.x, mScaling.y), mScaling.z);
 }
 
 Model::~Model()
@@ -180,10 +181,16 @@ void Model::SetPosition(glm::vec3 position)
 void Model::SetScaling(glm::vec3 scaling)
 {
 	mScaling = scaling;
+	radius = glm::max(glm::max(mScaling.x, mScaling.y), mScaling.z);
+
 }
 
 void Model::SetRotation(glm::vec3 axis, float angleDegrees)
 {
 	mRotationAxis = axis;
 	mRotationAngleInDegrees = angleDegrees;
+}
+
+void Model::CollisionReaction(){
+	//do nothing here. for extensions which would like to react upon collisions
 }

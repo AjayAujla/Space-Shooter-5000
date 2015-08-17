@@ -87,10 +87,12 @@ void ParticleSystem::Update(float dt)
 		//          360 degrees about the original velocity vector
 		
 
-		//TODO SIMON FIX THE HARDCODING
+		//Simon: Fixed the issue
 		//1
 		float randomVelocityRotationDegrees = EventManager::GetRandomFloat(0.0f, 1.0f) * this->mpDescriptor->velocityDeltaAngle;
-		vec3 normalToVelocityVector = cross(vec3(0.5, 0.5, 0.5), newParticle->velocity);
+		vec3 any = vec3(0.5f, 0.5f, 0.5f);
+		if (normalize(any) == normalize(newParticle->velocity))any = vec3(0.0, 0.0, 1.0f);
+		vec3 normalToVelocityVector = cross(any, newParticle->velocity);
 		mat4 rotationMatrix = rotate(mat4(1.0f), randomVelocityRotationDegrees, normalToVelocityVector);
 		newParticle->velocity = vec3(rotationMatrix * vec4(newParticle->velocity, 0.0f));
 

@@ -53,6 +53,7 @@ World::World()
     this->enemySpaceship1 = new Spaceship();
     this->enemySpaceship1->SetPosition(vec3(7.0f, 7.0f, 7.0f));
     this->enemySpaceship1->SetVelocity(vec3(-3.0f, 0.0f, 0.0f));
+	this->enemySpaceship1->SetMaxCapacity(10);
     mModel.push_back(this->enemySpaceship1);
     
     //setup sphere model 1
@@ -129,7 +130,7 @@ World::World()
     
     ParticleEmitter* emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
     
-    mAsteroidSystem = new AsteroidSystem(emitter, asteroidDescriptor);
+    //mAsteroidSystem = new AsteroidSystem(emitter, asteroidDescriptor);
     mSolarSystem = new SolarSystem();
 }
 
@@ -247,7 +248,7 @@ void World::Update(float dt)
         (*it)->Update(dt);
     }
     
-    mAsteroidSystem->Update(dt);
+    //mAsteroidSystem->Update(dt);
     mSolarSystem->Update(dt);
     mpBillboardList->Update(dt);
     
@@ -331,7 +332,7 @@ void World::Update(float dt)
     
     if (mod(EnemyShotTimer, 2.0f) >= 1.5f)
     {
-        this->enemySpaceship1->shoot((this->spaceship->GetPosition() - this->enemySpaceship1->GetPosition()));
+        //this->enemySpaceship1->shoot((this->spaceship->GetPosition() - this->enemySpaceship1->GetPosition()));
     }
     
     // Make the enemy spaceship move in a certain pattern
@@ -345,7 +346,7 @@ void World::Update(float dt)
     //Collision Detection
     vector<Projectile*> projectileContainer = this->spaceship->getProjectileContainer();
     vector<Projectile*> enemyProjectileContainer = this->enemySpaceship1->getProjectileContainer();
-    vector<Asteroid*> asteroidContainer = mAsteroidSystem->getAsteroidList();
+    //vector<Asteroid*> asteroidContainer = mAsteroidSystem->getAsteroidList();
     
     for (int i = 0; i < projectileContainer.size(); ++i) {
         if (!projectileContainer[i]->IsActive()) continue;
@@ -357,17 +358,17 @@ void World::Update(float dt)
         for (int j = 1; j < this->mModel.size(); ++j) {
             collide(projectileContainer[i],mModel[j]);
         }
-        for (int j = 1; j < asteroidContainer.size(); ++j) {
-            collide(projectileContainer[i],asteroidContainer[j]);
-        }
+        //for (int j = 1; j < asteroidContainer.size(); ++j) {
+        //    collide(projectileContainer[i],asteroidContainer[j]);
+        //}
     }
     for (int i = 0; i<mModel.size();++i){
         for (int j=i+1; j<mModel.size();++j){
             collide(mModel[i],mModel[j]);
         }
-        for (int j = 1; j < asteroidContainer.size(); ++j) {
-            collide(mModel[i],asteroidContainer[j]);
-        }
+        //for (int j = 1; j < asteroidContainer.size(); ++j) {
+        //    collide(mModel[i],asteroidContainer[j]);
+        //}
     }
     //end collision detection
     
@@ -379,15 +380,57 @@ bool World::collide(Model* m1, Model* m2){
     vec3 p1 = m1->GetPosition();
     vec3 p2 = m2->GetPosition();
     vec3 dp = p2-p1;
+	float r1 = m1->GetRadius();
+	float r2 = m2->GetRadius();
     float norm2 = dp.x*dp.x+dp.y*dp.y+dp.z*dp.z;
-    if(norm2 <= m1->GetRadius() + m2->GetRadius()){
+    if(norm2 <= r1 + r2){
         //there was a collision, update velocities
+
+		//get velocities
+		vec3 v1 = m1->GetVelocity();
+		vec3 v2 = m2->GetVelocity();
+		//change reference to second object not moving
+		v1 = v1 - v2;
         
+		//set up variables to make formula for final velocities easier to view
+		float a = m1->GetMass();
+		float b = m2->GetMass();
+		float c = v1.x*v1.x + v1.y*v1.y + v1.z*v1.z;
+		float d = v1.x;
+		float e = v1.y;
+		float f = v1.z;
+		vec3 v2fDir = (p2 - p1) / (r2 + r1);
+		float g = v2fDir.x;
+		float h = v2fDir.y;
+		float j = v2fDir.z;
+
+		//solve system for v2f x component
+		float v2fx = (glm::sqrt(pow((2.0f*a*b*d*g*g+2.0f*a*b*e*g*h+2.0f*a*b*f*g*j),2)+4.0f*(a*b*g*g+a*b*h*h+a*b*j*j+b*b*g*g+b*b*h*h+b*b*j*j)*(a*a*c*g*g-a*a*d*d*g*g-a*a*e*e*g*g-a*a*f*f*g*g))-2.0f*a*b*d*g*g-2*a*b*e*g*h-2*a*b*f*g*j)/(-2.0f*(a*b*g*g+a*b*h*h+a*b*j*j+b*b*g*g+b*b*h*h+b*b*j*j));
+		float v2fy = v2fx*h / g;
+		float v2fz = v2fx*j / g;
+
+		vec3 v2f = vec3(v2fx,v2fy,v2fz);
+
+		float v1fx = d-b/a*v2fx;
+		float v1fy = e-b/a*v2fy;
+		float v1fz = f-b/a*v2fz;
+
+		vec3 v1f = vec3(v1fx, v1fy, v1fz);
+
+		//return to original frame of reference
+		v1f += v2;
+		v2f += v2;
+
         //cout << "there was a collision" << endl;
-        //TODO
-        m2->SetVelocity(m2->GetVelocity() + 0.5f * m1->GetVelocity());
-        m1->SetVelocity(-1.0f * m1->GetVelocity());
         
+        m1->SetVelocity(v1f);
+        m2->SetVelocity(v2f);
+        
+		//Might want to pull this out of here and put it just after the collide() call depending on what type of objects collided
+		//this will simply do it for all collisions
+		m1->CollisionReaction();
+		m2->CollisionReaction();
+
         return true;
     }
     //no collision
@@ -467,7 +510,7 @@ void World::Draw()
         (*it)->Draw();
     }
     
-    mAsteroidSystem->Draw();
+    //mAsteroidSystem->Draw();
     mSolarSystem->Draw();
     
     // Draw Path Lines
