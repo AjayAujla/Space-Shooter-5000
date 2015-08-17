@@ -130,7 +130,7 @@ World::World()
 
 	ParticleEmitter* emitter = new ParticleEmitter(vec3(0.0f, 0.0f, 0.0f));
 
-	//mAsteroidSystem = new AsteroidSystem(emitter, asteroidDescriptor);
+	mAsteroidSystem = new AsteroidSystem(emitter, asteroidDescriptor);
 	mSolarSystem = new SolarSystem();
 }
 
@@ -251,7 +251,7 @@ void World::Update(float dt)
 		(*it)->Update(dt);
 	}
 
-	//mAsteroidSystem->Update(dt);
+	mAsteroidSystem->Update(dt);
 	mSolarSystem->Update(dt);
 	mpBillboardList->Update(dt);
 
@@ -513,7 +513,7 @@ void World::Draw()
 		(*it)->Draw();
 	}
 
-	//mAsteroidSystem->Draw();
+	mAsteroidSystem->Draw();
 	mSolarSystem->Draw();
 
 	// Draw Path Lines
