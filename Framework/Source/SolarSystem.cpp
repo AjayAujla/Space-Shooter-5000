@@ -53,6 +53,7 @@ SolarSystem::SolarSystem()
 	sun = new SphereModel(sunTextureID);
 	sun->SetMass(10000.0f);
 	sun->SetScaling(vec3(5));
+	//sun->SetRadius(10);
 
 	mPlanets.push_back(mercury);
 	mPlanets.push_back(venus);

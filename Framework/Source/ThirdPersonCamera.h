@@ -28,6 +28,7 @@ public:
 	void SetCinematic(bool c){ toggleCinematic = c; }
 	void SetCinematicRadius(float r){ mCinematicRadius = r; }
 	//void SetSolarSystem(SolarSystem* sys){ solarSystem = sys; }
+	void SetFirstEllipse(){ firstEllipse = true; }
 
 private:
 	glm::vec3 mPosition;	

@@ -39,6 +39,7 @@ bool SmokeParticleDestroyedOnRelease = true;
 float SmokeTimer = 0.0f;
 float EnemyShotTimer = 0.0f;
 float FrameDeltaTime = 1.0f / 60.0f;
+ThirdPersonCamera* thirdCam;
 
 World::World()
 {
@@ -105,10 +106,10 @@ World::World()
 	// Setup Camera
 	mCamera.push_back(new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), this->spaceship, 5.0f));
 
-	ThirdPersonCamera* newCam = new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), spaceship);
-	newCam->SetCinematic(true);
-	newCam->SetCinematicRadius(6.0f);
-	mCamera.push_back(newCam);
+	thirdCam = new ThirdPersonCamera(vec3(3.0f, 1.0f, 5.0f), spaceship);
+	thirdCam->SetCinematic(true);
+	thirdCam->SetCinematicRadius(6.0f);
+	mCamera.push_back(thirdCam);
 
 	mCamera.push_back(new FirstPersonCamera(vec3(3.0f, 1.0f, 5.0f)));
 	mCamera.push_back(new StaticCamera(vec3(3.0f, 30.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)));
@@ -186,6 +187,7 @@ void World::Update(float dt)
 		if (mCamera.size() > 1)
 		{
 			mCurrentCamera = 1;
+			thirdCam->SetFirstEllipse();
 		}
 	}
 	else if (glfwGetKey(EventManager::GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
@@ -361,6 +363,7 @@ void World::Update(float dt)
 		for (int j = 1; j < this->mModel.size(); ++j) {
 			collide(projectileContainer[i], mModel[j]);
 		}
+		collide(projectileContainer[i], mSolarSystem->GetSun());
 		//for (int j = 1; j < asteroidContainer.size(); ++j) {
 		//    collide(projectileContainer[i],asteroidContainer[j]);
 		//}
