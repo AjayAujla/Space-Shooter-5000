@@ -49,6 +49,9 @@ void Spaceship::shoot(vec3 cameraLookAtVector) {
 		this->projectileContainer.push_back(new Projectile(this, cameraLookAtVector, textureID));
 		this->projectileContainer.back()->isActive = true;
 	}
+	else{
+		cout << "can't shoot, max capacity reached." << endl;
+	}
 	/*
 	if(this->projectileContainer.size() >= this->maximumCapacity) {
 		this->projectileContainer.front()->outOfRange = true;

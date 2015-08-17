@@ -19,6 +19,8 @@ public:
 	void shoot(vec3 cameraLookAtVector);
 	void clearProjectiles();
 
+	void SetMaxCapacity(int max){ maximumCapacity = max; }
+
 	vector<Projectile*> getProjectileContainer() {return this->projectileContainer;}
 
 private:

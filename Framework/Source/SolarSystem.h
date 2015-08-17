@@ -8,8 +8,6 @@
 
 #include "Planet.h"
 
-class Planet;
-
 class SolarSystem
 {
 
@@ -20,6 +18,9 @@ public:
     
     void Update(float dt);
     void Draw();
+
+	std::vector<Planet*> GetPlanets(){return mPlanets;}
+	SphereModel* GetSun(){ return sun; }
     
 private:
     
