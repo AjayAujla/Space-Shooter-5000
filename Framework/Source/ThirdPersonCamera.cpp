@@ -17,12 +17,13 @@
 
 
 using namespace glm;
+using namespace std;
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m, float radius) : Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), toggleCinematic(false), mCinematicRadius(3), mCurrentTime(0.0f), mRadius(radius)
+ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m, float radius) : Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), toggleCinematic(false), mCinematicRadius(3), mCurrentTime(100.0f), mRadius(radius), numRotationsTillNewCurve(2), aRange(1.0f), bRange(1.0f), cRange(1.0f), firstEllipse(true)
 {
 }
 
-ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m) :  Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), toggleCinematic(false), mCinematicRadius(3), mCurrentTime(0.0f)
+ThirdPersonCamera::ThirdPersonCamera(glm::vec3 position, Model* m) : Camera(), mPosition(position), mTargetModel(m), mLookAt(0.0f, 0.0f, -1.0f), mHorizontalAngle(90.0f), mVerticalAngle(0.0f), mSpeed(5.0f), mAngularSpeed(2.5f), toggleCinematic(false), mCinematicRadius(3), mCurrentTime(100.0f), numRotationsTillNewCurve(2), aRange(1.0f), bRange(1.0f), cRange(1.0f), firstEllipse(true)
 {
 }
 
@@ -40,6 +41,8 @@ void ThirdPersonCamera::SetRadius(float r){
 
 void ThirdPersonCamera::Update(float dt)
 {
+	//note that this currently ignore the velocity of the parent model, so no collisions with the main character
+
 	// Prevent from having the camera move only when the cursor is within the windows
 	EventManager::DisableMouseCursor();
 
@@ -73,10 +76,82 @@ void ThirdPersonCamera::Update(float dt)
 	glm::normalize(sideVector);
 
 	mCurrentTime += dt;
-	if (mCurrentTime > 4 * 3.14159265358979323846){//loop at 4pi (2 rotations) 
+	if (mCurrentTime > numRotationsTillNewCurve * 3.14159265358979323846){//loop at t=2*pi*rotations 
 		mCurrentTime = 0; 
+		cout << "generating new ellipse" << endl;
+		//should generate new ellipse here
+		bool curveIsGood = false;
+		//ellipse variables
+		vec3 ptm;//point to match
+		if(!firstEllipse) vec3 ptm = center + vec3(
+			a*mCinematicRadius*cos(phase),
+			-c,
+			b*mCinematicRadius*sin(phase)
+			);
+		while (!curveIsGood){
+			//generate curve
+			center.x = EventManager::GetRandomFloat(0.0f, mCinematicRadius) - 0.5f*mCinematicRadius;
+			center.y = 0.0f;
+			center.z = EventManager::GetRandomFloat(0.0f,mCinematicRadius) - 0.5f*mCinematicRadius;
+			ptm -= center;
+			//if (!firstEllipse){
+			//	a = EventManager::GetRandomFloat(1.0f, 1.0f + aRange) + center.x;
+			//	phase = acos(ptm.x / a / mCinematicRadius);
+			//	b = ptm.z / mCinematicRadius / sin(phase);
+			//}
+			//else{
+				a = EventManager::GetRandomFloat(1.0f, 1.0f + aRange);
+				phase = 0.0f;
+				b = EventManager::GetRandomFloat(1.0f, 1.0f + bRange);
+			//}
+			c = EventManager::GetRandomFloat(1.0f, 1.0f + cRange);
+			baseR = mCinematicRadius;
 
-		//should generate new ellipse here (after each set of 2 rotations?)
+			//check intersection with planets
+			//if (solarSystem == nullptr) break;//no planets, every curve is good
+			//tmp
+			sunPosition = vec3(0.0f, 0.0f, 0.0f);
+			float sunRadius = 5.0f;
+			//if planets, check for collisions over the next few loops
+			curveIsGood = true;
+			//custom for loop. check at numChecks intervals for intersection
+			float tTmp = 0.0f;
+			int numChecks = 300;
+			float interval = 2 * 3.14159265358979323846*numRotationsTillNewCurve / 300.0f;
+			int attempts = 0;
+			while (tTmp < 2 * 3.14159265358979323846*numRotationsTillNewCurve){
+				vec3 ellipsePos = center + vec3(
+					a*mCinematicRadius*cos(tTmp + phase),
+					-c*cos(tTmp),
+					b*mCinematicRadius*sin(tTmp + phase)
+					);
+				//for (vector<Planet*>::iterator it = solarSystem->GetPlanets().begin(); it < solarSystem->GetPlanets().end(); ++it){
+					//todo do nothing for now
+				//}
+				//check sun seperately
+				//SphereModel* sun = solarSystem->GetSun();
+				vec3 v = mTargetModel->GetPosition() + ellipsePos - sunPosition;
+				float d2 = v.x*v.x + v.y*v.y + v.z*v.z;
+				if (d2 <= sunRadius*sunRadius) {
+					cout << "intersection, try again" << endl;
+					curveIsGood = false;
+					break;
+				}
+				
+
+				tTmp += interval;
+			}
+			attempts++;
+			if (attempts > 4){
+				//adjust radius to larger because object in the way
+				aRange *= 2;
+				bRange *= 2;
+				cRange *= 2;
+			}
+			//if not good, would be set in above for loop
+			//if good, will exit while loop
+		}
+		firstEllipse = false;
 	}
 
 	
@@ -126,7 +201,12 @@ void ThirdPersonCamera::Update(float dt)
 	}
 	else{
 		//if cinematic, then reposition camera according to function and update lookAt
-		vec3 ellipsePosition = vec3(1.6f * mCinematicRadius * cos(mCurrentTime), 1.5 + 1.5*sin(mCurrentTime - (3.14159265358979323846 / 2.0)), mCinematicRadius * sin(mCurrentTime));
+		vec3 ellipsePosition = center + vec3(
+			a*mCinematicRadius*cos(mCurrentTime + phase),
+			-cos(mCurrentTime),
+			b*mCinematicRadius*sin(mCurrentTime + phase)
+			);
+		//vec3 ellipsePosition = vec3(1.6f * mCinematicRadius * cos(mCurrentTime), 1.5 + 1.5*sin(mCurrentTime - (3.14159265358979323846 / 2.0)), mCinematicRadius * sin(mCurrentTime));
 		mPosition = mTargetModel->GetPosition() + ellipsePosition;
 		mLookAt = normalize(mTargetModel->GetPosition() - mPosition);
 	}

@@ -27,6 +27,7 @@ public:
 
 	void SetCinematic(bool c){ toggleCinematic = c; }
 	void SetCinematicRadius(float r){ mCinematicRadius = r; }
+	//void SetSolarSystem(SolarSystem* sys){ solarSystem = sys; }
 
 private:
 	glm::vec3 mPosition;	
@@ -41,7 +42,16 @@ private:
 
 	bool toggleCinematic;
 	float mCinematicRadius;
-	float mCurrentTime; 
+	int numRotationsTillNewCurve;
+	float mCurrentTime;
+	//SolarSystem* solarSystem;//needed for cinematic camera
+	vec3 sunPosition;
+	
+
+	//ellipse variables
+	vec3 center;
+	float a, b, c, baseR, phase, aRange, bRange, cRange;
+	bool firstEllipse;
 
 	glm::vec3 mLookAt;
 };
